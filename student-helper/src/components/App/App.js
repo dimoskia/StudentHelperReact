@@ -6,6 +6,7 @@ import Filters from '../Courses/Filters/Filters';
 import Container from "../Courses/Container/Container";
 import SignUp from "../SignUp/SignUp";
 import Login from "../Login/Login";
+import Footer from "../Footer/Footer";
 
 class App extends Component {
 
@@ -13,13 +14,15 @@ class App extends Component {
         return (
             <div>
                 <BrowserRouter>
-                    <Header/>
-                    <div className="mt-5 container-fluid px-5">
                             <Route path={"/"} exact>
+                                <Header/>
+                                <div className="mt-5 container-fluid px-5">
                                     <div className="row">
                                         <Filters/>
                                         <Container/>
+                                    </div>
                                 </div>
+                                <Footer/>
                             </Route>
                             <Route path={"/signup"} exact>
                                 <SignUp/>
@@ -27,7 +30,7 @@ class App extends Component {
                             <Route path={"/login"}>
                                 <Login/>
                             </Route>
-                    </div>
+
                 </BrowserRouter>
             </div>
         );

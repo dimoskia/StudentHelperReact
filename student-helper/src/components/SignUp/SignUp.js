@@ -1,18 +1,19 @@
 import React from "react"
 import "./SignUp.css"
-import logo from'../../images/logo.png';
+import logo from'../../images/logo2.png';
 
 const signUp = () => {
     return (
-        <div className="container container-table SignUp">
+        <div className="SignUp bg-image-login">
+        <div className="container container-table">
             <div className="row firstRow">
-                <div className="col-sm-9 col-md-7 col-lg-5 mx-auto nova">
+                <div className="col-sm-9 col-md-7 col-lg-5 my-auto mx-auto">
                     <div className="card card-signin my-5">
                         <div className="card-body">
                             <div className="logoDiv">
                                 <img src={logo} width="50px" height="50px" alt="" className="logoImage">
                                 </img>
-                                    <i className="h3 pt-2 studentText">Student<i className="helperText">Helper</i></i>
+                                    <i className="h3 pt-2 studentText">Student<i className="helperText text-primary">Helper</i></i>
                             </div>
                             <hr>
                             </hr>
@@ -52,13 +53,14 @@ const signUp = () => {
                                     </div>
                                     <br>
                                     </br>
-                                        <button className="btn btn-lg btn-block text-uppercase" type="submit"
+                                        <button className="btn btn-lg btn-block btn-primary text-uppercase" type="submit"
                                                 id="loginButton">Sign up
                                         </button>
                                 </form>
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
         );
