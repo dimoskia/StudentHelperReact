@@ -3,16 +3,16 @@
     --input-padding-y: .75rem;
 }
 
-/*body, html, #root, .container, .nov, .firstRow {
-    height:100%;
-}*/
+/*body, html, #root, .container, .nov, .firstRow {*/
+/*    height:100%;*/
+/*}*/
 
 .SignUp .firstRow, .Login .firstRow{
     display: flex;
     align-items: center;
 }
 
-.SignUp .logoImage, .Login .LogoImage{
+.SignUp .logoImage, .Login .logoImage{
     margin-bottom: 6%;
 }
 

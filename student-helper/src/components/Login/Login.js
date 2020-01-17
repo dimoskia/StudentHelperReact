@@ -10,7 +10,7 @@ const login = () => {
                 <div className="card card-signin my-5">
                     <div className="card-body">
                         <div className="logoDiv">
-                            <img src={logo} width="50px" height="50px" alt="" className="logoImage"></img>
+                            <img src={logo} width="50px" height="50px" alt="" className="logoImage"/>
                                 <i className="h3 pt-2 studentText">Student<i className="helperText">Helper</i></i>
                         </div>
                         <hr>
@@ -18,13 +18,13 @@ const login = () => {
                             <form className="form-signin mt-4">
                                 <div className="form-label-group">
                                     <input type="email" id="inputEmail" className="form-control"
-                                           placeholder="Email address" required autoFocus></input>
+                                    placeholder="Email address" required autoFocus/>
                                         <label htmlFor="inputEmail">Email address</label>
                                 </div>
 
                                 <div className="form-label-group">
                                     <input type="password" id="inputPassword" className="form-control"
-                                           placeholder="Password" required></input>
+                                    placeholder="Password" required/>
                                         <label htmlFor="inputPassword">Password</label>
                                 </div>
                                 <br>
