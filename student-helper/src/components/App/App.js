@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter, Redirect, Route, Switch} from "react-router-dom";
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, Route} from "react-router-dom";
 import './App.css';
 import Header from '../Header/Header';
 import Filters from '../Courses/Filters/Filters';
@@ -15,21 +14,19 @@ class App extends Component {
             <div>
                 <BrowserRouter>
                     <Header/>
-                    <div className="container">
-                        <Switch>
-                            <Route path={"/home"}>
+                    <div className="mt-5 container-fluid px-5">
+                            <Route path={"/"} exact>
                                     <div className="row">
                                         <Filters/>
                                         <Container/>
-                                    </div>
+                                </div>
                             </Route>
-                            <Route path={"/signup"}>
+                            <Route path={"/signup"} exact>
                                 <SignUp/>
                             </Route>
                             <Route path={"/login"}>
                                 <Login/>
                             </Route>
-                        </Switch>
                     </div>
                 </BrowserRouter>
             </div>

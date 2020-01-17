@@ -1,30 +1,20 @@
 import React from "react";
+import logoImg from '../../../images/logo.png';
+import {Link} from "react-router-dom";
 
 const cardItem = props => {
-    const imageUrl = "https://images.unsplash.com/photo-1493847242172-d46053a1f671?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=9f91dd5d50f16ba80af53a62d4caf2ce&auto=format&fit=crop&w=500&q=60";
-    const backgroundImageCardStyle = {
-      backgroundImage : imageUrl
-    };
     return (
-        <div className="CardItem">
-            <div className="card hover">
-                <div className="card-img"
-                     style={backgroundImageCardStyle}>
-                    <div className="overlay">
-                        <div className="overlay-content">
-                            <a className="hover" href="#">View Project</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="card-content">
-                    <a href="#">
-                        <h2>Title</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur, lorem ipsum dolor</p>
-                    </a>
+        <Link className="CardItem mx-auto" to={"/"} style={{ textDecoration: 'none', color : 'black', maxWidth : '340px' }}>
+            <div className="card mb-4">
+                <img src={logoImg} className="card-img-top" alt="..."/>
+                <div className="card-body">
+                    <h5 className="card-title">Card title</h5>
+                    <p className="card-text">This is a longer card with supporting text below as a natural lead-in to
+                        additional content. This content is a little bit longer.</p>
+                    <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };
 
