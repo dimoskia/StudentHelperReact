@@ -27,11 +27,11 @@ const header = () => {
                                 <a className="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdownBlog" data-toggle="dropdown"
                                    aria-haspopup="true" aria-expanded="false">
                                     FirstName LastName
-                                    <img src={user} width="40px" height="40px" className="rounded-circle mx-2"></img>
+                                    <img src={user} width="40px" height="40px" className="rounded-circle mx-2"/>
                                 </a>
                                 <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                                    <a className="dropdown-item" href="#"><i className="fa fa-user mr-1 text-primary"></i>My Account</a>
-                                    <a className="dropdown-item" href="#"><i className="fa fa-sign-out mr-1 text-primary"></i>Log out</a>
+                                    <a className="dropdown-item" href="#"><i className="fa fa-user mr-1 text-primary"/>My Account</a>
+                                    <a className="dropdown-item" href="#"><i className="fa fa-sign-out mr-1 text-primary"/>Log out</a>
                                 </div>
                             </li>
                         </ul>

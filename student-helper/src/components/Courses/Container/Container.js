@@ -1,36 +1,30 @@
-import React, {Component} from "react";
+import React from "react";
 import FormSearch from "../FormSearch/FormSearch";
 import CardItem from "../CardItem/CardItem";
 
-class Container extends Component{
+const container = props => {
 
-    loadCards = () => {
+    const loadCards = () => {
       return (
-          <CardItem/>
+          props.courses.map(course => <CardItem key={course.Id} course={course}/>)
       );
     };
 
-    render() {
         return (
             <div className="col-9">
                 <div className="container-fluid px-5">
                     <FormSearch/>
                     <div className="row">
                         <div className="card-deck align-items-center">
-                            {this.loadCards()}
-                            {this.loadCards()}
-                            {this.loadCards()}
-                            {this.loadCards()}
-                            {this.loadCards()}
-                            {this.loadCards()}
+                            {loadCards()}
                         </div>
-                </div>
+                    </div>
 
                 </div>
                 {/*to do: Pagination*/}
             </div>
         );
-    }
+
 }
 
-export default Container;
+export default container;

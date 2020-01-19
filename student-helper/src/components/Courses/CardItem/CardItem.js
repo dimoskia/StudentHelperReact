@@ -1,17 +1,55 @@
 import React from "react";
-import logoImg from '../../../images/logo.png';
 import {Link} from "react-router-dom";
+import './CardItem.css';
 
 const cardItem = props => {
+
+    const getYear = year => {
+        let result;
+        switch (year) {
+            case 1:
+                result = "I";
+                break;
+            case 2:
+                result = "II";
+                break;
+            case 3:
+                result = "III";
+                break;
+            case 4:
+                result = "IV";
+                break;
+            default:
+                result = "Error";
+        }
+        return result;
+    };
+
+    const clickHandler = event => {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+
     return (
-        <Link className="CardItem mx-auto" to={"/"} style={{ textDecoration: 'none', color : 'black', maxWidth : '340px' }}>
-            <div className="card mb-4">
-                <img src={logoImg} className="card-img-top" alt="..."/>
-                <div className="card-body">
-                    <h5 className="card-title">Card title</h5>
-                    <p className="card-text">This is a longer card with supporting text below as a natural lead-in to
-                        additional content. This content is a little bit longer.</p>
-                    <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
+        <Link to={`/courses/${props.course.Id}`}
+              style={{textDecoration: 'none', color: 'black', maxWidth: '340px'}}>
+            <div className="card mb-4 CardItem text-center">
+                <div className="card-img-overlay p-2">
+                    <div className="row">
+                        <div className="col-2 offset-9">
+                            <button className="heart-link" title="Постави во омилени" onClick={clickHandler}>
+                                <span className="fa fa-2x fa-star-o text-light"/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <img src={props.course.ImageUrl} className="card-img-top" alt="..."/>
+                <div className="card-body d-inline-block mt-3">
+                    <h5 className="card-title">{props.course.Title}</h5>
+                </div>
+                <div className="card-footer">
+                    <p className="card-text text-muted">{getYear(props.course.Year)} година / <span
+                        style={{textTransform: "capitalize"}}>{props.course.Semester}</span> семестар</p>
                 </div>
             </div>
         </Link>

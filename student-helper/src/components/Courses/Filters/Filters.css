@@ -1,0 +1,8 @@
+.Filters input, .Filters label {
+    cursor: pointer;
+}
+
+.Filters label {
+    font-size: 14px;
+    margin-bottom: 5px;
+}

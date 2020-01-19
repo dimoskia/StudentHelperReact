@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="daa7aefa-7c2d-44d8-9ae9-10d2ff0373ed" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="daa7aefa-7c2d-44d8-9ae9-10d2ff0373ed" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/student-helper/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/student-helper/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student-helper/src/components/App/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/student-helper/src/components/App/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student-helper/src/components/Courses/CardItem/CardItem.css" beforeDir="false" afterPath="$PROJECT_DIR$/student-helper/src/components/Courses/CardItem/CardItem.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student-helper/src/components/Courses/CardItem/CardItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/student-helper/src/components/Courses/CardItem/CardItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student-helper/src/components/Courses/Container/Container.js" beforeDir="false" afterPath="$PROJECT_DIR$/student-helper/src/components/Courses/Container/Container.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student-helper/src/components/Courses/Filters/Filters.js" beforeDir="false" afterPath="$PROJECT_DIR$/student-helper/src/components/Courses/Filters/Filters.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student-helper/src/components/Courses/FormSearch/FormSearch.js" beforeDir="false" afterPath="$PROJECT_DIR$/student-helper/src/components/Courses/FormSearch/FormSearch.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student-helper/src/components/Header/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/student-helper/src/components/Header/Header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student-helper/src/components/SignUp/SignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/student-helper/src/components/SignUp/SignUp.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,20 +21,26 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1WWsPttH3ncCZJf4OeWzRKLh2cy" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/IdeaProjects/lab3" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/student-helper" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
+  <component name="ServiceViewManager">
+    <option name="viewStates">
       <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
       </list>
     </option>
   </component>
@@ -40,7 +55,17 @@
       <option name="presentableId" value="Default" />
       <updated>1579276665509</updated>
       <workItem from="1579276669507" duration="31000" />
+      <workItem from="1579437241166" duration="386000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="549" y="168" key="FileChooserDialogImpl" timestamp="1579437628596">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="168" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1579437628596" />
   </component>
 </project>

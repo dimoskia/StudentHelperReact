@@ -20,7 +20,7 @@ const signUp = () => {
                                 <form className="form-signin mt-4">
                                     <div className="form-label-group">
                                         <input type="text" id="inputName" className="form-control" placeholder="Name"
-                                               required autoFocus></input>
+    required autoFocus/>
                                             <label htmlFor="inputName">Name</label>
 
                                     </div>
