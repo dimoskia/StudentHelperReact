@@ -6,6 +6,7 @@ import MainContainer from "../MainContainer/MainContainer";
 import SignUp from "../SignUp/SignUp";
 import Login from "../Login/Login";
 import Footer from "../Footer/Footer";
+import CourseAdd from "../Courses/CourseAdd/CourseAdd";
 
 class App extends Component {
 
@@ -22,6 +23,12 @@ class App extends Component {
 
                     <Route path={"/signup"} exact>
                         <SignUp/>
+                    </Route>
+
+                    <Route path={"/addCourse"}>
+                        <Header/>
+                        <CourseAdd/>
+                        <Footer/>
                     </Route>
 
                     <Route path={"/login"}>
