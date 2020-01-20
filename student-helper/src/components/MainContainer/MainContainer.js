@@ -10,10 +10,13 @@ class MainContainer extends Component{
         super(props);
         this.state = {
             courses : [],
-            PageNumber : 0,
-            PageSize : 9,
-            TotalPages : 0,
-            TotalRecords : 0
+            pagination : {
+                PageNumber : 0,
+                PageSize : 6,
+                TotalPages : 0,
+                TotalRecords : 0
+            },
+            cardView : true
         }
     }
 
@@ -21,27 +24,36 @@ class MainContainer extends Component{
         this.loadCourses();
     }
 
-    loadCourses = (pageNumber = 0, params = null) => {
-        CoursesService.fetchCoursesPaged(pageNumber, this.state.PageSize, params).then(response => {
+    loadCourses = (pageNumber = 0, params = null, pageSize= this.state.pagination.PageSize) => {
+        CoursesService.fetchCoursesPaged(pageNumber, pageSize, params).then(response => {
             console.log(response);
             this.setState({
                 courses : response.data.Results,
-                PageNumber : response.data.PageNumber - 1,
-                PageSize : response.data.PageSize,
-                TotalPages : response.data.TotalPages,
-                TotalRecords : response.data.TotalRecords
+                pagination : {
+                    PageNumber : response.data.PageNumber - 1,
+                    PageSize : response.data.PageSize,
+                    TotalPages : response.data.TotalPages,
+                    TotalRecords : response.data.TotalRecords
+                }
             });
         });
     };
 
-    pageChanged = (pageNumber) => {
-        this.loadCourses(pageNumber, null);
+    pageChanged = (pageNumber, params) => {
+        this.loadCourses(pageNumber, params);
     };
 
-    applyFilters = (params) => {
+    applyFilters = params => {
       this.loadCourses(0, params);
     };
 
+    viewChanged = cardView => {
+        this.setState({cardView: cardView});
+    };
+
+    pageSizeChanged = (pageSize, params) => {
+      this.loadCourses(0, params, pageSize);
+    };
 
 
 
@@ -52,12 +64,17 @@ class MainContainer extends Component{
                     <Filters
                         applyFilters={this.applyFilters}
                         resetFilters={this.loadCourses}/>
-                    <Container courses={this.state.courses}/>
+                    <Container courses={this.state.courses}
+                               cardView={this.state.cardView}
+                               changeView={this.viewChanged}
+                               pageSize={this.state.pagination.PageSize}
+                               changePageSize={this.pageSizeChanged}
+                               totalPages={this.state.pagination.TotalPages}/>
                     <div className="offset-3 col-9 mb-5">
                         <Pagination
-                            pageNumber={this.state.PageNumber}
-                            pageSize={this.state.PageSize}
-                            totalPages={this.state.TotalPages}
+                            pageNumber={this.state.pagination.PageNumber}
+                            pageSize={this.state.pagination.PageSize}
+                            totalPages={this.state.pagination.TotalPages}
                             onPageChange={this.pageChanged}
                         />
                     </div>

@@ -1,10 +1,15 @@
 import React from "react";
 import ReactPaginate from 'react-paginate';
 
-const pagination = props => {
+const Pagination = props => {
 
     const handlePageClick = e => {
-        props.onPageChange(e.selected);
+        const params = new URLSearchParams();
+        [...document.getElementsByName("year")].filter(cb => cb.checked).forEach(cb => params.append(cb.name, cb.value));
+        [...document.getElementsByName("semester")].filter(cb => cb.checked).forEach(cb => params.append(cb.name, cb.value));
+        [...document.getElementsByName("type")].filter(cb => cb.checked).forEach(cb => params.append(cb.name, cb.value));
+        [...document.getElementsByName("program")].filter(cb => cb.checked).forEach(cb => params.append(cb.name, cb.value));
+        props.onPageChange(e.selected, params);
     };
 
     const paginate = () => {
@@ -40,4 +45,4 @@ const pagination = props => {
 
 };
 
-export default pagination;
+export default Pagination;

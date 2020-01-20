@@ -1,7 +1,7 @@
 import React from "react";
 import './Filters.css';
 
-const filters = props => {
+const Filters = props => {
 
     const onFormSubmitHandler = e => {
         e.preventDefault();
@@ -270,4 +270,4 @@ const filters = props => {
     );
 };
 
-export default filters;
+export default Filters;
