@@ -31,15 +31,17 @@ class CourseAdd extends Component {
     }
 
     changeValuesTeachers = (event,index) =>{
-        this.state.chosenTeachers[index]=event.target.value;
+        const newTeachers = [...this.state.chosenTeachers];
+        newTeachers[index] = event.target.value;
         this.setState({
-            chosenTeachers: this.state.chosenTeachers
+            chosenTeachers: newTeachers
         });
     };
     changeValuesAssistants = (event,index) =>{
-        this.state.chosenAssistants[index]=event.target.value;
+        const newAssistants = [...this.state.chosenAssistants];
+        newAssistants[index]=event.target.value;
         this.setState({
-            chosenAssistants: this.state.chosenAssistants
+            chosenAssistants: newAssistants
         });
     };
 
@@ -190,7 +192,7 @@ class CourseAdd extends Component {
                                                 <div className="custom-file">
                                                     <input type="file" className="custom-file-input" id="customFile"
                                                            accept="image/*"/>
-                                                    <label className="custom-file-label" htmlFor="customFile"></label>
+                                                    <label className="custom-file-label" htmlFor="customFile"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -241,7 +243,7 @@ class CourseAdd extends Component {
                                                             </select>
                                                             <button className="btn d-inline btn-light"
                                                                     onClick={(e) => this.deleteDropdownTeacher(e, index)}>
-                                                                <i className="fa fa-times"></i></button>
+                                                                <i className="fa fa-times"/></button>
                                                         </div>
                                                     )
                                                 })
@@ -253,7 +255,7 @@ class CourseAdd extends Component {
                                         <div className="col-5 offset-7">
                                             <button id="addNewProfButton" className="btn btn-block btn-primary"
                                                     onClick={this.addDropdownTeacher}>
-                                                <i className="fa fa-plus"></i> Додади
+                                                <i className="fa fa-plus"/> Додади
                                             </button>
 
                                         </div>
@@ -282,7 +284,7 @@ class CourseAdd extends Component {
                                                             </select>
                                                             <button className="btn d-inline btn-light"
                                                                     onClick={(e) => this.deleteDropdownAssistant(e, index)}>
-                                                                <i className="fa fa-times"></i></button>
+                                                                <i className="fa fa-times"/></button>
                                                         </div>
                                                     )
                                                 })
@@ -294,7 +296,7 @@ class CourseAdd extends Component {
                                         <div className="col-5 offset-7">
                                             <button id="addNewProfButton" className="btn btn-block btn-primary"
                                                     onClick={this.addDropdownAssistant}>
-                                                <i className="fa fa-plus"></i> Додади
+                                                <i className="fa fa-plus"/> Додади
                                             </button>
                                         </div>
                                     </div>
@@ -321,7 +323,7 @@ class CourseAdd extends Component {
 
         );
     };
-};
+}
 export default CourseAdd;
 
 

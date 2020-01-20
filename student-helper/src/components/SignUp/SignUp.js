@@ -27,27 +27,27 @@ const signUp = () => {
 
                                     <div className="form-label-group">
                                         <input type="text" id="inputLastName" className="form-control"
-                                               placeholder="Last name" required autoFocus></input>
+                                               placeholder="Last name" required autoFocus/>
                                             <label htmlFor="inputLastName">Last name</label>
 
                                     </div>
                                     <div className="form-label-group">
                                         <input type="email" id="inputEmail" className="form-control"
-                                               placeholder="Email address" required autoFocus></input>
+                                               placeholder="Email address" required autoFocus/>
                                             <label htmlFor="inputEmail">Email address</label>
 
                                     </div>
 
                                     <div className="form-label-group">
                                         <input type="password" id="inputPassword" className="form-control"
-                                               placeholder="Password" required autoFocus></input>
+                                               placeholder="Password" required autoFocus/>
                                             <label htmlFor="inputPassword">Password</label>
 
                                     </div>
 
                                     <div className="form-label-group">
                                         <input type="password" id="inputPasswordConfirm" className="form-control"
-                                               placeholder="Confirm password" required></input>
+                                               placeholder="Confirm password" required/>
                                             <label htmlFor="inputPasswordConfirm">Confirm password</label>
 
                                     </div>
