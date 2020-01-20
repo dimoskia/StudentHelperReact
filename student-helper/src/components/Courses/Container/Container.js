@@ -37,7 +37,9 @@ const Container = props => {
                 <FormSearch cardView={props.cardView}
                             changeView={props.changeView}
                             pageSize={props.pageSize}
-                            changePageSize={props.changePageSize}/>
+                            changePageSize={props.changePageSize}
+                            onSearch={props.onSearch}
+                            />
                 <div className="row">
                     <div className="card-deck align-items-center w-100">
                         {loadCourses()}

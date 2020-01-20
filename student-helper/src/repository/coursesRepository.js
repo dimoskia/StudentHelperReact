@@ -10,6 +10,10 @@ const CoursesService = {
             },
             params : params
         });
+    },
+
+    searchCourses : (term) => {
+        return axios.get(`/api/courses/search?searchTerm=${term}`);
     }
 
 };

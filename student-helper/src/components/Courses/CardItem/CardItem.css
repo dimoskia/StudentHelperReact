@@ -1,5 +1,6 @@
 .CardItem img {
     overflow: hidden;
+    height: 150px;
 }
 
 .CardItem{
@@ -35,7 +36,8 @@
 }
 
 .CardItem {
-    min-height: 320px;
+    height: 320px;
+
 }
 
 

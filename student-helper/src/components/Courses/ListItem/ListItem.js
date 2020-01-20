@@ -32,7 +32,7 @@ const ListItem = props => {
 
     return (
         <Link to={`/courses/${props.course.Id}`}
-              style={{textDecoration: 'none', color: 'black', maxHeight : "160", maxWidth : "92%"}}>
+              style={{textDecoration: 'none', color: 'black', maxWidth : "92%"}}>
             <div className="card mb-3 ListItem mr-5 mx-5">
                 <div className="card-img-overlay p-2">
                     <div className="row">
@@ -45,9 +45,9 @@ const ListItem = props => {
                 </div>
                 <div className="row no-gutters">
                     <div className="col-4">
-                        <img src={props.course.ImageUrl} className="card-img h-100" alt="..."/>
+                        <img src={props.course.ImageUrl} className="card-img" style={{height : "150px"}} alt="..."/>
                     </div>
-                    <div className="col-8">
+                    <div className="col-8" style={{height : "160px"}}>
                         <div className="card-body">
                             <h5 className="card-title">{props.course.Title}</h5>
                             <p className="card-text text-muted mt-2">{getYear(props.course.Year)} година / <span

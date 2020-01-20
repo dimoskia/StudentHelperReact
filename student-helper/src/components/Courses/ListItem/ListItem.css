@@ -4,6 +4,7 @@
 
 .ListItem{
     transition: all 0.2s, ease-in-out;
+    height: 150px;
 }
 
 .ListItem:hover {
@@ -33,6 +34,7 @@
     content: "\f005";
     color: #ffc107;
 }
+
 
 
 
