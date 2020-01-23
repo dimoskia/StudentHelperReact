@@ -17,7 +17,8 @@ class MainContainer extends Component {
                 TotalRecords: 0
             },
             cardView: true,
-            showPagination: true
+            searchTerm : "",
+            filteringConfirmed : false
         }
     }
 
@@ -26,6 +27,8 @@ class MainContainer extends Component {
     }
 
     loadCourses = (pageNumber = 0, params = null, pageSize = this.state.pagination.PageSize) => {
+        console.log("load courses method:");
+        console.log(pageNumber, pageSize, params);
         CoursesService.fetchCoursesPaged(pageNumber, pageSize, params).then(response => {
             console.log(response);
             this.setState({
@@ -35,34 +38,52 @@ class MainContainer extends Component {
                     PageSize: response.data.PageSize,
                     TotalPages: response.data.TotalPages,
                     TotalRecords: response.data.TotalRecords
-                },
-                showPagination: true
+                }
             });
         });
     };
 
-    searchCourses = term => {
+    searchCourses = (term, pageNumber = 0, pageSize = this.state.pagination.PageSize) => {
+        console.log("search courses method:");
+        console.log(term, pageNumber, pageSize);
+        this.setState({filteringConfirmed : false});
         if (!term || term === "") {
+            this.setState({searchTerm : ""});
             this.loadCourses();
         } else {
-            CoursesService.searchCourses(term).then(response => {
+            CoursesService.searchCourses(term, pageNumber, pageSize).then(response => {
                 document.getElementById("filters-form").reset();
-                console.log("AAAAAAAA");
-                console.log(response);
                 this.setState({
-                    courses: response.data,
-                    showPagination: false
+                    courses: response.data.Results,
+                    pagination: {
+                        PageNumber: response.data.PageNumber - 1,
+                        PageSize: response.data.PageSize,
+                        TotalPages: response.data.TotalPages,
+                        TotalRecords: response.data.TotalRecords
+                    },
+                    searchTerm : term
                 });
             });
         }
     };
 
     pageChanged = (pageNumber, params) => {
-        this.loadCourses(pageNumber, params);
+        console.log("pageChanged method:");
+        console.log(pageNumber, params);
+        if(this.state.searchTerm === "" || !this.state.searchTerm)
+            this.loadCourses(pageNumber, params);
+        else
+            this.searchCourses(this.state.searchTerm, pageNumber);
     };
 
     applyFilters = params => {
+        this.setState({filteringConfirmed : true});
         this.loadCourses(0, params);
+    };
+
+    resetFilters = () => {
+        this.setState({filteringConfirmed : false});
+        this.loadCourses();
     };
 
     viewChanged = cardView => {
@@ -70,21 +91,12 @@ class MainContainer extends Component {
     };
 
     pageSizeChanged = (pageSize, params) => {
-        this.loadCourses(0, params, pageSize);
-    };
-
-    showPagination = () => {
-        if (this.state.showPagination) {
-            return (
-                <Pagination
-                    pageNumber={this.state.pagination.PageNumber}
-                    pageSize={this.state.pagination.PageSize}
-                    totalPages={this.state.pagination.TotalPages}
-                    onPageChange={this.pageChanged}
-                />
-            );
-        }
-        return null;
+        console.log("page size changed method:");
+        console.log(pageSize, params);
+        if(this.state.searchTerm === "" || !this.state.searchTerm)
+            this.loadCourses(0, params, pageSize);
+        else
+            this.searchCourses(this.state.searchTerm, this.state.pagination.PageNumber, pageSize);
     };
 
 
@@ -94,7 +106,7 @@ class MainContainer extends Component {
                 <div className="row">
                     <Filters
                         applyFilters={this.applyFilters}
-                        resetFilters={this.loadCourses}/>
+                        resetFilters={this.resetFilters}/>
                     <Container courses={this.state.courses}
                                cardView={this.state.cardView}
                                changeView={this.viewChanged}
@@ -104,7 +116,12 @@ class MainContainer extends Component {
                                onSearch={this.searchCourses}
                                showPagination={this.state.showPagination}/>
                     <div className="offset-3 col-9 mb-5">
-                        {this.showPagination()}
+                        <Pagination
+                            pageNumber={this.state.pagination.PageNumber}
+                            pageSize={this.state.pagination.PageSize}
+                            totalPages={this.state.pagination.TotalPages}
+                            onPageChange={this.pageChanged}
+                        />
                     </div>
                 </div>
             </div>

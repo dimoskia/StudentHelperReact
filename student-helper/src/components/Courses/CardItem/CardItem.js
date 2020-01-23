@@ -1,6 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import './CardItem.css';
+import defaultCourseImage from '../../../images/default_course_image.png';
 
 const cardItem = props => {
 
@@ -32,7 +33,7 @@ const cardItem = props => {
 
     return (
         <Link to={`/courses/${props.course.Id}`}
-              style={{textDecoration: 'none', color: 'black', maxWidth: '340px'}}>
+              style={{textDecoration: 'none', color: 'black', width: '340px'}}>
             <div className="card mb-4 CardItem text-center">
                 <div className="card-img-overlay p-2">
                     <div className="row">
@@ -43,7 +44,7 @@ const cardItem = props => {
                         </div>
                     </div>
                 </div>
-                <img src={props.course.ImageUrl} className="card-img-top" alt="..."/>
+                <img src={props.course.ImageUrl === null ? defaultCourseImage : props.course.ImageUrl} className="card-img-top" alt="..."/>
                 <div className="card-body d-flex justify-content-center align-items-center">
                     <h5 className="card-title">{props.course.Title}</h5>
                 </div>

@@ -6,7 +6,7 @@ import MainContainer from "../MainContainer/MainContainer";
 import SignUp from "../SignUp/SignUp";
 import Login from "../Login/Login";
 import Footer from "../Footer/Footer";
-import CourseAdd from "../Courses/CourseAdd/CourseAdd";
+import CourseAdd from "../Courses/CourseForm/CourseForm";
 import CourseDetails from "../Courses/CourseDetails/CourseDetails"
 
 class App extends Component {

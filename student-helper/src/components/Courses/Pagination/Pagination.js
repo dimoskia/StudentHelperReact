@@ -9,6 +9,11 @@ const Pagination = props => {
         [...document.getElementsByName("semester")].filter(cb => cb.checked).forEach(cb => params.append(cb.name, cb.value));
         [...document.getElementsByName("type")].filter(cb => cb.checked).forEach(cb => params.append(cb.name, cb.value));
         [...document.getElementsByName("program")].filter(cb => cb.checked).forEach(cb => params.append(cb.name, cb.value));
+        // const searchTerm = document.getElementById("search-input").value;
+        console.log("PARAMSS");
+        console.log(params);
+        // console.log("SEARCH TERM");
+        // console.log(searchTerm);
         props.onPageChange(e.selected, params);
     };
 

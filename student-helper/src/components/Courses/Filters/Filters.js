@@ -10,12 +10,14 @@ const Filters = props => {
         [...e.target.semester].filter(cb => cb.checked).forEach(cb => params.append(cb.name, cb.value));
         [...e.target.type].filter(cb => cb.checked).forEach(cb => params.append(cb.name, cb.value));
         [...e.target.program].filter(cb => cb.checked).forEach(cb => params.append(cb.name, cb.value));
+        document.getElementById("search-input").value = "";
         props.applyFilters(params);
     };
 
     const resetFormHandler = e => {
         e.preventDefault();
         document.getElementById("filters-form").reset();
+        document.getElementById("search-input").value = "";
         props.resetFilters();
     };
 

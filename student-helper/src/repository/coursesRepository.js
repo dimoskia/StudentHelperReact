@@ -2,18 +2,32 @@ import axios from '../custom-axios/axios';
 
 const CoursesService = {
 
-    fetchCoursesPaged : (pageNumber, pageSize, params) => {
-        return axios.get("/api/courses", {
-            headers : {
-                'page' : pageNumber + 1,
-                'pageSize' : pageSize
-            },
-            params : params
+    fetchCoursesPaged: (pageNumber, pageSize, params) => {
+        if (params === null)
+            params = new URLSearchParams();
+        params.append("page", pageNumber + 1);
+        params.append("pageSize", pageSize);
+        return axios.get("/api/courses", {params: params});
+    },
+
+    searchCourses: (term, pageNumber, pageSize) => {
+        const params = new URLSearchParams();
+        params.append("searchTerm", term);
+        params.append("page", pageNumber + 1);
+        params.append("pageSize", pageSize);
+        return axios.get("/api/courses/search", {params: params});
+    },
+
+    createCourse: (formData) => {
+        return axios.post("/api/courses", formData, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
         });
     },
 
-    searchCourses : (term) => {
-        return axios.get(`/api/courses/search?searchTerm=${term}`);
+    fetchAllStaff: () => {
+        return axios.get("/api/staff/all");
     }
 
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import './ListItem.css';
+import defaultCourseImage from '../../../images/default_course_image.png';
 
 const ListItem = props => {
 
@@ -32,8 +33,8 @@ const ListItem = props => {
 
     return (
         <Link to={`/courses/${props.course.Id}`}
-              style={{textDecoration: 'none', color: 'black', maxWidth : "92%"}}>
-            <div className="card mb-3 ListItem mr-5 mx-5">
+              style={{textDecoration: 'none', color: 'black', width : "95%"}}>
+            <div className="card mb-3 ListItem mr-5">
                 <div className="card-img-overlay p-2">
                     <div className="row">
                         <div className="col-2 offset-9">
@@ -45,7 +46,7 @@ const ListItem = props => {
                 </div>
                 <div className="row no-gutters">
                     <div className="col-4">
-                        <img src={props.course.ImageUrl} className="card-img" style={{height : "150px"}} alt="..."/>
+                        <img src={props.course.ImageUrl === null ? defaultCourseImage : props.course.ImageUrl} className="card-img" style={{height : "150px"}} alt="..."/>
                     </div>
                     <div className="col-8" style={{height : "160px"}}>
                         <div className="card-body">
