@@ -33,7 +33,7 @@ const cardItem = props => {
 
     return (
         <Link to={`/courses/${props.course.Id}`}
-              style={{textDecoration: 'none', color: 'black', width: '340px'}}>
+              style={{textDecoration: 'none', color: 'black', width: "33%"}}>
             <div className="card mb-4 CardItem text-center">
                 <div className="card-img-overlay p-2">
                     <div className="row">

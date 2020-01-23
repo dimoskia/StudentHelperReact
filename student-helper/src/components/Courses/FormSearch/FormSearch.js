@@ -41,7 +41,7 @@ const FormSearch = props => {
 
     return (
         <div className="row">
-            <div className="col-6 pl-0">
+            <div className="col-6">
                 <form className="w-100 mb-4 p-0 FormSearch" onSubmit={onFormSubmitHandler}>
                     <div className="p-1 bg-light shadow-sm my-0" style={{padding: "0"}}>
                         <div className="input-group">
@@ -65,8 +65,8 @@ const FormSearch = props => {
             </div>
 
             <div className="col-2">
-                <label htmlFor="exampleFormControlSelect1" className="text-muted py-2">прикажи</label>
-                <select className="form-control w-50 d-inline ml-2 shadow-sm py-2"
+                <label htmlFor="exampleFormControlSelect1" className="text-muted py-2 mr-1">прикажи</label>
+                <select className="form-control d-inline shadow-sm py-2 w-50"
                         id="exampleFormControlSelect1"
                         name="page-size"
                         defaultValue={props.pageSize}
@@ -78,9 +78,9 @@ const FormSearch = props => {
                 </select>
             </div>
 
-            <div className="col-1 pr-0 mr-0 ml-2">
+            <div className="col-1 text-right">
                 <div
-                    className="btn-group d-inline-block rounded rounded-pill shadow-sm bg-light d-flex justify-content-center clearfix"
+                    className="btn-group d-inline-block rounded rounded-pill shadow-sm bg-light d-flex justify-content-center"
                     role="group">
                     <button type="button" className="btn btn-light rounded-pill py-2 text-primary view-type"
                             onClick={changeToCardViewHandler} id="card-view">

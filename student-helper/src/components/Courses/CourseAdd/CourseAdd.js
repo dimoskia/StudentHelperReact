@@ -1,22 +1,34 @@
 import React, {Component} from 'react';
-import ".//CourseForm.css";
+import ".//CourseAdd.css";
 import {Link} from "react-router-dom";
 import {withRouter} from "react-router";
 import CoursesService from "../../../repository/coursesRepository";
 
-class CourseForm extends Component {
+class CourseAdd extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             allStaff: [],
-            image: null
+            defaultStaff : null,
+            image: null,
+            formData: {
+                title: "",
+                detailsUrl: "",
+                description: ""
+            },
+            formDataValid: {
+                title: false,
+                detailsUrl: false,
+                description: false,
+            }
         };
     }
 
     componentDidMount() {
         CoursesService.fetchAllStaff().then(response => {
-            this.setState({allStaff: response.data});
+            this.setState({allStaff: response.data,
+                                defaultStaff : response.data[0]});
         });
     }
 
@@ -27,11 +39,30 @@ class CourseForm extends Component {
         }
     };
 
+    resetFormHandler = e => {
+        this.setState({
+            image: null,
+            formData: {
+                title: "",
+                detailsUrl: "",
+                description: ""
+            },
+            formDataValid: {
+                title: false,
+                detailsUrl: false,
+                description: false,
+            }
+        });
+    };
 
     onFormSubmitHandler = e => {
         e.preventDefault();
 
-        if(true) {
+        const isFormValid = this.state.formDataValid.title &&
+            this.state.formDataValid.detailsUrl &&
+            this.state.formDataValid.description;
+
+        if (isFormValid) {
             const courseData = {
                 title: e.target.title.value,
                 type: e.target.type.value,
@@ -45,25 +76,62 @@ class CourseForm extends Component {
             };
             const formData = new FormData();
             formData.append("courseData", JSON.stringify(courseData));
-            if (!this.state.image)
+            console.log("IMAGEEE");
+            console.log(this.state.image);
+            if (this.state.image !== null)
                 formData.append("image", this.state.image, this.state.image.name);
             this.createCourse(formData);
+        }
+        else {
+            this.validateForm();
         }
 
     };
 
+    onChangeHandler = e => {
+        this.validateInput(e);
+    };
 
+    validateInput = e => {
+        const inputName = e.target.name;
+        const inputValue = e.target.value;
+        const formData = {...this.state.formData};
+        const formDataValid = {...this.state.formDataValid};
+        const inputElement = document.getElementById(inputName);
+        if(inputValue.length > 0) {
+            formDataValid[inputName] = true;
+            inputElement.classList.remove("is-invalid");
+        }
+        else {
+            formDataValid[inputName] = false;
+            inputElement.classList.add("is-invalid");
+        }
+        formData[inputName] = inputValue;
 
+        this.setState({
+            formData: formData,
+            formDataValid: formDataValid
+        });
+    };
+
+    validateForm = () => {
+        const formDataValid = {...this.state.formDataValid};
+        Object.entries(formDataValid).forEach(([key, value]) => {
+            if(!value) {
+                document.getElementById(key).classList.add("is-invalid");
+            }
+        });
+    };
 
     createCourse = (formData) => {
         CoursesService.createCourse(formData).then(response => {
-            console.log(response);
+            this.props.history.push("/");
         });
     };
 
     staffOptions = () => {
         return (
-            this.state.allStaff.map(staffMember => <option key={staffMember.Id}
+            this.state.allStaff.map((staffMember, index) => <option key={staffMember.Id}
                                                            value={staffMember.Id}>{staffMember.Name}</option>)
         );
     };
@@ -71,9 +139,9 @@ class CourseForm extends Component {
 
     render() {
         return (
-            <div className="courseAdd row w-100">
+            <div className="courseAdd row w-100 my-4">
                 <div className="col-8 mx-auto my-4">
-                    <div className="my-auto card cardAdd mx-3 px-3">
+                    <div className="my-auto card cardAdd px-3">
                         <form className="p-4" onSubmit={this.onFormSubmitHandler}>
                             <div className="row">
                                 <h1 className="text-primary ml-3 font-italic my-0">Додади курс</h1>
@@ -102,7 +170,7 @@ class CourseForm extends Component {
                                         className="fa fa-times"/> Откажи</Link>
                                 </div>
                                 <div className="col-4 text-center">
-                                    <button type="reset" className="btn btn-block btn-warning text-white"><i
+                                    <button type="reset" className="btn btn-block btn-warning text-white" onClick={this.resetFormHandler}><i
                                         className="fa fa-undo"/> Ресетирај
                                     </button>
                                 </div>
@@ -129,10 +197,10 @@ class CourseForm extends Component {
                         <label><b>Назив</b></label>
                     </div>
                     <div className="col-9">
-                        <input type="text" className="form-control  inputText" id="name"
-                               placeholder="Внесете назив на курс" name="title"
+                        <input type="text" className="form-control inputText" id="title"
+                               placeholder="Внесете назив на курс" name="title" value={this.state.formData.title}
+                               onChange={this.onChangeHandler}
                         />
-                        <div className="invalid-tooltip">Називот на курсот е задолжителен</div>
                     </div>
                 </div>
             </div>
@@ -166,12 +234,12 @@ class CourseForm extends Component {
                 <div className="col-9">
                     <div className="custom-control custom-radio d-inline">
                         <input type="radio" className="custom-control-input" id="winter"
-                               name="semester" defaultChecked/>
+                               name="semester" defaultChecked value="Зимски"/>
                         <label className="custom-control-label" htmlFor="winter">Зимски</label>
                     </div>
                     <div className="custom-control ml-3 custom-radio d-inline">
                         <input type="radio" className="custom-control-input" id="summer"
-                               name="semester"/>
+                               name="semester" value="Летен"/>
                         <label className="custom-control-label" htmlFor="summer">Летен</label>
                     </div>
                 </div>
@@ -188,13 +256,13 @@ class CourseForm extends Component {
                 <div className="col-9">
                     <div className="custom-control d-inline custom-radio">
                         <input type="radio" className="custom-control-input" id="mandatory"
-                               name="type" defaultChecked/>
+                               name="type" defaultChecked value="задолжителен"/>
                         <label className="custom-control-label"
                                htmlFor="mandatory">Задолжителен</label>
                     </div>
                     <div className="custom-control ml-3 d-inline custom-radio">
                         <input type="radio" className="custom-control-input" id="elective"
-                               name="type"/>
+                               name="type" value="изборен"/>
                         <label className="custom-control-label"
                                htmlFor="elective">Изборен</label>
                     </div>
@@ -212,13 +280,13 @@ class CourseForm extends Component {
                     </div>
                     <div className="col-9">
                         <select className="form-control custom-select" name="program">
-                            <option value="KNI">Компјутерски науки и инженерство</option>
-                            <option value="PET">Примена на е-технологии</option>
-                            <option value="MT">Мрежни технологии</option>
-                            <option value="KE">Компјутерска едукација</option>
-                            <option value="IKI">Информатика и компјутерско инженерство</option>
-                            <option value="ASI">Академски студии по информатика</option>
-                            <option value="PIT">Професионални студии по информатички технологии
+                            <option value="КНИ">Компјутерски науки и инженерство</option>
+                            <option value="ПЕТ">Примена на е-технологии</option>
+                            <option value="МТ">Мрежни технологии</option>
+                            <option value="КЕ">Компјутерска едукација</option>
+                            <option value="ИКИ">Информатика и компјутерско инженерство</option>
+                            <option value="АСИ">Академски студии по информатика</option>
+                            <option value="ПИТ">Професионални студии по информатички технологии
                             </option>
                         </select>
                     </div>
@@ -257,8 +325,9 @@ class CourseForm extends Component {
                     <label><b>Детали</b></label>
                 </div>
                 <div className="col-9">
-                    <input type="text" name="detailsUrl" className="form-control"
-                           placeholder="Поставете линк за детали"/>
+                    <input type="text" name="detailsUrl" className="form-control" id="detailsUrl"
+                           placeholder="Поставете линк за детали" value={this.state.formData.detailsUrl}
+                           onChange={this.onChangeHandler}/>
                 </div>
             </div>
         );
@@ -271,45 +340,54 @@ class CourseForm extends Component {
                     <label> <b>Опис</b></label>
                 </div>
                 <div className="col-9">
-                    <textarea name="description" rows="2" className="form-control"
-                              placeholder="Внесете опис"/>
+                    <textarea name="description" rows="2" className="form-control" id="description" style={{resize : "none"}}
+                              placeholder="Внесете опис" value={this.state.formData.description}
+                              onChange={this.onChangeHandler}/>
                 </div>
             </div>
         );
     };
 
     courseProfessors = () => {
-      return (
-          <div className="row mb-2">
-              <div className="col-3 text-right">
-                  <label><b>Професори</b></label>
-              </div>
-              <div className="col-9 teachers" id="teacher">
-                  <select className="form-control" multiple size="8" name="professors">
-                      {this.staffOptions()}
-                  </select>
-              </div>
-          </div>
-      );
+        let result = null;
+        if(this.state.defaultStaff !== null) {
+            result = (
+                <div className="row mb-2">
+                    <div className="col-3 text-right">
+                        <label><b>Професори</b></label>
+                    </div>
+                    <div className="col-9 teachers" id="teacher">
+                        <select className="form-control" multiple size="8" name="professors" defaultValue={[this.state.defaultStaff.Id]}>
+                            {this.staffOptions()}
+                        </select>
+                    </div>
+                </div>
+            );
+        }
+        return result;
     };
 
     courseAssistants = () => {
-      return (
-          <div className="row mb-2 mt-3">
-              <div className="col-3 text-right">
-                  <label><b>Асистенти</b></label>
-              </div>
-              <div className="col-9">
-                  <select className="form-control" multiple size="8" name="assistants">
-                      {this.staffOptions()}
-                  </select>
-              </div>
-          </div>
-      );
+        let result = null;
+        if(this.state.defaultStaff !== null) {
+            result = (
+                <div className="row mb-2 mt-3">
+                    <div className="col-3 text-right">
+                        <label><b>Асистенти</b></label>
+                    </div>
+                    <div className="col-9">
+                        <select className="form-control" multiple size="8" name="assistants" defaultValue={[this.state.defaultStaff.Id]}>
+                            {this.staffOptions()}
+                        </select>
+                    </div>
+                </div>
+            );
+        }
+        return result;
     };
 
 }
 
-export default withRouter(CourseForm);
+export default withRouter(CourseAdd);
 
 

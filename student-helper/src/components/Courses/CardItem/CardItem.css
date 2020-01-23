@@ -1,6 +1,7 @@
-.CardItem img {
-    overflow: hidden;
-    height: 150px;
+.CardItem .card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
 }
 
 .CardItem{
@@ -35,8 +36,8 @@
     color: #ffc107;
 }
 
-.CardItem {
-    height: 320px;
-}
+/*.CardItem {*/
+/*    height: 320px;*/
+/*}*/
 
 
