@@ -14,6 +14,10 @@
     font-size:14px;
 }
 
+.courseDetails .linkShowMore{
+    cursor:pointer;
+}
+
 .courseDetails .arrowsUpDown:hover{
     font-size:2.3em;
     transition: 0.3s ease-out;

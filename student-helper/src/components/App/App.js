@@ -50,11 +50,12 @@ class App extends Component {
                         <Login/>
                     </Route>
 
-                    <Route path="/course" exact>
-                        <Header/>
-                        <CourseDetails/>
-                        <Footer/>
-                    </Route>
+                    <Route path="/courses/:name" render={props=>
+                        <div>
+                            <Header/>
+                            <CourseDetails {...props}/>
+                            <Footer/>
+                        </div>}/>
 
                 </BrowserRouter>
             </div>
