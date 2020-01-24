@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import "./CourseForm.css";
+import "../CourseAdd/CourseForm.css";
 import {Link} from "react-router-dom";
 import {withRouter} from "react-router";
 import CoursesService from "../../../repository/coursesRepository";
@@ -10,8 +10,12 @@ class CourseAdd extends Component {
         super(props);
         this.state = {
             allStaff: [],
-            defaultStaff : null,
+            initialCourse: {},
+            modifiedCourse: {},
+            winterSemesterChecked: false,
+            mandatoryCourseChecked: false,
             image: null,
+            defaultStaff: false,
             formData: {
                 title: "",
                 detailsUrl: "",
@@ -27,31 +31,24 @@ class CourseAdd extends Component {
 
     componentDidMount() {
         CoursesService.fetchAllStaff().then(response => {
-            this.setState({allStaff: response.data,
-                                defaultStaff : response.data[0]});
+            this.setState({
+                allStaff: response.data
+            });
+        });
+        CoursesService.getCourse(this.props.match.params.courseId).then(response => {
+            this.setState({
+                initialCourse: response.data,
+                modifiedCourse: response.data,
+                winterSemesterChecked: response.data.Semester === "Зимски",
+                mandatoryCourseChecked: response.data.Type === "задолжителен",
+                defaultStaff: true
+            });
         });
     }
 
-
-    fileChangedHandler = e => {
-        if (e.target.files.length) {
-            this.setState({image: e.target.files[0]});
-        }
-    };
-
     resetFormHandler = e => {
         this.setState({
-            image: null,
-            formData: {
-                title: "",
-                detailsUrl: "",
-                description: ""
-            },
-            formDataValid: {
-                title: false,
-                detailsUrl: false,
-                description: false,
-            }
+
         });
     };
 
@@ -76,16 +73,12 @@ class CourseAdd extends Component {
             };
             const formData = new FormData();
             formData.append("courseData", JSON.stringify(courseData));
-            console.log("IMAGEEE");
-            console.log(this.state.image);
             if (this.state.image !== null)
                 formData.append("image", this.state.image, this.state.image.name);
-            this.createCourse(formData);
-        }
-        else {
+            // this.createCourse(formData);
+        } else {
             this.validateForm();
         }
-
     };
 
     onChangeHandler = e => {
@@ -98,11 +91,10 @@ class CourseAdd extends Component {
         const formData = {...this.state.formData};
         const formDataValid = {...this.state.formDataValid};
         const inputElement = document.getElementById(inputName);
-        if(inputValue.length > 0) {
+        if (inputValue.length > 0) {
             formDataValid[inputName] = true;
             inputElement.classList.remove("is-invalid");
-        }
-        else {
+        } else {
             formDataValid[inputName] = false;
             inputElement.classList.add("is-invalid");
         }
@@ -117,25 +109,18 @@ class CourseAdd extends Component {
     validateForm = () => {
         const formDataValid = {...this.state.formDataValid};
         Object.entries(formDataValid).forEach(([key, value]) => {
-            if(!value) {
+            if (!value) {
                 document.getElementById(key).classList.add("is-invalid");
             }
-        });
-    };
-
-    createCourse = (formData) => {
-        CoursesService.createCourse(formData).then(response => {
-            this.props.history.push("/admin/courses");
         });
     };
 
     staffOptions = () => {
         return (
             this.state.allStaff.map((staffMember, index) => <option key={staffMember.Id}
-                                                           value={staffMember.Id}>{staffMember.Name}</option>)
+                                                                    value={staffMember.Id}>{staffMember.Name}</option>)
         );
     };
-
 
     render() {
         return (
@@ -144,7 +129,7 @@ class CourseAdd extends Component {
                     <div className="my-auto card cardAdd px-3">
                         <form className="p-4" onSubmit={this.onFormSubmitHandler}>
                             <div className="row">
-                                <h1 className="text-primary ml-3 font-italic my-0">Додади курс</h1>
+                                <h1 className="text-primary ml-3 font-italic my-0">Измени курс</h1>
                             </div>
                             <hr className="mb-4"/>
                             <div className="row">
@@ -154,7 +139,6 @@ class CourseAdd extends Component {
                                     {this.courseSemester()}
                                     {this.courseStatus()}
                                     {this.courseProgram()}
-                                    {this.courseImage()}
                                     {this.courseDetails()}
                                     {this.courseDescription()}
                                 </div>
@@ -170,8 +154,8 @@ class CourseAdd extends Component {
                                         className="fa fa-times"/> Откажи</Link>
                                 </div>
                                 <div className="col-4 text-center">
-                                    <button type="reset" className="btn btn-block btn-warning text-white" onClick={this.resetFormHandler}><i
-                                        className="fa fa-undo"/> Ресетирај
+                                    <button type="reset" className="btn btn-block btn-warning text-white"
+                                            onClick={this.resetFormHandler}><i className="fa fa-undo"/> Ресетирај
                                     </button>
                                 </div>
                                 <div className="col-4">
@@ -198,7 +182,8 @@ class CourseAdd extends Component {
                     </div>
                     <div className="col-9">
                         <input type="text" className="form-control inputText" id="title"
-                               placeholder="Внесете назив на курс" name="title" value={this.state.formData.title}
+                               placeholder="Внесете назив на курс" name="title"
+                               defaultValue={this.state.initialCourse.Title}
                                onChange={this.onChangeHandler}
                         />
                     </div>
@@ -214,7 +199,8 @@ class CourseAdd extends Component {
                     <b>Година</b>
                 </div>
                 <div className="col-9">
-                    <select name="year" className="form-control custom-select">
+                    <select name="year" className="form-control custom-select"
+                            defaultValue={this.state.initialCourse.Year}>
                         <option value="1">1-ва година</option>
                         <option value="2">2-ра година</option>
                         <option value="3">3-та година</option>
@@ -234,12 +220,12 @@ class CourseAdd extends Component {
                 <div className="col-9">
                     <div className="custom-control custom-radio d-inline">
                         <input type="radio" className="custom-control-input" id="winter"
-                               name="semester" defaultChecked value="Зимски"/>
+                               name="semester" value="Зимски" defaultChecked={this.state.winterSemesterChecked}/>
                         <label className="custom-control-label" htmlFor="winter">Зимски</label>
                     </div>
                     <div className="custom-control ml-3 custom-radio d-inline">
                         <input type="radio" className="custom-control-input" id="summer"
-                               name="semester" value="Летен"/>
+                               name="semester" value="Летен" defaultChecked={!this.state.winterSemesterChecked}/>
                         <label className="custom-control-label" htmlFor="summer">Летен</label>
                     </div>
                 </div>
@@ -256,13 +242,13 @@ class CourseAdd extends Component {
                 <div className="col-9">
                     <div className="custom-control d-inline custom-radio">
                         <input type="radio" className="custom-control-input" id="mandatory"
-                               name="type" defaultChecked value="задолжителен"/>
+                               name="type" value="задолжителен" defaultChecked={this.state.mandatoryCourseChecked}/>
                         <label className="custom-control-label"
                                htmlFor="mandatory">Задолжителен</label>
                     </div>
                     <div className="custom-control ml-3 d-inline custom-radio">
                         <input type="radio" className="custom-control-input" id="elective"
-                               name="type" value="изборен"/>
+                               name="type" value="изборен" defaultChecked={!this.state.mandatoryCourseChecked}/>
                         <label className="custom-control-label"
                                htmlFor="elective">Изборен</label>
                     </div>
@@ -279,7 +265,8 @@ class CourseAdd extends Component {
                         <label><b>Смер</b></label>
                     </div>
                     <div className="col-9">
-                        <select className="form-control custom-select" name="program">
+                        <select className="form-control custom-select" name="program"
+                                defaultValue={this.state.initialCourse.Program}>
                             <option value="КНИ">Компјутерски науки и инженерство</option>
                             <option value="ПЕТ">Примена на е-технологии</option>
                             <option value="МТ">Мрежни технологии</option>
@@ -295,28 +282,6 @@ class CourseAdd extends Component {
         );
     };
 
-    courseImage = () => {
-        return (
-            <div className="row">
-                <div className="col-3 text-right">
-                    <label><b>Слика</b></label>
-                </div>
-                <div className="col-9">
-                    <div className="form-group">
-
-                        <div className="custom-file">
-                            <input type="file" className="custom-file-input" id="customFile"
-                                   accept="image/*" name="image"
-                                   onChange={this.fileChangedHandler}
-                            />
-                            <label className="custom-file-label"
-                                   htmlFor="customFile">{this.state.image === null ? null : this.state.image.name}</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    };
 
     courseDetails = () => {
         return (
@@ -326,7 +291,7 @@ class CourseAdd extends Component {
                 </div>
                 <div className="col-9">
                     <input type="text" name="detailsUrl" className="form-control" id="detailsUrl"
-                           placeholder="Поставете линк за детали" value={this.state.formData.detailsUrl}
+                           placeholder="Поставете линк за детали" defaultValue={this.state.initialCourse.DetailsUrl}
                            onChange={this.onChangeHandler}/>
                 </div>
             </div>
@@ -340,8 +305,9 @@ class CourseAdd extends Component {
                     <label> <b>Опис</b></label>
                 </div>
                 <div className="col-9">
-                    <textarea name="description" rows="2" className="form-control" id="description" style={{resize : "none"}}
-                              placeholder="Внесете опис" value={this.state.formData.description}
+                    <textarea name="description" rows="3" className="form-control" id="description"
+                              style={{resize: "none"}}
+                              placeholder="Внесете опис" value={this.state.initialCourse.Description}
                               onChange={this.onChangeHandler}/>
                 </div>
             </div>
@@ -350,14 +316,15 @@ class CourseAdd extends Component {
 
     courseProfessors = () => {
         let result = null;
-        if(this.state.defaultStaff !== null) {
+        if (this.state.defaultStaff) {
             result = (
                 <div className="row mb-2">
                     <div className="col-3 text-right">
                         <label><b>Професори</b></label>
                     </div>
                     <div className="col-9 teachers" id="teacher">
-                        <select className="form-control" multiple size="8" name="professors" defaultValue={[this.state.defaultStaff.Id]}>
+                        <select className="form-control" multiple size="8" name="professors"
+                                defaultValue={this.state.initialCourse.Professors.map(p => p.Id)}>
                             {this.staffOptions()}
                         </select>
                     </div>
@@ -369,14 +336,15 @@ class CourseAdd extends Component {
 
     courseAssistants = () => {
         let result = null;
-        if(this.state.defaultStaff !== null) {
+        if (this.state.defaultStaff) {
             result = (
                 <div className="row mb-2 mt-3">
                     <div className="col-3 text-right">
                         <label><b>Асистенти</b></label>
                     </div>
                     <div className="col-9">
-                        <select className="form-control" multiple size="8" name="assistants" defaultValue={[this.state.defaultStaff.Id]}>
+                        <select className="form-control" multiple size="8" name="assistants"
+                                defaultValue={this.state.initialCourse.Assistants.map(a => a.Id)}>
                             {this.staffOptions()}
                         </select>
                     </div>

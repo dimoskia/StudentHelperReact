@@ -7,6 +7,7 @@ import SignUp from "../SignUp/SignUp";
 import Login from "../Login/Login";
 import Footer from "../Footer/Footer";
 import CourseAdd from "../Courses/CourseAdd/CourseAdd";
+import CourseEdit from "../Courses/CourseEdit/CourseEdit";
 import CourseDetails from "../Courses/CourseDetails/CourseDetails"
 import AdminCourses from "../Admin/AdminCourses/AdminCourses";
 
@@ -27,23 +28,29 @@ class App extends Component {
                         <SignUp/>
                     </Route>
 
-                    <Route path="/admin/courses">
+                    <Route path="/admin/courses" exact>
                         <Header/>
                         <AdminCourses/>
                         <Footer/>
                     </Route>
 
-                    <Route path={"/addCourse"}>
+                    <Route path={"/admin/courses/add"} exact>
                         <Header/>
                         <CourseAdd/>
                         <Footer/>
                     </Route>
 
-                    <Route path={"/login"}>
+                    <Route path={"/course/:courseId/edit"} exact>
+                        <Header/>
+                        <CourseEdit/>
+                        <Footer/>
+                    </Route>
+
+                    <Route path={"/login"} exact>
                         <Login/>
                     </Route>
 
-                    <Route path="/course">
+                    <Route path="/course" exact>
                         <Header/>
                         <CourseDetails/>
                         <Footer/>

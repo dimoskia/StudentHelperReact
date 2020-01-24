@@ -20,12 +20,20 @@ const CoursesService = {
         return axios.get("/api/courses/search", {params: params});
     },
 
+    getCourse : (courseId) => {
+        return axios.get(`/api/courses/${courseId}`);
+    },
+
     createCourse: (formData) => {
         return axios.post("/api/courses", formData, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
         });
+    },
+
+    editCourse: (courseId, modifiedCourse) => {
+        return axios.put(`/api/courses/${courseId}`, modifiedCourse);
     },
 
     fetchAllStaff: () => {
