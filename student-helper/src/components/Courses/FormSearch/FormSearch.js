@@ -65,8 +65,8 @@ const FormSearch = props => {
             </div>
 
             <div className="col-2">
-                <label htmlFor="exampleFormControlSelect1" className="text-muted py-2 mr-1">прикажи</label>
-                <select className="form-control d-inline shadow-sm py-2 w-50"
+                <label htmlFor="exampleFormControlSelect1" className="text-muted py-2">прикажи</label>
+                <select className="ml-1 form-control d-inline shadow-sm py-2" style={{width: "40%"}}
                         id="exampleFormControlSelect1"
                         name="page-size"
                         defaultValue={props.pageSize}

@@ -8,6 +8,7 @@ import Login from "../Login/Login";
 import Footer from "../Footer/Footer";
 import CourseAdd from "../Courses/CourseAdd/CourseAdd";
 import CourseDetails from "../Courses/CourseDetails/CourseDetails"
+import AdminCourses from "../Admin/AdminCourses/AdminCourses";
 
 class App extends Component {
 
@@ -24,6 +25,12 @@ class App extends Component {
 
                     <Route path={"/signup"} exact>
                         <SignUp/>
+                    </Route>
+
+                    <Route path="/admin/courses">
+                        <Header/>
+                        <AdminCourses/>
+                        <Footer/>
                     </Route>
 
                     <Route path={"/addCourse"}>

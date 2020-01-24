@@ -12,7 +12,9 @@ const CoursesService = {
 
     searchCourses: (term, pageNumber, pageSize) => {
         const params = new URLSearchParams();
-        params.append("searchTerm", term);
+        if (term !== null) {
+            params.append("searchTerm", term);
+        }
         params.append("page", pageNumber + 1);
         params.append("pageSize", pageSize);
         return axios.get("/api/courses/search", {params: params});
@@ -28,6 +30,18 @@ const CoursesService = {
 
     fetchAllStaff: () => {
         return axios.get("/api/staff/all");
+    },
+
+    changeCourseImage: (courseId, formData) => {
+        return axios.patch(`api/courses/changeImage/${courseId}`, formData, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        });
+    },
+
+    deleteCourse: (courseId) => {
+        return axios.delete(`api/courses/${courseId}`);
     }
 
 };

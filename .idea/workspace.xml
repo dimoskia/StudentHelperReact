@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="daa7aefa-7c2d-44d8-9ae9-10d2ff0373ed" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/student-helper/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/student-helper/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/student-helper/src/components/App/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/student-helper/src/components/App/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/student-helper/src/components/Courses/CardItem/CardItem.css" beforeDir="false" afterPath="$PROJECT_DIR$/student-helper/src/components/Courses/CardItem/CardItem.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/student-helper/src/components/Courses/CardItem/CardItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/student-helper/src/components/Courses/CardItem/CardItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/student-helper/src/components/Courses/Container/Container.js" beforeDir="false" afterPath="$PROJECT_DIR$/student-helper/src/components/Courses/Container/Container.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/student-helper/src/components/Courses/Filters/Filters.js" beforeDir="false" afterPath="$PROJECT_DIR$/student-helper/src/components/Courses/Filters/Filters.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/student-helper/src/components/Courses/FormSearch/FormSearch.js" beforeDir="false" afterPath="$PROJECT_DIR$/student-helper/src/components/Courses/FormSearch/FormSearch.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/student-helper/src/components/Header/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/student-helper/src/components/Header/Header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/student-helper/src/components/SignUp/SignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/student-helper/src/components/SignUp/SignUp.js" afterDir="false" />
-    </list>
+    <list default="true" id="daa7aefa-7c2d-44d8-9ae9-10d2ff0373ed" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,15 +23,15 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/student-helper" />
   </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
+  <component name="RunDashboard">
+    <option name="ruleStates">
       <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
       </list>
     </option>
   </component>
@@ -56,11 +47,23 @@
       <updated>1579276665509</updated>
       <workItem from="1579276669507" duration="31000" />
       <workItem from="1579437241166" duration="386000" />
+      <workItem from="1579783307840" duration="226000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="WindowStateProjectService">
     <state x="549" y="168" key="FileChooserDialogImpl" timestamp="1579437628596">
