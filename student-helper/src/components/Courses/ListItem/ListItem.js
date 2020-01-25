@@ -21,10 +21,13 @@ const ListItem = props => {
     };
 
     const truncate = (str) => {
-        if (str.length <= 290) {
-            return str;
+        if(str !== undefined) {
+            if (str.length <= 290) {
+                return str;
+            }
+            return str.substr(0, 290) + "...";
         }
-        return str.substr(0, 290) + "...";
+        return null;
     };
 
     return (
