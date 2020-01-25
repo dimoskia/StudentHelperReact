@@ -3,6 +3,8 @@ import qs from "qs";
 
 const CoursesService = {
 
+    // comment
+
     fetchCoursesPaged: (pageNumber, pageSize, params) => {
         if (params === null)
             params = new URLSearchParams();
