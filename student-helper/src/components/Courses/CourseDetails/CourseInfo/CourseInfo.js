@@ -1,5 +1,6 @@
 import React from 'react';
-import sample from "../../../../images/course.jpg";
+import sample from "../../../../images/default_course_image.png";
+import sample2 from "../../../../images/course.jpg"
 
 const CourseInfo = (props) =>{
 
@@ -26,12 +27,13 @@ const CourseInfo = (props) =>{
         return(
             <small>{mapProgram[props["program"]]}</small>
         )
+
     };
 
     return(
         <div className="col-3">
             <div className="card mb-3 bg-light shadow-sm">
-                <img src={sample} className="card-img-top img-thumbnail" alt=""/>
+                <img src={props.ImageUrl ? props.ImageUrl : sample} className="card-img-top img-thumbnail" alt=""/>
                 <div className="ml-3 mt-2">
                     <ul className="timeline">
                         <li className="timeline-inverted">

@@ -1,0 +1,15 @@
+.UserInfo .cardUser{
+    height: 100% !important;
+}
+.nav-tabs li a,
+.nav-tabs li a:active,
+.nav-tabs li a:focus {
+    color:darkslategray;
+    outline:2px !important;
+    -webkit-appearance:none;
+    text-decoration:none; }
+
+.UserInfo .emailInput{
+    cursor:no-drop;
+}
+

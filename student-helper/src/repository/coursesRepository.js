@@ -21,6 +21,7 @@ const CoursesService = {
         params.append("page", pageNumber + 1);
         params.append("pageSize", pageSize);
         return axios.get("/api/courses/search", {params: params});
+        return axios.get("/api/courses/search", {params: params});
     },
 
     getCourse : (courseId) => {
@@ -59,7 +60,7 @@ const CoursesService = {
         return axios.get(`/api/courses/${name}`);
     },
 
-    fetchPosts : (pageNumber,pageSize, params) =>{
+    fetchPosts : (params) =>{
         return axios.get(`api/courses/${params}/posts`);
     },
     fetchPostsNextPage : (newUrl) =>{

@@ -10,12 +10,13 @@ import CourseAdd from "../Courses/CourseAdd/CourseAdd";
 import CourseEdit from "../Courses/CourseEdit/CourseEdit";
 import CourseDetails from "../Courses/CourseDetails/CourseDetails"
 import AdminCourses from "../Admin/AdminCourses/AdminCourses";
+import UserDetails from "../User/UserDetails";
 
 class App extends Component {
 
     render() {
         return (
-            <div>
+            <div className="h-100">
                 <BrowserRouter>
 
                     <Route path={"/"} exact>
@@ -57,6 +58,11 @@ class App extends Component {
                             <Footer/>
                         </div>}/>
 
+                    <Route path="/users/:name" render={props=>
+                        <div className="userDetailsDiv h-100">
+                            <Header/>
+                            <UserDetails {...props}/>
+                        </div>}/>
                 </BrowserRouter>
             </div>
         );

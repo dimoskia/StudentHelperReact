@@ -1,6 +1,6 @@
 import React from "react";
 import './Header.css';
-import {NavLink} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import logo from'../../images/logo2.png';
 import user from "../../images/user_image.png"
 
@@ -27,11 +27,11 @@ const header = () => {
                                 <a className="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdownBlog" data-toggle="dropdown"
                                    aria-haspopup="true" aria-expanded="false">
                                     FirstName LastName
-                                    <img src={user} width="40px" height="40px" className="rounded-circle mx-2"/>
+                                    <img src={user} width="40px" height="40px" className="rounded-circle mx-2" alt=""/>
                                 </a>
                                 <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                                    <a className="dropdown-item" href="#"><i className="fa fa-user mr-1 text-primary"/>My Account</a>
-                                    <a className="dropdown-item" href="#"><i className="fa fa-sign-out mr-1 text-primary"/>Log out</a>
+                                    <Link to="/users/1" className="dropdown-item" href="#"><i className="fa fa-user mr-1 text-primary"/>Мој профил</Link>
+                                    <Link className="dropdown-item" href="#"><i className="fa fa-sign-out mr-1 text-primary"/>Одјави се</Link>
                                 </div>
                             </li>
                         </ul>

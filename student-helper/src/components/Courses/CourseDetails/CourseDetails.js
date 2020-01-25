@@ -15,12 +15,6 @@ class CourseDetails extends Component {
                 PopularityStats: []
             },
             param: this.props.match.params,
-            pagination: {
-                PageNumber: 0,
-                PageSize: 1,
-                TotalPages: 0,
-                TotalRecords: 0
-            },
             posts:[],
             NextPageUrl:"",
             post:{
@@ -31,10 +25,10 @@ class CourseDetails extends Component {
     }
 
     componentDidMount() {
-        this.loadCourses();
+        this.loadCourse();
     }
 
-    loadCourses = () =>{
+    loadCourse = () =>{
         CoursesService.searchCourse(this.state.param.name).then((data) => {
             this.setState({
                 course:data.data
@@ -44,8 +38,8 @@ class CourseDetails extends Component {
 
     };
 
-    loadPosts = (pageNumber=0, params=this.state.param.name,pageSize=this.state.pagination.PageSize) => {
-        CoursesService.fetchPosts(pageNumber,pageSize,params).then(data => {
+    loadPosts = (params=this.state.param.name) => {
+        CoursesService.fetchPosts(params).then(data => {
             this.setState({
                 posts: data.data.Results,
                 NextPageUrl: data.data.NextPageUrl
@@ -80,10 +74,17 @@ class CourseDetails extends Component {
             "Content": this.state.post.content,
             "Likes": 0,
             "Dislikes": 0,
-            "CreatedAt": "2013-12-31T00:00:00"
+            "CreatedAt": "2015-12-31T00:00:00"
         };
         CoursesService.postPost(this.state.param.name,post);
-        this.loadCourses();
+        this.setState({
+            post:{
+                title:"",
+                content:""
+            }
+        });
+        document.getElementById("titlePost").value="";
+        document.getElementById("contentPost").value="";
     };
 
     getCoursePosts = () =>{
@@ -149,6 +150,7 @@ class CourseDetails extends Component {
                                 year={this.state.course.Year}
                                 program={this.state.course["Program"]}
                                 detailsLink={this.state.DetailsUrl}
+                                imageUrl={this.state.ImageUrl}
                     />
 
                     <div className="col-6">
@@ -160,9 +162,9 @@ class CourseDetails extends Component {
                                 <form onSubmit={(e)=>this.postPost(e)}>
                                     <h5><b>Наслов</b></h5>
                                     <input type="text" name="Title" className="form-control mb-3"
-                                           placeholder="пр. Каков е начинот на полагање на предметот?" onChange={(e)=>this.changePost(e)}/>
+                                           placeholder="пр. Каков е начинот на полагање на предметот?" id="titlePost" onChange={(e)=>this.changePost(e)}/>
                                     <h5><b>Опис</b></h5>
-                                    <textarea className="form-control textAreaDescription" name="Comment"
+                                    <textarea className="form-control textAreaDescription" name="Comment" id="contentPost"
                                               placeholder="Внесете опис" onChange={(e)=>this.changePost(e)}/>
                                     <button type="submit" className="btn btn-primary float-right mt-3">Постави прашање
                                     </button>
@@ -173,8 +175,8 @@ class CourseDetails extends Component {
                             <div className="card-body">
                                 {this.getCoursePosts()}
                                 </div>
-                                <a href="#" className="text-primary text-center d-block linkShowMore" onClick={this.loadNewPage}>
-                                    <span className={this.state.NextPageUrl===null ? "d-none" : "d-inline"}>Прикажи повеќе</span></a>
+                                <Link className="text-primary text-center d-block linkShowMore" onClick={this.loadNewPage}>
+                                    <span className={this.state.NextPageUrl===null ? "d-none" : "d-inline"}>Прикажи повеќе</span></Link>
                             </div>
                         </div>
                     <CourseStaff activeUsers={this.state.course.PopularityStats}
