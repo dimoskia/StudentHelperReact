@@ -38,7 +38,7 @@ const Container = props => {
                             changeView={props.changeView}
                             pageSize={props.pageSize}
                             changePageSize={props.changePageSize}
-                            onSearch={props.onSearch}
+                            onSearch={props.onSearchonSearch}
                             />
                 <div className="row">
                     <div className="card-deck align-items-center w-100">

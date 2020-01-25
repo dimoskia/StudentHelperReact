@@ -1,4 +1,5 @@
 import axios from '../custom-axios/axios';
+import qs from "qs";
 
 const CoursesService = {
 
@@ -50,6 +51,52 @@ const CoursesService = {
 
     deleteCourse: (courseId) => {
         return axios.delete(`api/courses/${courseId}`);
+    },
+
+    searchCourse : (name) => {
+        return axios.get(`/api/courses/${name}`);
+    },
+
+    fetchPosts : (pageNumber,pageSize, params) =>{
+        return axios.get(`api/courses/${params}/posts`);
+    },
+    fetchPostsNextPage : (newUrl) =>{
+        return axios.get(newUrl);
+    },
+
+    likeDislikePost : (nameId,flag) =>{
+        if(flag) {
+            return axios.post(`api/posts/${nameId}/Like`);
+        }
+        else{
+            return axios.post(`api/posts/${nameId}/Dislike`)
+        }
+    },
+
+    likeDislikeComment : (nameId,flag) =>{
+        if(flag){
+            return axios.post(`api/Comments/${nameId}/Like`);
+        }
+        else{
+            return axios.post(`api/Comments/${nameId}/Dislike`);
+        }
+    },
+
+    postComment : (postId, comment) => {
+        const data = {
+            ...comment
+        };
+        const formParams = qs.stringify(data);
+        return axios.post(`api/posts/${postId}/Comments`, formParams);
+    },
+
+    postPost : (courseId, post) => {
+        const data = {
+            ...post
+        };
+        const formParams = qs.stringify(data);
+        console.log(formParams);
+        return axios.post(`api/courses/${courseId}/Posts/Add`, formParams);
     }
 
 };
