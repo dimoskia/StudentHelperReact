@@ -56,7 +56,7 @@ class SignUp extends Component {
             inputName = e.target.name;
             inputValue = e.target.value;
         }
-        let isValid = inputValue.length > 0;
+        let isValid = inputValue.toString().trim().length > 0;
         if (inputName === "Email")
             isValid = isValid && this.validateEmail(inputValue);
         else if (inputName === "Password")

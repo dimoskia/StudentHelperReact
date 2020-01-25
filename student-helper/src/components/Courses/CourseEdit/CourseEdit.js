@@ -112,7 +112,7 @@ class CourseEdit extends Component {
         if (Object.keys(this.state.formDataValid).includes(inputName)) {
             const formDataValid = {...this.state.formDataValid};
             const inputElement = document.getElementById(inputName);
-            if (e.target.value.length > 0) {
+            if (e.target.value.toString().trim().length > 0) {
                 formDataValid[inputName] = true;
                 inputElement.classList.remove("is-invalid");
             } else {
@@ -144,7 +144,7 @@ class CourseEdit extends Component {
     render() {
         return (
             <div className="courseAdd row w-100 my-4">
-                <div className="col-8 mx-auto my-4">
+                <div className="col-9 mx-auto my-4">
                     <div className="my-auto card cardAdd px-3">
                         <form className="p-4" onSubmit={this.onFormSubmitHandler} id="edit-form">
                             <div className="row">
