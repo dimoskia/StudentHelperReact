@@ -3,6 +3,8 @@ import CoursesService from "../../../repository/coursesRepository";
 import CoursesTable from "./CoursesTable";
 import ReactPaginate from 'react-paginate';
 import {Link} from "react-router-dom";
+import ModalDelete from "../../UI/ModalDelete/ModalDelete";
+import DeleteElement from "../../DeleteElementModal/DeleteElement";
 
 class AdminCourses extends Component {
 
@@ -14,13 +16,19 @@ class AdminCourses extends Component {
             TotalPages: 0,
             TotalRecords: 0,
             Results: [],
-            QueryParams: new URLSearchParams()
+            QueryParams: new URLSearchParams(),
+            deletedCourseId:null,
+            delCourse: false
         };
     }
 
     componentDidMount() {
         this.loadCourses();
     }
+
+    deleteCourseCancelHandler = () => {
+        this.setState({delCourse:false})
+    };
 
     scrollToTop = () => {
         const c = document.documentElement.scrollTop || document.body.scrollTop;
@@ -73,6 +81,16 @@ class AdminCourses extends Component {
     };
 
     deleteCourse = (courseId) => {
+
+            this.setState({
+                delCourse:true,
+                deletedCourseId:courseId
+            });
+
+    };
+
+    deleteCourseExecution = (courseId) => {
+
         CoursesService.deleteCourse(courseId).then(resp => {
             if (this.state.PageNumber === this.state.TotalPages) {
                 if (this.state.Results.length === 1) {
@@ -92,7 +110,12 @@ class AdminCourses extends Component {
                 this.loadCourses();
             }
         });
+
+        this.setState({delCourse:false});
+
     };
+
+
 
     searchForm = () => {
         return (
@@ -134,6 +157,7 @@ class AdminCourses extends Component {
         if (this.state.TotalRecords > 0) {
             return (
                 <div>
+
                     <div style={{minHeight: 300}}>
                         <CoursesTable data={this.state.Results}
                                       deleteCourseHanlder={this.deleteCourse}
@@ -179,9 +203,21 @@ class AdminCourses extends Component {
     render() {
         return (
             <div className="container my-4">
-
                 <h1>Менаџирај курсеви</h1>
                 <hr/>
+                <ModalDelete show={this.state.delCourse}>
+
+                    <DeleteElement modalClosed={this.deleteCourseCancelHandler}
+                                  title={this.state.Results.map((item) => {
+                                        if(item.Id == this.state.deletedCourseId){
+                                            return item.Title
+                                        }
+                                  })}
+                                  whatToDelete={"курсот "}
+                                  deleteCourse={this.deleteCourseExecution}
+                                  deletedId={this.state.deletedCourseId}/>
+
+                </ModalDelete>
 
                 <div className="row">
                     <div className="col-3">

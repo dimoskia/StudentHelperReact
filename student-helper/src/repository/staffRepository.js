@@ -14,6 +14,10 @@ const StaffService = {
                 'content-type': 'multipart/form-data'
             }
         });
+    },
+
+    deleteStaff: (staffId) => {
+        return axios.delete(`api/staffs/${staffId}`);
     }
 
 };

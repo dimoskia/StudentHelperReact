@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import defaultImage from '../../../../images/default_course_image.png';
 import {Link} from "react-router-dom";
 import {courseYearToRoman} from "../../../../util/UtilityFunctions";
+import Backdrop from "../../../UI/Backdrop/Backdrop";
+import DeleteCourse from "../../../DeleteElementModal/DeleteElement";
 
 const CoursesTableRow = (props) => {
 
@@ -14,12 +16,6 @@ const CoursesTableRow = (props) => {
         return imageUrl;
     };
 
-    const deleteCourse = (courseId) => {
-        const message = `Дали сте сигурни дека сакате да го избришите курсот ${props.data.Title} со цела негова содржина, вклучувајќи постови и коментари?`;
-        if (window.confirm(message)) {
-            props.deleteCourseHanlder(courseId);
-        }
-    };
 
     return (
         <tr className="CoursesTableRow">
@@ -51,7 +47,7 @@ const CoursesTableRow = (props) => {
                 <Link to={`/admin/courses/${props.data.Id}/edit`} className="btn btn-sm btn-outline-primary mx-1">
                     <span className="fa fa-edit"/>&nbsp;Ажурирај
                 </Link>
-                <button className="btn btn-sm btn-outline-danger mx-1" onClick={() => deleteCourse(props.data.Id)}>
+                <button className="btn btn-sm btn-outline-danger mx-1" onClick={() => props.deleteCourseHanlder(props.data.Id)}>
                     <span className="fa fa-trash"/>&nbsp;Избриши
                 </button>
             </td>

@@ -1,5 +1,5 @@
 import axios from '../custom-axios/axios';
-import qs from "qs";
+import qs from 'querystring';
 
 const CoursesService = {
 
@@ -27,6 +27,14 @@ const CoursesService = {
 
     fetchAllStaff: () => {
         return axios.get("/api/staff/all");
+    },
+
+    createStaff: (formData) => {
+        return axios.post("api/staffs/add", formData, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        });
     },
 
     changeCourseImage: (courseId, formData) => {

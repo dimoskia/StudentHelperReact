@@ -18,7 +18,9 @@ const StaffTable = (props) => {
 
     const generateTableBody = () => {
         return props.data.map(item => (
-            <StaffTableRow data={item} key={item.Id} imageHandler={props.imageHandler}/>
+            <StaffTableRow data={item} key={item.Id}
+                           deleteStaffHandler={props.deleteStaffHandle}
+                           imageHandler={props.imageHandler}/>
         ));
     };
 

@@ -45,7 +45,8 @@ const StaffTableRow = (props) => {
                 <button className="btn btn-sm btn-outline-primary mx-1">
                     <span className="fa fa-edit"/>&nbsp;Ажурирај
                 </button>
-                <button className="btn btn-sm btn-outline-danger mx-1">
+                <button className="btn btn-sm btn-outline-danger mx-1"
+                        onClick={() => props.deleteStaffHandler(props.data.Id)}>
                     <span className="fa fa-trash"/>&nbsp;Избриши
                 </button>
             </td>

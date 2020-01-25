@@ -2,6 +2,11 @@ import React, {Component} from "react";
 import StaffService from "../../../repository/staffRepository";
 import ReactPaginate from "react-paginate";
 import StaffTable from "./StaffTable";
+import Modal from "../../UI/Modal/Modal";
+import StaffAdd from "../../Staffs/StaffAdd/StaffAdd";
+import DeleteElement from "../../DeleteElementModal/DeleteElement";
+import ModalDelete from "../../UI/ModalDelete/ModalDelete";
+import StaffsService from "../../../repository/staffRepository"
 
 class AdminStaff extends Component{
 
@@ -13,7 +18,10 @@ class AdminStaff extends Component{
             TotalPages: 0,
             TotalRecords: 0,
             Results: [],
-            QueryParams: new URLSearchParams()
+            QueryParams: new URLSearchParams(),
+            addingStaff: false,
+            deleteStaffId:null,
+            delStaff:false
         };
     }
 
@@ -25,6 +33,63 @@ class AdminStaff extends Component{
         StaffService.fetchStaffPaged(this.state.PageNumber, this.state.PageSize, this.state.QueryParams).then(resp => {
             this.setState(resp.data);
         });
+    };
+
+    addStaffHandler = () => {
+
+        this.setState({addingStaff:true})
+
+    };
+
+    addStaffCancelHandler = () => {
+        this.setState({addingStaff:false})
+    };
+
+    addStaff = (newStaff) => {
+
+        this.setState({
+            PageNumber:1
+        }, () => this.loadStaff());
+
+    };
+
+    deleteStaffCancelHandler = () => {
+        this.setState({delStaff:false})
+    };
+
+    deleteStaff = (staffId) => {
+
+        this.setState({
+            delStaff:true,
+            deleteStaffId:staffId
+        });
+
+    };
+
+    deleteStaffExecution = (staffId) => {
+
+        StaffsService.deleteStaff(staffId).then(resp => {
+            if (this.state.PageNumber === this.state.TotalPages) {
+                if (this.state.Results.length === 1) {
+                    this.setState(prevState => {
+                        const newPageNumber = prevState.PageNumber - 1;
+                        return {
+                            PageNumber: Math.max(newPageNumber, 0)
+                        };
+                    }, () => this.loadStaff());
+                } else {
+                    this.setState(prevState => {
+                        const newStaffsRef = prevState.Results.filter(staff => staff.Id !== staffId);
+                        return {Results: newStaffsRef};
+                    });
+                }
+            } else {
+                this.loadStaff();
+            }
+        });
+
+        this.setState({delStaff:false});
+
     };
 
     scrollToTop = () => {
@@ -112,7 +177,9 @@ class AdminStaff extends Component{
             return (
                 <div>
                     <div style={{minHeight: 300}}>
-                        <StaffTable data={this.state.Results} imageHandler={this.handleImageChange}/>
+                        <StaffTable data={this.state.Results}
+                                    deleteStaffHandle={this.deleteStaff}
+                                    imageHandler={this.handleImageChange}/>
                     </div>
 
                     {this.pagination()}
@@ -157,9 +224,28 @@ class AdminStaff extends Component{
                 <h1>Менаџирај наставен кадар</h1>
                 <hr/>
 
+                <Modal show={this.state.addingStaff}>
+                    <StaffAdd addingStaff={this.addStaff}
+                              modalClosed={this.addStaffCancelHandler}/>
+                </Modal>
+
+                <ModalDelete show={this.state.delStaff}>
+
+                    <DeleteElement modalClosed={this.deleteStaffCancelHandler}
+                                  title={this.state.Results.map((item) => {
+                                      if(item.Id == this.state.deleteStaffId){
+                                          return item.FirstName + " " + item.LastName;
+                                      }
+                                  })}
+                                  whatToDelete={"вработениот"}
+                                  deleteStaff={this.deleteStaffExecution}
+                                  deletedId={this.state.deleteStaffId}/>
+
+                </ModalDelete>
+
                 <div className="row">
                     <div className="col-3">
-                        <button className="btn btn-primary btn-lg">
+                        <button onClick={this.addStaffHandler} className="btn btn-primary btn-lg">
                             <span className="fa fa-plus"/>&nbsp;Додади вработен
                         </button>
                     </div>
