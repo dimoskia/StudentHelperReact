@@ -6,11 +6,28 @@ const CoursesTableRow = (props) => {
 
     const [inputElem, setInputElem] = useState(null);
 
+    const getYear = year => {
+        switch (year) {
+            case 1: return "I";
+            case 2: return "II";
+            case 3: return "III";
+            case 4: return "IV";
+            default: return null;
+        }
+    };
+
     const getPictureUrl = (imageUrl) => {
         if (imageUrl === null) {
             return defaultImage;
         }
         return imageUrl;
+    };
+
+    const deleteCourse = (courseId) => {
+        const message = `Дали сте сигурни дека сакате да го избришите курсот ${props.data.Title} со цела негова содржина, вклучувајќи постови и коментари?`;
+        if (window.confirm(message)) {
+            props.deleteCourseHanlder(courseId);
+        }
     };
 
     return (
@@ -31,7 +48,7 @@ const CoursesTableRow = (props) => {
                 {props.data.Title}
             </td>
             <td className="align-middle text-center">
-                {props.data.Year}
+                {getYear(props.data.Year)}
             </td>
             <td className="align-middle text-center">
                 {props.data.Program}
@@ -43,7 +60,7 @@ const CoursesTableRow = (props) => {
                 <Link to={`/admin/courses/${props.data.Id}/edit`} className="btn btn-sm btn-outline-primary mx-1">
                     <span className="fa fa-edit"/>&nbsp;Ажурирај
                 </Link>
-                <button className="btn btn-sm btn-outline-danger mx-1">
+                <button className="btn btn-sm btn-outline-danger mx-1" onClick={() => deleteCourse(props.data.Id)}>
                     <span className="fa fa-trash"/>&nbsp;Избриши
                 </button>
             </td>

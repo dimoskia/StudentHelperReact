@@ -19,7 +19,9 @@ const CoursesTable = (props) => {
 
     const generateTableBody = () => {
         return props.data.map(item => (
-            <CoursesTableRow data={item} key={item.Id} imageHandler={props.imageHandler}/>
+            <CoursesTableRow data={item} key={item.Id}
+                             deleteCourseHanlder={props.deleteCourseHanlder}
+                             imageHandler={props.imageHandler}/>
         ));
     };
 

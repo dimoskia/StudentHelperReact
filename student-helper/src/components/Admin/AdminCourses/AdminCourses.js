@@ -9,13 +9,12 @@ class AdminCourses extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            PageNumber: 0,
+            PageNumber: 1,
             PageSize: 10,
             TotalPages: 0,
             TotalRecords: 0,
             Results: [],
-            NextPageUrl: null,
-            SearchTerm: null
+            QueryParams: new URLSearchParams()
         };
     }
 
@@ -32,14 +31,13 @@ class AdminCourses extends Component {
     };
 
     loadCourses = () => {
-        console.log(this.state.PageNumber);
-        CoursesService.searchCourses(this.state.SearchTerm, this.state.PageNumber, this.state.PageSize).then(resp => {
+        CoursesService.fetchCoursesPaged(this.state.PageNumber, this.state.PageSize, this.state.QueryParams).then(resp => {
             this.setState(resp.data);
         });
     };
 
     handlePageChange = (event) => {
-        let newPageNumber = event.selected;
+        let newPageNumber = event.selected + 1;
         this.setState({
             PageNumber: newPageNumber
         }, () => {
@@ -51,9 +49,9 @@ class AdminCourses extends Component {
     handleSearchCourses = (event) => {
         event.preventDefault();
         const term = event.target["term"].value;
+        this.state.QueryParams.set("searchTerm", term);
         this.setState({
-            SearchTerm: term,
-            PageNumber: 0
+            PageNumber: 1
         }, () => this.loadCourses());
     };
 
@@ -76,13 +74,20 @@ class AdminCourses extends Component {
 
     deleteCourse = (courseId) => {
         CoursesService.deleteCourse(courseId).then(resp => {
-            if (this.state.Results.length === 1) {
-                this.setState(prevState => {
-                    const newPageNumber = prevState.PageNumber - 1;
-                    return {
-                        PageNumber: Math.max(newPageNumber, 0)
-                    };
-                }, () => this.loadCourses());
+            if (this.state.PageNumber === this.state.TotalPages) {
+                if (this.state.Results.length === 1) {
+                    this.setState(prevState => {
+                        const newPageNumber = prevState.PageNumber - 1;
+                        return {
+                            PageNumber: Math.max(newPageNumber, 0)
+                        };
+                    }, () => this.loadCourses());
+                } else {
+                    this.setState(prevState => {
+                        const newCoursesRef = prevState.Results.filter(course => course.Id !== courseId);
+                        return {Results: newCoursesRef};
+                    });
+                }
             } else {
                 this.loadCourses();
             }
@@ -130,7 +135,9 @@ class AdminCourses extends Component {
             return (
                 <div>
                     <div style={{minHeight: 300}}>
-                        <CoursesTable data={this.state.Results} imageHandler={this.handleImageChange}/>
+                        <CoursesTable data={this.state.Results}
+                                      deleteCourseHanlder={this.deleteCourse}
+                                      imageHandler={this.handleImageChange}/>
                     </div>
 
                     {this.pagination()}

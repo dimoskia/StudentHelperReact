@@ -7,3 +7,7 @@
 .Header .active {
     font-weight: bold;
 }
+
+.Header .dropdown {
+    cursor: pointer;
+}

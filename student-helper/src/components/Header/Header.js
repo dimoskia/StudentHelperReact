@@ -47,14 +47,14 @@ const header = () => {
                         </ul>
                         <ul className="navbar-nav">
                             <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdownBlog" data-toggle="dropdown"
+                                <span className="nav-link dropdown-toggle text-primary"id="navbarDropdownBlog" data-toggle="dropdown"
                                    aria-haspopup="true" aria-expanded="false">
                                     FirstName LastName
-                                    <img src={user} width="40px" height="40px" className="rounded-circle mx-2"/>
-                                </a>
+                                    <img src={user} width="40px" alt="User profile" height="40px" className="rounded-circle mx-2"/>
+                                </span>
                                 <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                                    <a className="dropdown-item" href="#"><i className="fa fa-user mr-1 text-primary"/>My Account</a>
-                                    <a className="dropdown-item" href="#"><i className="fa fa-sign-out mr-1 text-primary"/>Log out</a>
+                                    <span className="dropdown-item"><i className="fa fa-user mr-1 text-primary"/>My Account</span>
+                                    <span className="dropdown-item"><i className="fa fa-sign-out mr-1 text-primary"/>Log out</span>
                                 </div>
                             </li>
                         </ul>

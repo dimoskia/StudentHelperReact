@@ -9,16 +9,6 @@ const CoursesService = {
         return axios.get("/api/courses", {params: params});
     },
 
-    searchCourses: (term, pageNumber, pageSize) => {
-        const params = new URLSearchParams();
-        if (term !== null) {
-            params.append("searchTerm", term);
-        }
-        params.append("page", pageNumber + 1);
-        params.append("pageSize", pageSize);
-        return axios.get("/api/courses", {params: params});
-    },
-
     getCourse : (courseId) => {
         return axios.get(`/api/courses/${courseId}`);
     },
