@@ -1,32 +1,64 @@
 import React, {Component} from "react"
 import "../SignUp/SignUp.css"
 import logo from '../../images/logo2.png';
+import {Link} from "react-router-dom";
+import UsersService from "../../repository/userRepository";
 
 class Login extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            showAlert : false
+            showAlertSignup: false,
+            showAlertWrongCredentials: false,
+            wrongCredentialsMessage: ""
         }
     }
 
     componentDidMount() {
-        if(this.props.location.state !== undefined && this.props.location.state.prevPath === "/signup") {
-            this.setState({showAlert : true})
+        if (this.props.location.state !== undefined && this.props.location.state.prevPath === "/signup") {
+            this.setState({showAlertSignup: true})
         }
     }
 
     renderAlert = () => {
-      if(this.state.showAlert) {
-          return (
-              <div className="alert alert-info" role="alert">
-                  <small>Испратена е потврда за регистрација на Вашиот email</small>
-              </div>
-          );
-      }
-      return null;
+        if (this.state.showAlertSignup) {
+            return (
+                <div className="alert alert-info" role="alert">
+                    <small>Испратена е потврда за регистрација на Вашиот email</small>
+                </div>
+            );
+        } else if (this.state.showAlertWrongCredentials) {
+            return (
+                <div className="alert alert-danger" role="alert">
+                    <small>{this.state.wrongCredentialsMessage}</small>
+                </div>
+            );
+        }
+        return null;
     };
+
+    onFormSubmitHandler = e => {
+        e.preventDefault();
+        const user = {
+            Email: e.target.email.value,
+            Password: e.target.password.value
+        };
+        UsersService.loginUser(user).then(response => {
+            UsersService.handleAuthentication(response.data);
+            const userData = JSON.parse(localStorage.getItem("userData"));
+            this.redirectByRole(userData.User.Role === "user");
+
+        }).catch(error => this.setState({wrongCredentialsMessage: error.response.data}));
+    };
+
+
+    redirectByRole(isUser) {
+        if(isUser)
+            this.props.history.push("/");
+        else
+            this.props.history.push("/admin/courses");
+    }
 
     render() {
         return (
@@ -44,26 +76,27 @@ class Login extends Component {
                                     {this.renderAlert()}
                                     <hr>
                                     </hr>
-                                    <form className="form-signin mt-4">
+                                    <form className="form-signin mt-4" onSubmit={this.onFormSubmitHandler}>
                                         <div className="form-label-group">
                                             <input type="email" id="inputEmail" className="form-control"
-                                                   placeholder="Email address" required autoFocus/>
+                                                   placeholder="Email address" name="email" autoFocus/>
                                             <label htmlFor="inputEmail">Email address</label>
                                         </div>
 
                                         <div className="form-label-group">
                                             <input type="password" id="inputPassword" className="form-control"
-                                                   placeholder="Password" required/>
+                                                   placeholder="Password" name="password"/>
                                             <label htmlFor="inputPassword">Password</label>
                                         </div>
                                         <br>
                                         </br>
                                         <button className="btn btn-lg btn-block text-uppercase bg-primary" type="submit"
-                                                id="loginButton">Log in
+                                                id="loginButton">најави се
                                         </button>
-                                        <button className="btn btn-lg btn-light btn-block text-uppercase signUpButton"
-                                                type="submit">Sign up
-                                        </button>
+                                        <Link to={"/signup"}
+                                              className="btn btn-lg btn-light btn-block text-uppercase signUpButton">регистрирај
+                                            се
+                                        </Link>
                                     </form>
                                 </div>
                             </div>
