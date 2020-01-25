@@ -6,11 +6,19 @@ class Login extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            showAlert : false
+        }
     }
 
+    componentDidMount() {
+        if(this.props.location.state !== undefined && this.props.location.state.prevPath === "/signup") {
+            this.setState({showAlert : true})
+        }
+    }
 
     renderAlert = () => {
-      if(this.props.location.state !== undefined && this.props.location.state.prevPath === "/signup") {
+      if(this.state.showAlert) {
           return (
               <div className="alert alert-info" role="alert">
                   <small>Испратена е потврда за регистрација на Вашиот email</small>
@@ -65,7 +73,6 @@ class Login extends Component {
             </div>
         );
     }
-
 
 }
 

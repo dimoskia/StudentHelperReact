@@ -27,10 +27,10 @@ class SignUp extends Component {
             Password2: {
                 isValid: false,
                 value: ""
-            }
+            },
+            showAlert : false
         };
     }
-
 
     onChangeHandler = e => {
         this.validateInput(e, false);
@@ -38,27 +38,28 @@ class SignUp extends Component {
 
     onFormSubmitHandler = e => {
         e.preventDefault();
-
-        if(Object.values(this.state).map(v => v.isValid).every(v => v === true)) {
+        const stateValues = Object.values(this.state);
+        stateValues.pop();
+        if (stateValues.map(v => v.isValid).every(v => v === true)) {
             const userInputs = [...Object.entries(this.state)];
             userInputs.pop();
             const user = {};
             userInputs.forEach(u => user[u[0]] = u[1].value);
             this.registerUser(user);
-        }
-        else {
-            Object.values(e.target).filter(i => Object.keys(this.state).includes(i.name)).forEach(input => this.validateInput(input, true));
+        } else {
+            const values = Object.values(e.target);
+            values.pop();
+            values.filter(i => Object.keys(this.state).includes(i.name)).forEach(input => this.validateInput(input, true));
         }
     };
 
     validateInput = (e, formValidate) => {
         let inputName = null;
         let inputValue = null;
-        if(formValidate) {
+        if (formValidate) {
             inputName = e.name;
             inputValue = e.value;
-        }
-        else {
+        } else {
             inputName = e.target.name;
             inputValue = e.target.value;
         }
@@ -96,10 +97,21 @@ class SignUp extends Component {
     registerUser = (user) => {
         UsersService.registerUser(user).then(response => {
             this.props.history.push({
-                pathname : "/login",
-                state : {prevPath : this.props.location.pathname}
+                pathname: "/login",
+                state: {prevPath: this.props.location.pathname}
             });
-        });
+        }).catch(() => this.setState({showAlert : true}));
+    };
+
+    renderAlert = () => {
+        if(this.state.showAlert) {
+            return (
+                <div className="alert alert-danger" role="alert">
+                    <small>Веќе постои корисник со внесената email адреса</small>
+                </div>
+            );
+        }
+        return null;
     };
 
     render() {
@@ -116,8 +128,8 @@ class SignUp extends Component {
                                         <i className="h3 pt-2 studentText">Student<i
                                             className="helperText text-primary">Helper</i></i>
                                     </div>
-                                    <hr>
-                                    </hr>
+                                    {this.renderAlert()}
+                                    <hr/>
                                     <form className="form-signin mt-4" onSubmit={this.onFormSubmitHandler}>
                                         <div className="form-label-group">
                                             <input type="text" id="FirstName"
@@ -155,7 +167,7 @@ class SignUp extends Component {
                                             />
                                             <label htmlFor="Email">Email адреса</label>
                                             <div className="invalid-feedback mx-2">Формат:
-                                                име.презиме@students.finki.ukim.mk
+                                                ime.prezime@students.finki.ukim.mk
                                             </div>
                                         </div>
 
