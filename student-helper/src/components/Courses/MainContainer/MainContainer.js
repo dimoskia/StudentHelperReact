@@ -1,11 +1,11 @@
 import React, {Component} from "react";
-import Filters from '../Courses/Filters/Filters';
-import CoursesService from "../../repository/coursesRepository";
+import Filters from './Filters/Filters';
+import CoursesService from "../../../repository/coursesRepository";
 import './MainContainer.css';
-import FormSearch from "../Courses/FormSearch/FormSearch";
-import CardItem from "../Courses/CardItem/CardItem";
-import ListItem from "../Courses/ListItem/ListItem";
 import ReactPaginate from "react-paginate";
+import CardItem from "./CardItem/CardItem";
+import ListItem from "./ListItem/ListItem";
+import FormSearch from "./FormSearch/FormSearch";
 
 class MainContainer extends Component {
 

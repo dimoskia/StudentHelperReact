@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import defaultImage from '../../../../../images/default_course_image.png';
+import defaultImage from '../../../../images/default_course_image.png';
 import {Link} from "react-router-dom";
 
 const CoursesTableRow = (props) => {

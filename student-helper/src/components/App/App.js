@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import './App.css';
 import Header from '../Header/Header';
-import MainContainer from "../MainContainer/MainContainer";
+import MainContainer from "../Courses/MainContainer/MainContainer";
 import SignUp from "../SignUp/SignUp";
 import Login from "../Login/Login";
 import Footer from "../Footer/Footer";

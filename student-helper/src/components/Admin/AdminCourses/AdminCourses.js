@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import CoursesService from "../../../repository/coursesRepository";
-import CoursesTable from "./CoursesTable/CoursesTable";
+import CoursesTable from "./CoursesTable";
 import ReactPaginate from 'react-paginate';
 import {Link} from "react-router-dom";
 

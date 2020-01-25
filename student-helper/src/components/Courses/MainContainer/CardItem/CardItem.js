@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import './CardItem.css';
-import defaultCourseImage from '../../../images/default_course_image.png';
+import defaultCourseImage from '../../../../images/default_course_image.png';
 
 const CardItem = props => {
 
