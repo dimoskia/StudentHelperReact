@@ -40,7 +40,7 @@ const CoursesTableRow = (props) => {
                 {props.data.Semester}
             </td>
             <td className="align-middle text-center">
-                <Link to={`admin/courses/${props.data.Id}/edit`} className="btn btn-sm btn-outline-primary mx-1">
+                <Link to={`/admin/courses/${props.data.Id}/edit`} className="btn btn-sm btn-outline-primary mx-1">
                     <span className="fa fa-edit"/>&nbsp;Ажурирај
                 </Link>
                 <button className="btn btn-sm btn-outline-danger mx-1">

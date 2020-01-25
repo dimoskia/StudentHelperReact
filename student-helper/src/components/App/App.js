@@ -28,7 +28,7 @@ class App extends Component {
                             <Route path="/" exact component={MainContainer} />
                             <Route path="/admin/courses" exact component={AdminCourses} />
                             <Route path="/admin/courses/add" exact component={CourseAdd} />
-                            <Route path="/course/:courseId/edit" exact component={CourseEdit} />
+                            <Route path="/admin/courses/:courseId/edit" exact component={CourseEdit} />
                             <Route path="/courses/:name" exact component={CourseDetails}/>
                         </Switch>
                         <Footer/>
