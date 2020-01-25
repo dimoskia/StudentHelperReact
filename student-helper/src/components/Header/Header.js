@@ -53,7 +53,7 @@ const header = () => {
                                     <img src={user} width="40px" alt="User profile" height="40px" className="rounded-circle mx-2"/>
                                 </span>
                                 <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                                    <span className="dropdown-item"><i className="fa fa-user mr-1 text-primary"/>Мој профил</span>
+                                    <span className="dropdown-item"><i className="fa fa-user mr-1 text-primary"/> Мој профил</span>
                                     <span className="dropdown-item"><i className="fa fa-sign-out mr-1 text-primary"/>Одјави се</span>
                                 </div>
                             </li>

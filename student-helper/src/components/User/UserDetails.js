@@ -122,12 +122,12 @@ class UserDetails extends Component{
                                             </form>
                                         </div>
                                         <div className="tab-pane fade p-30" id="two" role="tabpanel" aria-labelledby="two-tab">
-                                            <table className="table">
-                                                <thead>
-                                                <tr>
-                                                    <th className="text-center">Слика</th>
-                                                    <th>Назив</th>
-                                                    <th className="text-center">Отстрани</th>
+                                            <table className="table border-top-0">
+                                                <thead className="border-top-0">
+                                                <tr className="border-top-0">
+                                                    <th className="text-center border-top-0">Слика</th>
+                                                    <th className="border-top-0">Назив</th>
+                                                    <th className="text-center border-top-0">Отстрани</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>

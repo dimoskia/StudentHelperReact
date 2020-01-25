@@ -2,10 +2,10 @@ import React, {useState} from "react";
 import user from "../../../images/user_image.png"
 import "./UserPrivacy.css"
 
-const UserPrivacy = () =>{
+const UserPrivacy = () => {
     const [inputElem, setInputElem] = useState(null);
 
-    return(
+    return (
         <div className="col-3 userPrivacy mt-3">
             <div className="card cardDetails shadow-sm h-100">
                 <div className="content my-4" onClick={() => inputElem.click()}>
@@ -31,7 +31,7 @@ const UserPrivacy = () =>{
 
                     <div className="modal-content">
                         <div className="modal-header bg-light">
-                            <h4 className="modal-title">Промени ја својата лозинка</h4>
+                            <h4 className="modal-title text-primary">Промени ја својата лозинка</h4>
                             <button type="button" className="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div className="modal-body">
@@ -53,8 +53,13 @@ const UserPrivacy = () =>{
                                     <input type="password" className="form-control" placeholder="Нова лозинка"/>
                                 </div>
                             </div>
-                            <div className="modal-footer text-center">
-                                <button type="button" className="btn btn-default mx-auto btn-primary confirmButton">Потврди промена</button>
+                            <div className="row p-3">
+                                <div className="col-6">
+                                    <button type="button" className="btn btn-success w-100" data-dismiss="modal">Откажи</button>
+                                </div>
+                                <div className="col-6">
+                                    <button type="button" className="btn btn-primary w-100">Промени</button>
+                                </div>
                             </div>
                         </div>
 
@@ -66,15 +71,22 @@ const UserPrivacy = () =>{
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header bg-light">
-                            <h4 className="modal-title">Деактивирај го профилот</h4>
+                            <h4 className="modal-title text-danger">Деактивирај го профилот</h4>
                             <button type="button" className="close" data-dismiss="modal">&times;</button>
                         </div>
-                        <div className="modal-body">
-                            <div className="text-center mb-2">Внесете лозинка за деактивација на профил</div>
-                            <input type="password" className="form-control w-50 mx-auto" placeholder="Лозинка"/>
+                        <div className="modal-body pb-0">
+                            <p className="font-italic text-danger">По деактивација на профилот, истиот не може да се врати назад.</p>
+                            <p>Внесете лозинка за деактивација на профилот:</p>
+                            <input type="password" className="form-control w-100 mx-auto" placeholder="Лозинка"/>
+
                         </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-default btn-danger mx-auto">Деактивирај</button>
+                        <div className="row p-3">
+                            <div className="col-6">
+                                <button type="button" className="btn btn-success w-100" data-dismiss="modal">Откажи</button>
+                            </div>
+                            <div className="col-6">
+                                <button type="button" className="btn btn-danger w-100">Деактивирај</button>
+                            </div>
                         </div>
                     </div>
                 </div>
