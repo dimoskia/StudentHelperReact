@@ -76,8 +76,6 @@ class CourseAdd extends Component {
             };
             const formData = new FormData();
             formData.append("courseData", JSON.stringify(courseData));
-            console.log("IMAGEEE");
-            console.log(this.state.image);
             if (this.state.image !== null)
                 formData.append("image", this.state.image, this.state.image.name);
             this.createCourse(formData);

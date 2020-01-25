@@ -13,7 +13,7 @@
 }
 
 .Login .container-table, .Login .firstRow, .Login .col{
-    height:100vh;
+    min-height:100vh;
 }
 
 .Login .signUpButton{
@@ -26,7 +26,7 @@
 
 
 .SignUp .container-table, .SignUp .firstRow, .SignUp .col{
-    height:100vh;
+    min-height:100vh;
 }
 
 .SignUp .logoImage, .Login .logoImage{
