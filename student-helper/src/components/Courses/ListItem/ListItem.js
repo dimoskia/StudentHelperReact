@@ -6,57 +6,61 @@ import defaultCourseImage from '../../../images/default_course_image.png';
 const ListItem = props => {
 
     const getYear = year => {
-        let result;
         switch (year) {
-            case 1:
-                result = "I";
-                break;
-            case 2:
-                result = "II";
-                break;
-            case 3:
-                result = "III";
-                break;
-            case 4:
-                result = "IV";
-                break;
-            default:
-                result = "Error";
+            case 1: return "I";
+            case 2: return "II";
+            case 3: return "III";
+            case 4: return "IV";
+            default: return null;
         }
-        return result;
     };
 
-    const clickHandler = event => {
+    const addToFavouritesHandler = event => {
         event.preventDefault();
         event.stopPropagation();
     };
 
+    const truncate = (str) => {
+        if (str.length <= 290) {
+            return str;
+        }
+        return str.substr(0, 290) + "...";
+    };
+
     return (
-        <Link to={`/courses/${props.course.Id}`}
-              style={{textDecoration: 'none', color: 'black', width : "95%"}}>
-            <div className="card mb-3 ListItem mr-5">
-                <div className="card-img-overlay p-2">
-                    <div className="row">
-                        <div className="col-2 offset-9">
-                            <button className="heart-link" title="Постави во омилени" onClick={clickHandler}>
-                                <span className="fa fa-2x fa-star-o text-light"/>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+        <Link to={`/courses/${props.course.Id}`} style={{textDecoration: 'none', color: 'black'}}>
+
+
+            <div className="ListItem card mb-3">
                 <div className="row no-gutters">
-                    <div className="col-4">
-                        <img src={props.course.ImageUrl === null ? defaultCourseImage : props.course.ImageUrl} className="card-img" style={{height : "150px"}} alt="..."/>
+                    <div className="col-3">
+                        <div className="card-img-overlay p-2">
+                            <div className="row">
+                                <div className="col-4 offset-8 text-right">
+                                    <button className="heart-link" title="Постави во омилени" onClick={addToFavouritesHandler}>
+                                        <span className="fa fa-2x fa-star-o text-warning"/>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <img src={props.course.ImageUrl === null ? defaultCourseImage : props.course.ImageUrl}
+                             className="card-img" style={{height : "160px"}} alt={props.course.Title}/>
                     </div>
-                    <div className="col-8" style={{height : "160px"}}>
+                    <div className="col-9" style={{height : "160px"}}>
                         <div className="card-body">
-                            <h5 className="card-title">{props.course.Title}</h5>
-                            <p className="card-text text-muted mt-2">{getYear(props.course.Year)} година / <span
-                                style={{textTransform: "capitalize"}}>{props.course.Semester}</span> семестар</p>
+                            <h5 className="card-title my-0">{props.course.Title}</h5>
+                            <p className="card-text text-muted mt-0 mb-1">({getYear(props.course.Year)} година / <span
+                                style={{textTransform: "capitalize"}}>{props.course.Semester}</span> семестар)</p>
+                            <div className="text-justify">
+                                <small className="card-text">{truncate(props.course.Description)}</small>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+
         </Link>
     );
 };

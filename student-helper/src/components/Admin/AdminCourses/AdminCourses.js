@@ -32,6 +32,7 @@ class AdminCourses extends Component {
     };
 
     loadCourses = () => {
+        console.log(this.state.PageNumber);
         CoursesService.searchCourses(this.state.SearchTerm, this.state.PageNumber, this.state.PageSize).then(resp => {
             this.setState(resp.data);
         });

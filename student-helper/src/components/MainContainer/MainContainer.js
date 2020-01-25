@@ -1,24 +1,24 @@
 import React, {Component} from "react";
 import Filters from '../Courses/Filters/Filters';
-import Container from '../Courses/Container/Container';
-import Pagination from '../Courses/Pagination/Pagination';
 import CoursesService from "../../repository/coursesRepository";
+import './MainContainer.css';
+import FormSearch from "../Courses/FormSearch/FormSearch";
+import CardItem from "../Courses/CardItem/CardItem";
+import ListItem from "../Courses/ListItem/ListItem";
+import ReactPaginate from "react-paginate";
 
 class MainContainer extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            courses: [],
-            pagination: {
-                PageNumber: 0,
-                PageSize: 6,
-                TotalPages: 0,
-                TotalRecords: 0
-            },
-            cardView: true,
-            searchTerm : "",
-            filteringConfirmed : false
+            PageNumber: 1,
+            PageSize: 12,
+            TotalPages: 0,
+            TotalRecords: 0,
+            Results: [],
+            CardView: true,
+            QueryParams: new URLSearchParams()
         }
     }
 
@@ -26,105 +26,163 @@ class MainContainer extends Component {
         this.loadCourses();
     }
 
-    loadCourses = (pageNumber = 0, params = null, pageSize = this.state.pagination.PageSize) => {
-        console.log("load courses method:");
-        console.log(pageNumber, pageSize, params);
-        CoursesService.fetchCoursesPaged(pageNumber, pageSize, params).then(response => {
-            console.log(response);
-            this.setState({
-                courses: response.data.Results,
-                pagination: {
-                    PageNumber: response.data.PageNumber - 1,
-                    PageSize: response.data.PageSize,
-                    TotalPages: response.data.TotalPages,
-                    TotalRecords: response.data.TotalRecords
-                }
-            });
+    loadCourses = () => {
+        CoursesService.fetchCoursesPaged(this.state.PageNumber, this.state.PageSize, this.state.QueryParams).then(resp => {
+            this.setState(resp.data);
         });
     };
 
-    searchCourses = (term, pageNumber = 0, pageSize = this.state.pagination.PageSize) => {
-        console.log("search courses method:");
-        console.log(term, pageNumber, pageSize);
-        this.setState({filteringConfirmed : false});
-        if (!term || term === "") {
-            this.setState({searchTerm : ""});
-            this.loadCourses();
-        } else {
-            CoursesService.searchCourses(term, pageNumber, pageSize).then(response => {
-                document.getElementById("filters-form").reset();
-                this.setState({
-                    courses: response.data.Results,
-                    pagination: {
-                        PageNumber: response.data.PageNumber - 1,
-                        PageSize: response.data.PageSize,
-                        TotalPages: response.data.TotalPages,
-                        TotalRecords: response.data.TotalRecords
-                    },
-                    searchTerm : term
-                });
-            });
+    scrollToTop = () => {
+        const c = document.documentElement.scrollTop || document.body.scrollTop;
+        if (c > 0) {
+            window.requestAnimationFrame(this.scrollToTop);
+            window.scrollTo(0, c - c / 8);
         }
     };
 
-    pageChanged = (pageNumber, params) => {
-        console.log("pageChanged method:");
-        console.log(pageNumber, params);
-        if(this.state.searchTerm === "" || !this.state.searchTerm)
-            this.loadCourses(pageNumber, params);
-        else
-            this.searchCourses(this.state.searchTerm, pageNumber);
+    showCourses = () => {
+        if (this.state.TotalRecords > 0) {
+            if (this.state.CardView) {
+                return (
+                    <div className="card-deck" style={{minHeight: "500px"}}>
+                        {this.state.Results.map(course => <CardItem key={course.Id} course={course}/>)}
+                    </div>
+                );
+            }
+            return (
+                <div className="col-12" style={{minHeight: "500px"}}>
+                    {this.state.Results.map(course => <ListItem key={course.Id} course={course}/>)}
+                </div>
+            );
+        }
+        return (
+            <div className="text-center mx-auto mt-5" style={{minHeight: 400}}>
+                <h1 className="text-muted" style={{fontSize : "80px"}}><i className="fa fa-frown-o"/></h1>
+                <h5 className="text-muted"><i className="fa fa-sm"/>Се извинуваме, но не можевме да
+                    најдеме резултати за вашето пребарување</h5>
+            </div>
+        );
     };
 
-    applyFilters = params => {
-        this.setState({filteringConfirmed : true});
-        this.loadCourses(0, params);
+    setCardView = (cardView) => {
+        if (cardView !== this.state.CardView) {
+            this.setState({CardView: cardView});
+        }
     };
 
-    resetFilters = () => {
-        this.setState({filteringConfirmed : false});
+    changePageSizeHandler = (event) => {
+        const newPageSize = parseInt(event.target.value, 10);
+        this.setState({
+            PageSize: newPageSize,
+            PageNumber: 1
+        }, () => this.loadCourses());
+    };
+
+    changePageHandler = (event) => {
+        let newPageNumber = event.selected + 1;
+        this.setState({
+            PageNumber: newPageNumber
+        }, () => {
+            this.loadCourses();
+            this.scrollToTop();
+        });
+    };
+
+    searchCoursesHandler = (event) => {
+        event.preventDefault();
+        const searchTerm = event.target["term"].value;
+        this.state.QueryParams.set("searchTerm", searchTerm);
         this.loadCourses();
     };
 
-    viewChanged = cardView => {
-        this.setState({cardView: cardView});
+    changeFilterHandler = (propName, inputElementsList) => {
+        this.state.QueryParams.delete(propName);
+        inputElementsList
+            .filter(cb => cb.checked)
+            .map(cb => cb.value)
+            .forEach(val => this.state.QueryParams.append(propName, val));
+        this.setState({
+            PageNumber: 1
+        }, () => this.loadCourses());
     };
 
-    pageSizeChanged = (pageSize, params) => {
-        console.log("page size changed method:");
-        console.log(pageSize, params);
-        if(this.state.searchTerm === "" || !this.state.searchTerm)
-            this.loadCourses(0, params, pageSize);
-        else
-            this.searchCourses(this.state.searchTerm, this.state.pagination.PageNumber, pageSize);
+    searchResultsInfo = () => {
+        if (this.state.QueryParams.get("searchTerm")) {
+            return (
+                <div className="row mb-2 text-muted">
+                    <div className="col-8">
+                        <h6>Резултати за пребарување: {this.state.QueryParams.get("searchTerm")}</h6>
+                    </div>
+                    <div className="col-4 text-right">
+                        <h6>Вкупно резултати: {this.state.TotalRecords}</h6>
+                    </div>
+                </div>
+            );
+        }
+        return (
+            <div className="row mb-2 text-muted">
+                <div className="col-4 offset-8 text-right">
+                    <h6>Вкупно резултати: {this.state.TotalRecords}</h6>
+                </div>
+            </div>
+        );
     };
 
+    pagination = () => {
+        if (this.state.TotalRecords > 0) {
+            return (
+                <ReactPaginate previousLabel={<span className="fa fa-angle-double-left"/>}
+                               nextLabel={<span className="fa fa-angle-double-right"/>}
+                               breakLabel={<span className="gap">...</span>}
+                               breakClassName={"break-me"}
+                               pageCount={this.state.TotalPages}
+                               marginPagesDisplayed={2}
+                               pageRangeDisplayed={5}
+                               pageClassName={"page-item"}
+                               pageLinkClassName={"page-link"}
+                               previousClassName={"page-item"}
+                               nextClassName={"page-item"}
+                               previousLinkClassName={"page-link"}
+                               nextLinkClassName={"page-link"}
+                               forcePage={this.state.PageNumber - 1}
+                               onPageChange={this.changePageHandler}
+                               containerClassName={"pagination justify-content-center"}
+                               activeClassName={"active"}
+                />
+            );
+        }
+        return null;
+    };
 
     render() {
         return (
-            <div className="mt-5 container-fluid px-5">
-                <div className="row">
-                    <Filters
-                        applyFilters={this.applyFilters}
-                        resetFilters={this.resetFilters}/>
-                    <Container courses={this.state.courses}
-                               cardView={this.state.cardView}
-                               changeView={this.viewChanged}
-                               pageSize={this.state.pagination.PageSize}
-                               changePageSize={this.pageSizeChanged}
-                               totalPages={this.state.pagination.TotalPages}
-                               onSearch={this.searchCourses}
-                               showPagination={this.state.showPagination}/>
-                    <div className="offset-3 col-9 mb-5">
-                        <Pagination
-                            pageNumber={this.state.pagination.PageNumber}
-                            pageSize={this.state.pagination.PageSize}
-                            totalPages={this.state.pagination.TotalPages}
-                            onPageChange={this.pageChanged}
-                        />
+            <div className="MainContainer">
+                <div className="my-4 container">
+                    <div className="row">
+                        <div className="col-3">
+                            <Filters changeFilters={this.changeFilterHandler}/>
+                        </div>
+                        <div className="col-9">
+                            {/*FormSearch is in a div wit row as well*/}
+                            <FormSearch
+                                setCardView={this.setCardView}
+                                preselectedPageSize={this.state.PageSize}
+                                onSearch={this.searchCoursesHandler}
+                                changePageSize={this.changePageSizeHandler}/>
+
+                            {this.searchResultsInfo()}
+
+                            <div className="row">
+                                {this.showCourses()}
+                            </div>
+
+                            {this.pagination()}
+
+                        </div>
                     </div>
                 </div>
             </div>
+
         );
     }
 }

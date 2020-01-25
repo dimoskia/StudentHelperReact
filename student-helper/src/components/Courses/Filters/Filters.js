@@ -1,24 +1,11 @@
 import React from "react";
 import './Filters.css';
 
-const Filters = props => {
+const Filters = (props) => {
 
-    const onFormSubmitHandler = e => {
-        e.preventDefault();
-        const params = new URLSearchParams();
-        [...e.target.year].filter(cb => cb.checked).forEach(cb => params.append(cb.name, cb.value));
-        [...e.target.semester].filter(cb => cb.checked).forEach(cb => params.append(cb.name, cb.value));
-        [...e.target.type].filter(cb => cb.checked).forEach(cb => params.append(cb.name, cb.value));
-        [...e.target.program].filter(cb => cb.checked).forEach(cb => params.append(cb.name, cb.value));
-        document.getElementById("search-input").value = "";
-        props.applyFilters(params);
-    };
-
-    const resetFormHandler = e => {
-        e.preventDefault();
-        document.getElementById("filters-form").reset();
-        document.getElementById("search-input").value = "";
-        props.resetFilters();
+    const changeCheckboxHandler = event => {
+        const propName = event.target.name;
+        props.changeFilters(propName, [...document.getElementsByName(propName)]);
     };
 
     const filtersTitle = () => {
@@ -41,7 +28,7 @@ const Filters = props => {
 
                             <div className="col">
                                 <div className="custom-control custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="year1" name="year"
+                                    <input onChange={changeCheckboxHandler} type="checkbox" className="custom-control-input" id="year1" name="year"
                                            value="1"/>
                                     <label className="custom-control-label" htmlFor="year1">I</label>
                                 </div>
@@ -49,7 +36,7 @@ const Filters = props => {
 
                             <div className="col">
                                 <div className="custom-control custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="year2" name="year"
+                                    <input onChange={changeCheckboxHandler} type="checkbox" className="custom-control-input" id="year2" name="year"
                                            value="2"/>
                                     <label className="custom-control-label" htmlFor="year2">II</label>
                                 </div>
@@ -57,7 +44,7 @@ const Filters = props => {
 
                             <div className="col">
                                 <div className="custom-control custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="year3" name="year"
+                                    <input onChange={changeCheckboxHandler} type="checkbox" className="custom-control-input" id="year3" name="year"
                                            value="3"/>
                                     <label className="custom-control-label" htmlFor="year3">III</label>
                                 </div>
@@ -65,7 +52,7 @@ const Filters = props => {
 
                             <div className="col">
                                 <div className="custom-control custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="year4" name="year"
+                                    <input onChange={changeCheckboxHandler} type="checkbox" className="custom-control-input" id="year4" name="year"
                                            value="4"/>
                                     <label className="custom-control-label" htmlFor="year4">IV</label>
                                 </div>
@@ -88,7 +75,7 @@ const Filters = props => {
 
                             <div className="col">
                                 <div className="custom-control custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="winter" name="semester"
+                                    <input onChange={changeCheckboxHandler} type="checkbox" className="custom-control-input" id="winter" name="semester"
                                            value="зимски"/>
                                     <label className="custom-control-label" htmlFor="winter">Зимски</label>
                                 </div>
@@ -96,7 +83,7 @@ const Filters = props => {
 
                             <div className="col">
                                 <div className="custom-control custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="summer" name="semester"
+                                    <input onChange={changeCheckboxHandler} type="checkbox" className="custom-control-input" id="summer" name="semester"
                                            value="летен"/>
                                     <label className="custom-control-label" htmlFor="summer">Летен</label>
                                 </div>
@@ -119,7 +106,7 @@ const Filters = props => {
 
                             <div className="col">
                                 <div className="custom-control custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="mandatory" name="type"
+                                    <input onChange={changeCheckboxHandler} type="checkbox" className="custom-control-input" id="mandatory" name="type"
                                            value="задолжителен"/>
                                     <label className="custom-control-label" htmlFor="mandatory">Задолжителен</label>
                                 </div>
@@ -127,7 +114,7 @@ const Filters = props => {
 
                             <div className="col">
                                 <div className="custom-control custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="elective" name="type"
+                                    <input onChange={changeCheckboxHandler} type="checkbox" className="custom-control-input" id="elective" name="type"
                                            value="изборен"/>
                                     <label className="custom-control-label" htmlFor="elective">Изборен</label>
                                 </div>
@@ -150,7 +137,7 @@ const Filters = props => {
                         <div className="row">
                             <div className="col">
                                 <div className="custom-control custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="kni" name="program"
+                                    <input onChange={changeCheckboxHandler} type="checkbox" className="custom-control-input" id="kni" name="program"
                                            value="КНИ"/>
                                     <label className="custom-control-label" htmlFor="kni">КНИ (Компјутерски науки и
                                         инженерство)</label>
@@ -161,7 +148,7 @@ const Filters = props => {
                         <div className="row">
                             <div className="col">
                                 <div className="custom-control custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="pet" name="program"
+                                    <input onChange={changeCheckboxHandler} type="checkbox" className="custom-control-input" id="pet" name="program"
                                            value="ПЕТ"/>
                                     <label className="custom-control-label" htmlFor="pet">ПЕТ (Примена на
                                         е-технологии)</label>
@@ -172,7 +159,7 @@ const Filters = props => {
                         <div className="row">
                             <div className="col">
                                 <div className="custom-control custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="mt" name="program"
+                                    <input onChange={changeCheckboxHandler} type="checkbox" className="custom-control-input" id="mt" name="program"
                                            value="МТ"/>
                                     <label className="custom-control-label" htmlFor="mt">МТ (Мрежни технологии)</label>
                                 </div>
@@ -182,7 +169,7 @@ const Filters = props => {
                         <div className="row">
                             <div className="col">
                                 <div className="custom-control custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="ke" name="program"
+                                    <input onChange={changeCheckboxHandler} type="checkbox" className="custom-control-input" id="ke" name="program"
                                            value="КЕ"/>
                                     <label className="custom-control-label" htmlFor="ke">КЕ (Компјутерска
                                         едукација)</label>
@@ -193,7 +180,7 @@ const Filters = props => {
                         <div className="row">
                             <div className="col">
                                 <div className="custom-control custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="iki" name="program"
+                                    <input onChange={changeCheckboxHandler} type="checkbox" className="custom-control-input" id="iki" name="program"
                                            value="ИКИ"/>
                                     <label className="custom-control-label" htmlFor="iki">ИКИ (Информатика и
                                         компјутерско инженерство)</label>
@@ -204,7 +191,7 @@ const Filters = props => {
                         <div className="row">
                             <div className="col">
                                 <div className="custom-control custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="asi" name="program"
+                                    <input onChange={changeCheckboxHandler} type="checkbox" className="custom-control-input" id="asi" name="program"
                                            value="АСИ"/>
                                     <label className="custom-control-label" htmlFor="asi">АСИ (Академски студии по
                                         информатика)</label>
@@ -215,7 +202,7 @@ const Filters = props => {
                         <div className="row">
                             <div className="col">
                                 <div className="custom-control custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="pit" name="program"
+                                    <input onChange={changeCheckboxHandler} type="checkbox" className="custom-control-input" id="pit" name="program"
                                            value="ПИТ"/>
                                     <label className="custom-control-label" htmlFor="pit">ПИТ (Професионални студии по
                                         информатички технологии)</label>
@@ -229,45 +216,15 @@ const Filters = props => {
         );
     };
 
-    const filtersButtons = () => {
-        return (
-            <article className="card-group-item mb-3 text-center">
-                <div className="filter-content">
-                    <div className="card-body py-1">
-                        <div className="row">
-
-                            <div className="col">
-                                <button type="submit" className="btn btn-primary w-100"><i
-                                    className="fa fa-filter"/> Филтрирај
-                                </button>
-                            </div>
-
-                            <div className="col">
-                                <button onClick={resetFormHandler} className="btn btn-secondary w-100"><i
-                                    className="fa fa-times"/> Ресетирај
-                                </button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </article>
-        );
-    };
-
-
     return (
-        <div className="col-3 Filters">
-            <form onSubmit={onFormSubmitHandler} id="filters-form">
-                <div className="card shadow-sm">
-                    {filtersTitle()}
-                    {filtersYear()}
-                    {filtersSemester()}
-                    {filtersType()}
-                    {filtersProgram()}
-                    {filtersButtons()}
-                </div>
-            </form>
+        <div className="Filters">
+            <div className="card shadow-sm">
+                {filtersTitle()}
+                {filtersYear()}
+                {filtersSemester()}
+                {filtersType()}
+                {filtersProgram()}
+            </div>
         </div>
     );
 };

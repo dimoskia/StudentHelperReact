@@ -3,13 +3,9 @@ import qs from "qs";
 
 const CoursesService = {
 
-    // comment
-
     fetchCoursesPaged: (pageNumber, pageSize, params) => {
-        if (params === null)
-            params = new URLSearchParams();
-        params.append("page", pageNumber + 1);
-        params.append("pageSize", pageSize);
+        params.set("page", pageNumber);
+        params.set("pageSize", pageSize);
         return axios.get("/api/courses", {params: params});
     },
 
@@ -20,8 +16,7 @@ const CoursesService = {
         }
         params.append("page", pageNumber + 1);
         params.append("pageSize", pageSize);
-        return axios.get("/api/courses/search", {params: params});
-        return axios.get("/api/courses/search", {params: params});
+        return axios.get("/api/courses", {params: params});
     },
 
     getCourse : (courseId) => {

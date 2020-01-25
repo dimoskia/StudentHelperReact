@@ -1,0 +1,6 @@
+@media (min-width: 1200px) {
+    .MainContainer .container{
+        max-width: 95%;
+        min-height: 100vh;
+    }
+}

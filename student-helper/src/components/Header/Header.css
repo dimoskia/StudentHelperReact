@@ -1,11 +1,9 @@
-.Header .logo {
-    margin-bottom: 6%;
+@media (min-width: 1200px) {
+    .Header .container{
+        max-width: 97%;
+    }
 }
 
-.Header .logoText1 {
-    font-style: normal;
-}
-
-.Header .logoText2 {
-    font-style: normal;
+.Header .active {
+    font-weight: bold;
 }

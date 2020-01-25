@@ -3,49 +3,38 @@ import {Link} from "react-router-dom";
 import './CardItem.css';
 import defaultCourseImage from '../../../images/default_course_image.png';
 
-const cardItem = props => {
+const CardItem = props => {
 
     const getYear = year => {
-        let result;
         switch (year) {
-            case 1:
-                result = "I";
-                break;
-            case 2:
-                result = "II";
-                break;
-            case 3:
-                result = "III";
-                break;
-            case 4:
-                result = "IV";
-                break;
-            default:
-                result = "Error";
+            case 1: return "I";
+            case 2: return "II";
+            case 3: return "III";
+            case 4: return "IV";
+            default: return null;
         }
-        return result;
     };
 
-    const clickHandler = event => {
+    const addToFavouritesHandler = event => {
         event.preventDefault();
         event.stopPropagation();
     };
 
     return (
-        <Link to={`/courses/${props.course.Id}`}
-              style={{textDecoration: 'none', color: 'black', width: "33%"}}>
-            <div className="card mb-4 CardItem text-center">
+        <Link to={`/courses/${props.course.Id}`} style={{textDecoration: 'none', color: 'black', width: "33%"}}>
+            <div className="CardItem card mb-4 text-center">
                 <div className="card-img-overlay p-2">
                     <div className="row">
                         <div className="col-2 offset-9">
-                            <button className="heart-link" title="Постави во омилени" onClick={clickHandler}>
-                                <span className="fa fa-2x fa-star-o text-light"/>
+                            <button className="heart-link" title="Постави во омилени" onClick={addToFavouritesHandler}>
+                                <span className="fa fa-2x fa-star-o text-warning"/>
                             </button>
                         </div>
                     </div>
                 </div>
-                <img src={props.course.ImageUrl === null ? defaultCourseImage : props.course.ImageUrl} className="card-img-top" alt="..."/>
-                <div className="card-body d-flex justify-content-center align-items-center">
+                <img src={props.course.ImageUrl === null ? defaultCourseImage : props.course.ImageUrl}
+                     alt={`${props.course.Title}`} className="card-img-top" />
+                <div className="card-body course-title">
                     <h5 className="card-title">{props.course.Title}</h5>
                 </div>
                 <div className="card-footer">
@@ -58,4 +47,4 @@ const cardItem = props => {
     );
 };
 
-export default cardItem;
+export default CardItem;
