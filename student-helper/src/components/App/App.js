@@ -11,6 +11,7 @@ import CourseEdit from "../Courses/CourseEdit/CourseEdit";
 import CourseDetails from "../Courses/CourseDetails/CourseDetails"
 import AdminCourses from "../Admin/AdminCourses/AdminCourses";
 import ScrollToTop from "../../util/ScrollToTop";
+import AdminStaff from "../Admin/AdminStaff/AdminStaff";
 
 class App extends Component {
 
@@ -31,6 +32,7 @@ class App extends Component {
                                 <Route path="/admin/courses" exact component={AdminCourses}/>
                                 <Route path="/admin/courses/add" exact component={CourseAdd}/>
                                 <Route path="/admin/courses/:courseId/edit" exact component={CourseEdit}/>
+                                <Route path="/admin/staff" exact component={AdminStaff}/>
                                 <Route path="/courses/:name" exact component={CourseDetails}/>
                             </Switch>
                             <Footer/>

@@ -1,10 +1,9 @@
 import React, {Component} from "react";
-import CoursesService from "../../../repository/coursesRepository";
-import CoursesTable from "./CoursesTable";
-import ReactPaginate from 'react-paginate';
-import {Link} from "react-router-dom";
+import StaffService from "../../../repository/staffRepository";
+import ReactPaginate from "react-paginate";
+import StaffTable from "./StaffTable";
 
-class AdminCourses extends Component {
+class AdminStaff extends Component{
 
     constructor(props) {
         super(props);
@@ -19,8 +18,14 @@ class AdminCourses extends Component {
     }
 
     componentDidMount() {
-        this.loadCourses();
+        this.loadStaff();
     }
+
+    loadStaff = () => {
+        StaffService.fetchStaffPaged(this.state.PageNumber, this.state.PageSize, this.state.QueryParams).then(resp => {
+            this.setState(resp.data);
+        });
+    };
 
     scrollToTop = () => {
         const c = document.documentElement.scrollTop || document.body.scrollTop;
@@ -30,18 +35,12 @@ class AdminCourses extends Component {
         }
     };
 
-    loadCourses = () => {
-        CoursesService.fetchCoursesPaged(this.state.PageNumber, this.state.PageSize, this.state.QueryParams).then(resp => {
-            this.setState(resp.data);
-        });
-    };
-
     handlePageChange = (event) => {
         let newPageNumber = event.selected + 1;
         this.setState({
             PageNumber: newPageNumber
         }, () => {
-            this.loadCourses();
+            this.loadStaff();
             this.scrollToTop();
         });
     };
@@ -52,46 +51,24 @@ class AdminCourses extends Component {
         this.state.QueryParams.set("searchTerm", term);
         this.setState({
             PageNumber: 1
-        }, () => this.loadCourses());
+        }, () => this.loadStaff());
     };
 
-    handleImageChange = (event, courseId) => {
+    handleImageChange = (event, staffId) => {
         if (event.target.files.length) {
             const formData = new FormData();
             formData.append("newImage", event.target.files[0], null);
-            CoursesService.changeCourseImage(courseId, formData).then(resp => {
+            StaffService.changeStaffImage(staffId, formData).then(resp => {
                 const newImageUrl = resp.data.ImageUrl;
-                const newCoursesRef = this.state.Results.map(course => {
-                    if (course.Id === courseId) {
-                        course.ImageUrl = newImageUrl;
+                const newStaffRef = this.state.Results.map(staff => {
+                    if (staff.Id === staffId) {
+                        staff.ImageUrl = newImageUrl;
                     }
-                    return course;
+                    return staff;
                 });
-                this.setState({Results: newCoursesRef});
+                this.setState({Results: newStaffRef});
             });
         }
-    };
-
-    deleteCourse = (courseId) => {
-        CoursesService.deleteCourse(courseId).then(resp => {
-            if (this.state.PageNumber === this.state.TotalPages) {
-                if (this.state.Results.length === 1) {
-                    this.setState(prevState => {
-                        const newPageNumber = prevState.PageNumber - 1;
-                        return {
-                            PageNumber: Math.max(newPageNumber, 0)
-                        };
-                    }, () => this.loadCourses());
-                } else {
-                    this.setState(prevState => {
-                        const newCoursesRef = prevState.Results.filter(course => course.Id !== courseId);
-                        return {Results: newCoursesRef};
-                    });
-                }
-            } else {
-                this.loadCourses();
-            }
-        });
     };
 
     searchForm = () => {
@@ -99,7 +76,7 @@ class AdminCourses extends Component {
             <form className="mb-4 p-0" onSubmit={this.handleSearchCourses}>
                 <div className="p-1 bg-light shadow-sm my-0" style={{padding: "0"}}>
                     <div className="input-group">
-                        <input type="search" placeholder="Пребарувај по име на курс ..."
+                        <input type="search" placeholder="Пребарувај по име име или презиме ..."
                                aria-describedby="button-addon1"
                                className="form-control border-0 bg-light"
                                name="term"
@@ -135,9 +112,7 @@ class AdminCourses extends Component {
             return (
                 <div>
                     <div style={{minHeight: 300}}>
-                        <CoursesTable data={this.state.Results}
-                                      deleteCourseHanlder={this.deleteCourse}
-                                      imageHandler={this.handleImageChange}/>
+                        <StaffTable data={this.state.Results} imageHandler={this.handleImageChange}/>
                     </div>
 
                     {this.pagination()}
@@ -179,15 +154,14 @@ class AdminCourses extends Component {
     render() {
         return (
             <div className="container my-4">
-
-                <h1>Менаџирај курсеви</h1>
+                <h1>Менаџирај наставен кадар</h1>
                 <hr/>
 
                 <div className="row">
                     <div className="col-3">
-                        <Link to='/admin/courses/add' className="btn btn-primary btn-lg">
-                            <span className="fa fa-plus"/>&nbsp;Додади курс
-                        </Link>
+                        <button className="btn btn-primary btn-lg">
+                            <span className="fa fa-plus"/>&nbsp;Додади вработен
+                        </button>
                     </div>
                     <div className="col-5 offset-4 text-right">
                         {this.searchForm()}
@@ -202,4 +176,4 @@ class AdminCourses extends Component {
     }
 }
 
-export default AdminCourses;
+export default AdminStaff;
