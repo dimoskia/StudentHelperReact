@@ -57,13 +57,11 @@ class UserDetails extends Component{
         }));
     };
 
-
-
     render(){
         return (
-            <div className="container containerForm">
+            <div className="container containerForm mb-2 UserInfo">
                 <div className="row mt-3">
-                    <div className="col">
+                            <div className="col">
                         <div className="card shadow-sm">
                             <div className="card-body">
                                 <h2>Мој профил</h2>
@@ -71,16 +69,14 @@ class UserDetails extends Component{
                         </div>
                     </div>
                 </div>
-                <div className="row">
+                <div className="row h-100">
                     <UserPrivacy/>
-                    <div className="col-9 UserInfo">
-                        <div className="row">
-                            <div className="col-12">
-                                <div className="card shadow-sm mt-3 mb-1 cardUser">
+                    <div className="col-9 mt-3">
+                                <div className="card shadow-sm h-100">
                                     <div className="card-header">
                                         <ul className="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
                                             <li className="nav-item">
-                                                <a className="nav-link" id="one-tab" data-toggle="tab" href="#one" role="tab"
+                                                <a className="nav-link active" id="one-tab" data-toggle="tab" href="#one" role="tab"
                                                    aria-controls="One" aria-selected="true"><i className="fa fa-user text-primary"/><b> Лични податоци</b></a>
                                             </li>
                                             <li className="nav-item">
@@ -125,7 +121,7 @@ class UserDetails extends Component{
                                                 </div>
                                             </form>
                                         </div>
-                                        <div className="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
+                                        <div className="tab-pane fade p-30" id="two" role="tabpanel" aria-labelledby="two-tab">
                                             <table className="table">
                                                 <thead>
                                                 <tr>
@@ -137,17 +133,17 @@ class UserDetails extends Component{
                                                 <tbody>
                                                 <tr>
                                                     <td className="text-center"><img src={this.state.user.UserDetails.ImageUrl===null ? course : this.state.user.UserDetails.ImageUrl} alt="" width="70px" height="45px" className="shadow-sm"/></td>
-                                                    <td className="my-auto">Веб базирани системи</td>
+                                                    <td className="my-auto align-middle">Веб базирани системи</td>
                                                     <td className="text-center"><button className="btn"><i className="fa fa-times text-danger"/></button></td>
                                                 </tr>
                                                 <tr>
                                                     <td className="text-center"><img src={course} width="70px" height="45px" className="shadow-sm" alt=""/></td>
-                                                    <td className="my-auto">Напредно програмирање</td>
+                                                    <td className="my-auto align-middle">Напредно програмирање</td>
                                                     <td className="text-center"><button className="btn"><i className="fa fa-times text-danger"/></button></td>
                                                 </tr>
                                                 <tr>
                                                     <td className="text-center"><img src={course} width="70px" height="45px" className="shadow-sm" alt=""/></td>
-                                                    <td className="my-auto">Веб програмирање</td>
+                                                    <td className="my-auto align-middle">Веб програмирање</td>
                                                     <td className="text-center"><button className="btn"><i className="fa fa-times text-danger"/></button></td>
                                                 </tr>
                                                 </tbody>
@@ -156,8 +152,6 @@ class UserDetails extends Component{
 
                                     </div>
                                 </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

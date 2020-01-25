@@ -83,18 +83,38 @@ const CoursePost = (props) =>{
 
     };
 
+    const formatDate = (date) =>{
+        let dateMKD=new Date(date);
+        const mapMonth={
+            0 : "јануари",
+            1 : "февруари",
+            2 : "март",
+            3 : "април",
+            4 : "мај",
+            5 : "јуни",
+            6 : "јули",
+            7 : "август",
+            8 : "септември",
+            9 : "октомври",
+            10 : "ноември",
+            11 : "декември"
+        };
+        return dateMKD.getDate() + ". " + mapMonth[dateMKD.getMonth()] + " " + dateMKD.getFullYear();
+
+    };
+
     return(
         <div className="mb-4" key={props.post.Id}>
             <div className="row">
                 <div className="col-2 text-center my-auto">
                     <img className="rounded-circle d-inline img-fluid shadow-sm" width="60px"
-                         height="60px" src={user_image} alt=""/>
+                         height="60px" src={props.post.UserDetails.ImageUrl===null ? user_image : props.post.UserDetails.ImageUrl} alt={props.post.UserDetails.FirstName + " " + props.post.UserDetails.LastName}/>
                 </div>
                 <div className="col-10 pl-0">
                     <h5 className="mb-0"><b>{props.post.Title}</b></h5>
                     <div className="text-muted mb-2">
                         <small>објавено од </small><Link to="#"><small
-                        className="d-inline text-muted">{props.post.UserDetails.FirstName} {props.post.UserDetails.LastName}</small></Link>
+                        className="d-inline text-muted">{props.post.UserDetails.FirstName} {props.post.UserDetails.LastName}</small></Link><small> на {formatDate(props.post.CreatedAt)}</small>
                     </div>
                     <p className="mb-1">{props.post.Content}</p>
                     <span className="arrowsUp1">

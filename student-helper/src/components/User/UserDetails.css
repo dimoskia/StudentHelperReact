@@ -1,6 +1,3 @@
-.UserInfo .cardUser{
-    height: 100% !important;
-}
 .UserInfo .nav-tabs li a,
 .UserInfo .nav-tabs li a:active,
 .UserInfo .nav-tabs li a:focus {
@@ -11,4 +8,12 @@
 
 .UserInfo .emailInput{
     cursor:no-drop;
+}
+
+.containerForm {
+    position: relative;
+    min-height: 79vh;
+}
+#myTabContent{
+    height: 400px;
 }

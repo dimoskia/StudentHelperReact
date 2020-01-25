@@ -7,7 +7,6 @@ import CourseInfo from "./CourseInfo/CourseInfo";
 import CoursePost from "./CoursePost/CoursePost";
 
 class CourseDetails extends Component {
-
     constructor(props){
         super(props);
         this.state= {
@@ -34,16 +33,39 @@ class CourseDetails extends Component {
                 course:data.data
             });
     });
-        this.loadPosts();
+        this.loadPosts(this.state.param.name);
 
     };
 
-    loadPosts = (params=this.state.param.name) => {
+    postPost = (e) => {
+        e.preventDefault();
+        const post = {
+            "Comments": [],
+            "UserDetailsId": 1,
+            "Title": this.state.post.title,
+            "Content": this.state.post.content,
+            "Likes": 0,
+            "Dislikes": 0
+        };
+        CoursesService.postPost(this.state.param.name,post).then(this.loadCourse);
+        this.setState({
+            post:{
+                title:"",
+                content:""
+            }
+        });
+        document.getElementById("titlePost").value="";
+        document.getElementById("contentPost").value="";
+    };
+
+    loadPosts = (params) => {
         CoursesService.fetchPosts(params).then(data => {
-            this.setState({
+
+            this.setState(prevState=>({
+                ...prevState,
                 posts: data.data.Results,
                 NextPageUrl: data.data.NextPageUrl
-            });
+            }))
         });
     };
 
@@ -63,28 +85,6 @@ class CourseDetails extends Component {
     postComment = (e,postId) =>{
         e.preventDefault();
 
-    };
-
-    postPost = (e) => {
-        e.preventDefault();
-        const post = {
-            "Comments": [],
-            "UserDetailsId": 1,
-            "Title": this.state.post.title,
-            "Content": this.state.post.content,
-            "Likes": 0,
-            "Dislikes": 0,
-            "CreatedAt": "2015-12-31T00:00:00"
-        };
-        CoursesService.postPost(this.state.param.name,post);
-        this.setState({
-            post:{
-                title:"",
-                content:""
-            }
-        });
-        document.getElementById("titlePost").value="";
-        document.getElementById("contentPost").value="";
     };
 
     getCoursePosts = () =>{
@@ -137,7 +137,7 @@ class CourseDetails extends Component {
                         <div className="card shadow-sm">
                             <div className="card-body">
                                 <h2>{this.state.course.Title}</h2>
-                                <span><Link to="/">Дома </Link> / {this.state.course.Title}</span>
+                                <span><Link to="/">Дома</Link> / {this.state.course.Title}</span>
                             </div>
                         </div>
                     </div>
@@ -150,7 +150,7 @@ class CourseDetails extends Component {
                                 year={this.state.course.Year}
                                 program={this.state.course["Program"]}
                                 detailsLink={this.state.DetailsUrl}
-                                imageUrl={this.state.ImageUrl}
+                                imageUrl={this.state.course.ImageUrl}
                     />
 
                     <div className="col-6">
@@ -162,10 +162,10 @@ class CourseDetails extends Component {
                                 <form onSubmit={(e)=>this.postPost(e)}>
                                     <h5><b>Наслов</b></h5>
                                     <input type="text" name="Title" className="form-control mb-3"
-                                           placeholder="пр. Каков е начинот на полагање на предметот?" id="titlePost" onChange={(e)=>this.changePost(e)}/>
+                                           placeholder="пр. Каков е начинот на полагање на предметот?" required id="titlePost" onChange={(e)=>this.changePost(e)}/>
                                     <h5><b>Опис</b></h5>
                                     <textarea className="form-control textAreaDescription" name="Comment" id="contentPost"
-                                              placeholder="Внесете опис" onChange={(e)=>this.changePost(e)}/>
+                                              placeholder="Внесете опис" required onChange={(e)=>this.changePost(e)}/>
                                     <button type="submit" className="btn btn-primary float-right mt-3">Постави прашање
                                     </button>
                                 </form>

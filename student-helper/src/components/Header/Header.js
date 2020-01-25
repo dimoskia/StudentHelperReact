@@ -49,12 +49,12 @@ const header = () => {
                             <li className="nav-item dropdown">
                                 <span className="nav-link dropdown-toggle text-primary"id="navbarDropdownBlog" data-toggle="dropdown"
                                    aria-haspopup="true" aria-expanded="false">
-                                    FirstName LastName
+                                    Име Презиме
                                     <img src={user} width="40px" alt="User profile" height="40px" className="rounded-circle mx-2"/>
                                 </span>
                                 <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                                    <span className="dropdown-item"><i className="fa fa-user mr-1 text-primary"/>My Account</span>
-                                    <span className="dropdown-item"><i className="fa fa-sign-out mr-1 text-primary"/>Log out</span>
+                                    <span className="dropdown-item"><i className="fa fa-user mr-1 text-primary"/>Мој профил</span>
+                                    <span className="dropdown-item"><i className="fa fa-sign-out mr-1 text-primary"/>Одјави се</span>
                                 </div>
                             </li>
                         </ul>
