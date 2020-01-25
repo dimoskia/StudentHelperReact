@@ -10,6 +10,7 @@ import CourseAdd from "../Courses/CourseAdd/CourseAdd";
 import CourseEdit from "../Courses/CourseEdit/CourseEdit";
 import CourseDetails from "../Courses/CourseDetails/CourseDetails"
 import AdminCourses from "../Admin/AdminCourses/AdminCourses";
+import ScrollToTop from "../../util/ScrollToTop";
 
 class App extends Component {
 
@@ -17,23 +18,25 @@ class App extends Component {
         return (
             <BrowserRouter>
 
-                <Switch>
-                    <Route path="/signup" exact component={SignUp} />
+                <ScrollToTop>
+                    <Switch>
+                        <Route path="/signup" exact component={SignUp}/>
 
-                    <Route path="/login" exact component={Login} />
+                        <Route path="/login" exact component={Login}/>
 
-                    <Route path="/">
-                        <Header/>
-                        <Switch>
-                            <Route path="/" exact component={MainContainer} />
-                            <Route path="/admin/courses" exact component={AdminCourses} />
-                            <Route path="/admin/courses/add" exact component={CourseAdd} />
-                            <Route path="/admin/courses/:courseId/edit" exact component={CourseEdit} />
-                            <Route path="/courses/:name" exact component={CourseDetails}/>
-                        </Switch>
-                        <Footer/>
-                    </Route>
-                </Switch>
+                        <Route path="/">
+                            <Header/>
+                            <Switch>
+                                <Route path="/" exact component={MainContainer}/>
+                                <Route path="/admin/courses" exact component={AdminCourses}/>
+                                <Route path="/admin/courses/add" exact component={CourseAdd}/>
+                                <Route path="/admin/courses/:courseId/edit" exact component={CourseEdit}/>
+                                <Route path="/courses/:name" exact component={CourseDetails}/>
+                            </Switch>
+                            <Footer/>
+                        </Route>
+                    </Switch>
+                </ScrollToTop>
 
             </BrowserRouter>
         );
