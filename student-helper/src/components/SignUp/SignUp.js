@@ -93,7 +93,7 @@ class SignUp extends Component {
                 <div className="container container-table">
                     <div className="row firstRow">
                         <div className="col-sm-9 col-md-7 col-lg-5 my-auto mx-auto">
-                            <div className="card card-signin my-5">
+                            <div className="card card-signin my-4">
                                 <div className="card-body">
                                     <div className="logoDiv">
                                         <img src={logo} width="50px" height="50px" alt="" className="logoImage">
