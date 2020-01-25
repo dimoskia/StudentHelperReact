@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import defaultImage from '../../../../images/default_course_image.png';
 import "./StaffTableRow.css";
-import {truncate} from '../../../../util/UtilityFunctions';
 
 const StaffTableRow = (props) => {
 
@@ -38,8 +37,8 @@ const StaffTableRow = (props) => {
                 {props.data.LastName}
             </td>
             <td className="align-middle text-center">
-                <a href={props.data.DetailsUrl}>
-                    {truncate(props.data.DetailsUrl, 20)}
+                <a href={props.data.DetailsUrl} target="_blank">
+                    {`${props.data.FirstName.toLowerCase()}_${props.data.LastName.toLowerCase()}`}
                 </a>
             </td>
             <td className="align-middle text-center">

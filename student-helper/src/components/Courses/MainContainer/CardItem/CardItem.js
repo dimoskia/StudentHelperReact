@@ -2,18 +2,9 @@ import React from "react";
 import {Link} from "react-router-dom";
 import './CardItem.css';
 import defaultCourseImage from '../../../../images/default_course_image.png';
+import {courseYearToRoman} from "../../../../util/UtilityFunctions";
 
 const CardItem = props => {
-
-    const getYear = year => {
-        switch (year) {
-            case 1: return "I";
-            case 2: return "II";
-            case 3: return "III";
-            case 4: return "IV";
-            default: return null;
-        }
-    };
 
     const addToFavouritesHandler = event => {
         event.preventDefault();
@@ -38,7 +29,7 @@ const CardItem = props => {
                     <h5 className="card-title">{props.course.Title}</h5>
                 </div>
                 <div className="card-footer">
-                    <p className="card-text text-muted">{getYear(props.course.Year)} година / <span
+                    <p className="card-text text-muted">{courseYearToRoman(props.course.Year)} година / <span
                         style={{textTransform: "capitalize"}}>{props.course.Semester}</span> семестар</p>
                 </div>
 

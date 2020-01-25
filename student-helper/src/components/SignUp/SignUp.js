@@ -1,6 +1,7 @@
 import React, {Component} from "react"
 import "./SignUp.css"
 import logo from '../../images/logo2.png';
+import UsersService from "../../repository/userRepository";
 
 class SignUp extends Component {
 
@@ -30,6 +31,7 @@ class SignUp extends Component {
         };
     }
 
+
     onChangeHandler = e => {
         this.validateInput(e, false);
     };
@@ -38,7 +40,11 @@ class SignUp extends Component {
         e.preventDefault();
 
         if(Object.values(this.state).map(v => v.isValid).every(v => v === true)) {
-            console.log("YAY");
+            const userInputs = [...Object.entries(this.state)];
+            userInputs.pop();
+            const user = {};
+            userInputs.forEach(u => user[u[0]] = u[1].value);
+            this.registerUser(user);
         }
         else {
             Object.values(e.target).filter(i => Object.keys(this.state).includes(i.name)).forEach(input => this.validateInput(input, true));
@@ -85,6 +91,15 @@ class SignUp extends Component {
     validateEmail = email => {
         const re = /^\S+\.\S+@students.finki.ukim.mk$/;
         return re.test(email);
+    };
+
+    registerUser = (user) => {
+        UsersService.registerUser(user).then(response => {
+            this.props.history.push({
+                pathname : "/login",
+                state : {prevPath : this.props.location.pathname}
+            });
+        });
     };
 
     render() {

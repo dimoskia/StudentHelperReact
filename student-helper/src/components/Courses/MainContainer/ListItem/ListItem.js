@@ -2,33 +2,17 @@ import React from "react";
 import {Link} from "react-router-dom";
 import './ListItem.css';
 import defaultCourseImage from '../../../../images/default_course_image.png';
+import {truncate} from "../../../../util/UtilityFunctions";
+import {courseYearToRoman} from "../../../../util/UtilityFunctions";
 
 const ListItem = props => {
 
-    const getYear = year => {
-        switch (year) {
-            case 1: return "I";
-            case 2: return "II";
-            case 3: return "III";
-            case 4: return "IV";
-            default: return null;
-        }
-    };
 
     const addToFavouritesHandler = event => {
         event.preventDefault();
         event.stopPropagation();
     };
 
-    const truncate = (str) => {
-        if(str !== undefined) {
-            if (str.length <= 290) {
-                return str;
-            }
-            return str.substr(0, 290) + "...";
-        }
-        return null;
-    };
 
     return (
         <Link to={`/courses/${props.course.Id}`} style={{textDecoration: 'none', color: 'black'}}>
@@ -52,10 +36,10 @@ const ListItem = props => {
                     <div className="col-9" style={{height : "160px"}}>
                         <div className="card-body">
                             <h5 className="card-title my-0">{props.course.Title}</h5>
-                            <p className="card-text text-muted mt-0 mb-1">({getYear(props.course.Year)} година / <span
+                            <p className="card-text text-muted mt-0 mb-1">({courseYearToRoman(props.course.Year)} година / <span
                                 style={{textTransform: "capitalize"}}>{props.course.Semester}</span> семестар)</p>
                             <div className="text-justify">
-                                <small className="card-text">{truncate(props.course.Description)}</small>
+                                <small className="card-text">{truncate(props.course.Description, 290)}</small>
                             </div>
                         </div>
                     </div>

@@ -1,20 +1,11 @@
 import React, {useState} from "react";
 import defaultImage from '../../../../images/default_course_image.png';
 import {Link} from "react-router-dom";
+import {courseYearToRoman} from "../../../../util/UtilityFunctions";
 
 const CoursesTableRow = (props) => {
 
     const [inputElem, setInputElem] = useState(null);
-
-    const getYear = year => {
-        switch (year) {
-            case 1: return "I";
-            case 2: return "II";
-            case 3: return "III";
-            case 4: return "IV";
-            default: return null;
-        }
-    };
 
     const getPictureUrl = (imageUrl) => {
         if (imageUrl === null) {
@@ -48,7 +39,7 @@ const CoursesTableRow = (props) => {
                 {props.data.Title}
             </td>
             <td className="align-middle text-center">
-                {getYear(props.data.Year)}
+                {courseYearToRoman(props.data.Year)}
             </td>
             <td className="align-middle text-center">
                 {props.data.Program}

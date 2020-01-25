@@ -1,10 +1,11 @@
 import axios from '../custom-axios/axios';
-import qs from "qs";
 
 const UsersService = {
-    getUser : (name) =>{
 
+    registerUser: (user) => {
+        return axios.post("api/users/signup", user);
     }
 
 };
+
 export default UsersService;
