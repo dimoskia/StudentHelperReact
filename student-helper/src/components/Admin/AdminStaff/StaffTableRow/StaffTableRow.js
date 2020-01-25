@@ -42,7 +42,8 @@ const StaffTableRow = (props) => {
                 </a>
             </td>
             <td className="align-middle text-center">
-                <button className="btn btn-sm btn-outline-primary mx-1">
+                <button className="btn btn-sm btn-outline-primary mx-1"
+                        onClick={() => props.updateStaff(props.data.Id)}>
                     <span className="fa fa-edit"/>&nbsp;Ажурирај
                 </button>
                 <button className="btn btn-sm btn-outline-danger mx-1"

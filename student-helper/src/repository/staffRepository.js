@@ -18,6 +18,14 @@ const StaffService = {
 
     deleteStaff: (staffId) => {
         return axios.delete(`api/staffs/${staffId}`);
+    },
+
+    getStaff: (staffId) => {
+        return axios.get(`api/staffs/${staffId}`);
+    },
+
+    updateStaff: (staffId, staffData) => {
+        return axios.put(`api/staffs/${staffId}`, staffData);
     }
 
 };

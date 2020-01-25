@@ -6,11 +6,8 @@ import Modal from "../../UI/Modal/Modal";
 import StaffAdd from "../../Staffs/StaffAdd/StaffAdd";
 import DeleteElement from "../../DeleteElementModal/DeleteElement";
 import ModalDelete from "../../UI/ModalDelete/ModalDelete";
-import StaffsService from "../../../repository/staffRepository"
 
-class AdminStaff extends Component{
-
-    // gyytgyn
+class AdminStaff extends Component {
 
     constructor(props) {
         super(props);
@@ -22,8 +19,10 @@ class AdminStaff extends Component{
             Results: [],
             QueryParams: new URLSearchParams(),
             addingStaff: false,
-            deleteStaffId:null,
-            delStaff:false
+            deleteStaffId: null,
+            delStaff: false,
+            updateStaff: false,
+            updateStaffId: null
         };
     }
 
@@ -39,38 +38,42 @@ class AdminStaff extends Component{
 
     addStaffHandler = () => {
 
-        this.setState({addingStaff:true})
+        this.setState({addingStaff: true})
 
     };
 
     addStaffCancelHandler = () => {
-        this.setState({addingStaff:false})
+        this.setState({
+            updateStaff: false,
+            addingStaff: false
+        })
     };
 
     addStaff = (newStaff) => {
 
         this.setState({
-            PageNumber:1
+            updateStaff: false,
+            PageNumber: 1
         }, () => this.loadStaff());
 
     };
 
     deleteStaffCancelHandler = () => {
-        this.setState({delStaff:false})
+        this.setState({delStaff: false})
     };
 
     deleteStaff = (staffId) => {
 
         this.setState({
-            delStaff:true,
-            deleteStaffId:staffId
+            delStaff: true,
+            deleteStaffId: staffId
         });
 
     };
 
     deleteStaffExecution = (staffId) => {
 
-        StaffsService.deleteStaff(staffId).then(resp => {
+        StaffService.deleteStaff(staffId).then(resp => {
             if (this.state.PageNumber === this.state.TotalPages) {
                 if (this.state.Results.length === 1) {
                     this.setState(prevState => {
@@ -90,7 +93,51 @@ class AdminStaff extends Component{
             }
         });
 
-        this.setState({delStaff:false});
+        this.setState({delStaff: false});
+
+    };
+
+    updateStaff = (staffId) => {
+
+        console.log(this.state.updateStaff);
+
+        const staff = StaffService.getStaff(staffId).then(resp => {
+
+            this.setState({
+                updateStaff: true,
+                addingStaff: true,
+                updateStaffId: staffId
+            });
+
+            this.setStaffData(resp.data);
+
+        });
+
+    };
+
+    setStaffData = (data) => {
+
+        document.getElementById("FirstName").value = data.FirstName;
+        document.getElementById("LastName").value = data.LastName;
+        document.getElementById("Title").value = data.Title;
+        document.getElementById("DetailsUrl").value = data.DetailsUrl;
+
+    };
+
+    updateNewData = (newData) => {
+
+        this.setState((prevState) => {
+            const newStaffsRef = prevState.Results.map((item) => {
+                if (item.Id === newData.Id) {
+                    console.log(item.Id);
+                    return newData;
+                }
+
+                return item;
+            });
+
+            return{"Results": newStaffsRef}
+        })
 
     };
 
@@ -181,6 +228,7 @@ class AdminStaff extends Component{
                     <div style={{minHeight: 300}}>
                         <StaffTable data={this.state.Results}
                                     deleteStaffHandle={this.deleteStaff}
+                                    updateStaff={this.updateStaff}
                                     imageHandler={this.handleImageChange}/>
                     </div>
 
@@ -190,7 +238,7 @@ class AdminStaff extends Component{
         }
         return (
             <div className="text-center mx-auto mt-5" style={{minHeight: 400}}>
-                <h1 className="text-muted" style={{fontSize : "80px"}}><i className="fa fa-frown-o"/></h1>
+                <h1 className="text-muted" style={{fontSize: "80px"}}><i className="fa fa-frown-o"/></h1>
                 <h5 className="text-muted"><i className="fa fa-sm"/>Се извинуваме, но не можевме да
                     најдеме резултати за вашето пребарување</h5>
             </div>
@@ -228,20 +276,23 @@ class AdminStaff extends Component{
 
                 <Modal show={this.state.addingStaff}>
                     <StaffAdd addingStaff={this.addStaff}
+                              updateNewData={this.updateNewData}
+                              updateStaffId={this.state.updateStaffId}
+                              updateStaff={this.state.updateStaff}
                               modalClosed={this.addStaffCancelHandler}/>
                 </Modal>
 
                 <ModalDelete show={this.state.delStaff}>
 
                     <DeleteElement modalClosed={this.deleteStaffCancelHandler}
-                                  title={this.state.Results.map((item) => {
-                                      if(item.Id == this.state.deleteStaffId){
-                                          return item.FirstName + " " + item.LastName;
-                                      }
-                                  })}
-                                  whatToDelete={"вработениот"}
-                                  deleteStaff={this.deleteStaffExecution}
-                                  deletedId={this.state.deleteStaffId}/>
+                                   title={this.state.Results.map((item) => {
+                                       if (item.Id == this.state.deleteStaffId) {
+                                           return item.FirstName + " " + item.LastName;
+                                       }
+                                   })}
+                                   whatToDelete={"вработениот"}
+                                   deleteStaff={this.deleteStaffExecution}
+                                   deletedId={this.state.deleteStaffId}/>
 
                 </ModalDelete>
 

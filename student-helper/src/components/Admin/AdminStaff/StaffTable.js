@@ -20,6 +20,7 @@ const StaffTable = (props) => {
         return props.data.map(item => (
             <StaffTableRow data={item} key={item.Id}
                            deleteStaffHandler={props.deleteStaffHandle}
+                           updateStaff={props.updateStaff}
                            imageHandler={props.imageHandler}/>
         ));
     };
