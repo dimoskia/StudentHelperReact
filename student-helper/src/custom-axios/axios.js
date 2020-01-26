@@ -3,7 +3,7 @@ import axios from 'axios';
 const getTokenFromLocalStorage = () => {
     const userString = localStorage.getItem("userData");
     if (userString !== null)
-        return JSON.parse(userString).Token;
+        return `Bearer ${JSON.parse(userString).Token}`;
     return "";
 };
 
