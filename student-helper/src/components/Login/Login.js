@@ -49,7 +49,9 @@ class Login extends Component {
             const userData = JSON.parse(localStorage.getItem("userData"));
             this.redirectByRole(userData.User.Role === "user");
 
-        }).catch(error => this.setState({wrongCredentialsMessage: error.response.data}));
+        }).catch(error => this.setState({
+            showAlertWrongCredentials : true,
+            wrongCredentialsMessage: error.response.data}));
     };
 
 
