@@ -13,7 +13,7 @@ const CoursePost = (props) =>{
                 return(
                     <div className="row my-2 mx-2 shadow-sm bg-light" key={comment.Id}>
                         <div className="col-2 text-center my-auto">
-                            <img className="rounded-circle d-inline img-fluid shadow-sm" width="55px" height="55px" src={user_image} alt=""/>
+                            <img className="rounded-circle d-inline shadow-sm" width="55px" height="55px" src={props.post.UserDetails.ImageUrl===null ? user_image : props.post.UserDetails.ImageUrl} alt=""/>
                         </div>
                         <div className="col-8 pl-0 my-auto">
                             <div>
@@ -74,12 +74,9 @@ const CoursePost = (props) =>{
     };
 
     const postComment = (e,postId) =>{
-        setComment({
-            UserDetailsId: 1,
-            Content: this.comment,
-            Likes: 0,
-            Dislikes: 0,
-        });
+        e.preventDefault();
+        console.log(comment);
+        CoursesService.postComment(postId,comment).then(props);
 
     };
 
@@ -107,7 +104,7 @@ const CoursePost = (props) =>{
         <div className="mb-4" key={props.post.Id}>
             <div className="row">
                 <div className="col-2 text-center my-auto">
-                    <img className="rounded-circle d-inline img-fluid shadow-sm" width="60px"
+                    <img className="rounded-circle d-inline shadow-sm" width="60px"
                          height="60px" src={props.post.UserDetails.ImageUrl===null ? user_image : props.post.UserDetails.ImageUrl} alt={props.post.UserDetails.FirstName + " " + props.post.UserDetails.LastName}/>
                 </div>
                 <div className="col-10 pl-0">

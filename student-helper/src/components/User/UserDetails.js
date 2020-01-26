@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import UserPrivacy from "./UserPrivacy/UserPrivacy";
 import "./UserDetails.css"
 import course from "../../images/course.jpg";
+import UsersService from "../../repository/userRepository";
+import qs from "qs";
 
 
 class UserDetails extends Component{
@@ -10,16 +12,9 @@ class UserDetails extends Component{
         this.state={
             param:this.props.match.params,
             user:{
-                Id:1,
-                Email: "hristijan_davinovski@hotmail.com",
-                Role: "",
-                Salt: "",
-                Password: "12345",
-                Confirmed: true,
                 UserDetails: {
-                    UserDetailsId: 1,
-                    FirstName: "Христијан",
-                    LastName: "Давиновски",
+                    FirstName: "",
+                    LastName: "",
                     ImageUrl: null
                 }
             }
@@ -31,6 +26,10 @@ class UserDetails extends Component{
     }
 
     loadUser = () =>{
+        const userData=JSON.parse(localStorage.getItem("userData")).User;
+        this.setState({
+            user: userData
+        });
     };
 
     changeFirstName = (e) =>{
@@ -43,6 +42,24 @@ class UserDetails extends Component{
                 }
             }
         }));
+    };
+
+    handleImageChange = (event) => {
+        if (event.target.files.length) {
+            const formData = new FormData();
+            formData.append("newImage", event.target.files[0], null);
+            UsersService.changeUserImage(formData).then(resp => {
+                this.setState(user=>({
+                    ...user,
+                    user:{
+                        UserDetails: resp.data
+                    }
+                }));
+                const userData = JSON.parse(localStorage.getItem('userData'));
+                userData.User.UserDetails = resp.data;
+                localStorage.setItem('userData', JSON.stringify(userData));
+            });
+        }
     };
 
     changeLastName = (e) =>{
@@ -64,13 +81,15 @@ class UserDetails extends Component{
                             <div className="col">
                         <div className="card shadow-sm">
                             <div className="card-body">
-                                <h2>Мој профил</h2>
+                                <h2><i className="fa fa-user text-primary"/> Мој профил</h2>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="row h-100">
-                    <UserPrivacy/>
+                    <UserPrivacy imgUrl={this.state.user.UserDetails.ImageUrl}
+                                 imageHandler={this.handleImageChange}
+                    />
                     <div className="col-9 mt-3">
                                 <div className="card shadow-sm h-100">
                                     <div className="card-header">
@@ -92,25 +111,25 @@ class UserDetails extends Component{
                                             <form className="my-auto">
                                                 <div className="row mx-5 my-3">
                                                     <div className="col-3 text-right my-auto"><b>Име</b></div>
-                                                    <div className="col-6">
+                                                    <div className="col-7">
                                                         <input type="text" className="form-control" onChange={(e)=>this.changeFirstName(e)} value={this.state.user.UserDetails.FirstName}/>
                                                     </div>
                                                 </div>
                                                 <div className="row mx-5 mt-4">
                                                     <div className="col-3 text-right my-auto"><b>Презиме</b></div>
-                                                    <div className="col-6">
+                                                    <div className="col-7">
                                                         <input type="text" className="form-control" onChange={(e)=>this.changeLastName(e)} value={this.state.user.UserDetails.LastName}/>
                                                     </div>
                                                 </div>
                                                 <div className="row mx-5 mt-4">
                                                     <div className="col-3 text-right my-auto"><b>Email</b></div>
-                                                    <div className="col-6">
+                                                    <div className="col-7">
                                                         <input type="text" className="form-control emailInput" value={this.state.user.Email} disabled/>
                                                     </div>
                                                 </div>
                                                 <div className="row mx-5 mt-4">
                                                     <div className="col-3 text-right my-auto"><b>Опис</b></div>
-                                                    <div className="col-6">
+                                                    <div className="col-7">
                                                         <textarea className="form-control" rows="4"/>
                                                     </div>
                                                 </div>

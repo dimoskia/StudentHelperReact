@@ -40,12 +40,8 @@ class CourseDetails extends Component {
     postPost = (e) => {
         e.preventDefault();
         const post = {
-            "Comments": [],
-            "UserDetailsId": 1,
             "Title": this.state.post.title,
             "Content": this.state.post.content,
-            "Likes": 0,
-            "Dislikes": 0
         };
         CoursesService.postPost(this.state.param.name,post).then(this.loadCourse);
         this.setState({
@@ -54,8 +50,8 @@ class CourseDetails extends Component {
                 content:""
             }
         });
-        document.getElementById("titlePost").value="";
-        document.getElementById("contentPost").value="";
+
+        document.querySelectorAll("#newPostForm textarea, #newPostForm input").forEach(p=>p.value="");
     };
 
     loadPosts = (params) => {
@@ -81,12 +77,6 @@ class CourseDetails extends Component {
         })
     };
 
-
-    postComment = (e,postId) =>{
-        e.preventDefault();
-
-    };
-
     getCoursePosts = () =>{
         return this.state.posts.map(post=>{
             return(
@@ -94,7 +84,7 @@ class CourseDetails extends Component {
                             posts={this.state.posts}
                             onNewLikeDislikePost={this.likeDislikePost}
                             onNewLikeDislikeComment={this.likeDislikeComment}
-                            newComm={this.postComment}
+                            newCommentAdded={this.loadPosts(this.state.param.name)}
                 />
             )
         })
@@ -159,12 +149,12 @@ class CourseDetails extends Component {
                                 <h4><b>Поставете прашање</b></h4>
                             </div>
                             <div className="card-body">
-                                <form onSubmit={(e)=>this.postPost(e)}>
+                                <form onSubmit={(e)=>this.postPost(e)} id="newPostForm">
                                     <h5><b>Наслов</b></h5>
                                     <input type="text" name="Title" className="form-control mb-3"
-                                           placeholder="пр. Каков е начинот на полагање на предметот?" required id="titlePost" onChange={(e)=>this.changePost(e)}/>
+                                           placeholder="пр. Каков е начинот на полагање на предметот?" required onChange={(e)=>this.changePost(e)}/>
                                     <h5><b>Опис</b></h5>
-                                    <textarea className="form-control textAreaDescription" name="Comment" id="contentPost"
+                                    <textarea className="form-control textAreaDescription" name="Comment"
                                               placeholder="Внесете опис" required onChange={(e)=>this.changePost(e)}/>
                                     <button type="submit" className="btn btn-primary float-right mt-3">Постави прашање
                                     </button>

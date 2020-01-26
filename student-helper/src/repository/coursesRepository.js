@@ -91,7 +91,6 @@ const CoursesService = {
             ...post
         };
         const formParams = qs.stringify(data);
-        console.log(formParams);
         return axios.post(`api/courses/${courseId}/Posts/Add`, formParams);
     }
 
