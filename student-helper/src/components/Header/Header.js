@@ -3,7 +3,6 @@ import {withRouter, NavLink, Link} from "react-router-dom";
 import logo from '../../images/logo2.png';
 import defaultUserImg from "../../images/user_image.png"
 import './Header.css';
-import UsersService from "../../repository/userRepository";
 
 class Header extends Component {
 
@@ -50,7 +49,7 @@ class Header extends Component {
                         </NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink to="/admin/users" className="nav-link text-primary">
+                        <NavLink to="/courses" className="nav-link text-primary">
                             <i className="fa fa-users"/>&nbsp;
                             Прегледај курсеви
                         </NavLink>

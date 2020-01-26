@@ -113,12 +113,12 @@ class CourseAdd extends Component {
     };
 
     validateForm = () => {
-        const formDataValid = {...this.state.formDataValid};
-        Object.entries(formDataValid).forEach(([key, value]) => {
-            if (!value) {
-                document.getElementById(key).classList.add("is-invalid");
-            }
-        });
+                const formDataValid = {...this.state.formDataValid};
+                Object.entries(formDataValid).forEach(([key, value]) => {
+                    if (!value) {
+                        document.getElementById(key).classList.add("is-invalid");
+                    }
+                });
     };
 
     createCourse = (formData) => {
