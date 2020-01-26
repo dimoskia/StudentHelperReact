@@ -7,7 +7,13 @@ class StaffAdd extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            image: null
+            image: null,
+            validation: {
+                FirstName: false,
+                LastName: false,
+                Title: false,
+                DetailsUrl: false
+            }
         };
     }
 
@@ -24,49 +30,83 @@ class StaffAdd extends Component {
     onSubmitHandle = (e) => {
         e.preventDefault();
 
-        if(this.props.updateStaff){
+        this.validateModal();
 
-            const staffData = {
-                Id:this.props.updateStaffId,
-                FirstName: e.target.FirstName.value,
-                LastName: e.target.LastName.value,
-                Title: e.target.Title.value,
-                DetailsUrl: e.target.DetailsUrl.value
-            };
+        const isValid = this.state.validation.Title &&
+            this.state.validation.FirstName &&
+            this.state.validation.LastName &&
+            this.state.validation.DetailsUrl;
+
+        if (isValid) {
+
+            if (this.props.updateStaff) {
+
+                const staffData = {
+                    Id: this.props.updateStaffId,
+                    FirstName: e.target.FirstName.value,
+                    LastName: e.target.LastName.value,
+                    Title: e.target.Title.value,
+                    DetailsUrl: e.target.DetailsUrl.value
+                };
+
+                StaffService.updateStaff(this.props.updateStaffId, staffData).then(resp => {
+                    const newData = resp.data;
+
+                    this.props.updateNewData(newData);
+                });
+
+                this.props.modalClosed();
+                document.getElementById("myForm").reset();
 
 
-            StaffService.updateStaff(this.props.updateStaffId, staffData).then(resp => {
-                const newData = resp.data;
+            } else {
+                const staffData = {
+                    FirstName: e.target.FirstName.value,
+                    LastName: e.target.LastName.value,
+                    Title: e.target.Title.value,
+                    DetailsUrl: e.target.DetailsUrl.value
+                };
 
-                this.props.updateNewData(newData);
-            });
+                const formData = new FormData();
+                formData.append("staffData", JSON.stringify(staffData));
 
-            this.props.modalClosed();
-            document.getElementById("myForm").reset();
+                if (this.state.image !== null) {
+                    formData.append("image", this.state.image, this.state.image.name);
+                }
 
-        } else {
-            const staffData = {
-                FirstName: e.target.FirstName.value,
-                LastName: e.target.LastName.value,
-                Title: e.target.Title.value,
-                DetailsUrl: e.target.DetailsUrl.value
-            };
 
-            const formData = new FormData();
-            formData.append("staffData", JSON.stringify(staffData));
+                this.createStaff(formData);
 
-            if (this.state.image !== null) {
-                formData.append("image", this.state.image, this.state.image.name);
+                this.props.modalClosed();
+                document.getElementById("myForm").reset();
+
+                const newValidRef = {
+                    FirstName:false,
+                    LastName:false,
+                    Title:false,
+                    DetailsUrl:false
+                };
+
+                this.setState({
+                    image: null,
+                    validation: newValidRef
+                });
             }
 
-
-            this.createStaff(formData);
-
-            this.props.modalClosed();
-            document.getElementById("myForm").reset();
+        } else {
+            this.validateModal();
         }
 
+    };
 
+    validateModal = () => {
+
+        const newValidation = {...this.state.validation};
+        Object.entries(newValidation).forEach(([key, value]) => {
+            if (!value) {
+                document.getElementById(key).classList.add("is-invalid");
+            }
+        });
 
     };
 
@@ -81,11 +121,53 @@ class StaffAdd extends Component {
     };
 
     onCancelHandle = () => {
+
+        this.removeValidation();
         this.props.modalClosed();
         document.getElementById("myForm").reset();
         this.setState({
             image: null
         });
+    };
+
+    onChangeHandle = (e) => {
+
+        const inputName = e.target.name;
+        const inputValue = e.target.value;
+        const newValidation = {...this.state.validation};
+
+        if (inputValue.toString().trim().length > 0) {
+            document.getElementById(inputName).classList.remove("is-invalid");
+            newValidation[inputName] = true;
+        } else {
+            document.getElementById(inputName).classList.add("is-invalid");
+            newValidation[inputName] = false;
+        }
+
+        this.setState({
+            validation: newValidation
+        })
+
+    };
+
+    removeValidation = () => {
+
+        const newValidRef = {
+            FirstName:false,
+            LastName:false,
+            Title:false,
+            DetailsUrl:false
+        };
+
+        this.setState({
+            validation: newValidRef
+        });
+
+        document.getElementById("FirstName").classList.remove("is-invalid");
+        document.getElementById("LastName").classList.remove("is-invalid");
+        document.getElementById("Title").classList.remove("is-invalid");
+        document.getElementById("DetailsUrl").classList.remove("is-invalid");
+
     };
 
     render() {
@@ -100,7 +182,10 @@ class StaffAdd extends Component {
                 <div className="form-group row">
                     <label htmlFor="FirstName" className="col-sm-2 col-form-label"><b>Име</b></label>
                     <div className="col-sm-10">
-                        <input type="text" name="FirstName" className="form-control" id="FirstName"
+                        <input type="text" name="FirstName"
+                               className="form-control" id="FirstName"
+                               onChange={this.onChangeHandle}
+                               onBlur={this.onChangeHandle}
                                placeholder="Внесете Име"></input>
                     </div>
                 </div>
@@ -108,7 +193,10 @@ class StaffAdd extends Component {
                 <div className="form-group row">
                     <label htmlFor="LastName" className="col-sm-2 col-form-label"><b>Презиме</b></label>
                     <div className="col-sm-10">
-                        <input type="text" name="LastName" className="form-control" id="LastName"
+                        <input type="text" name="LastName"
+                               className="form-control" id="LastName"
+                               onChange={this.onChangeHandle}
+                               onBlur={this.onChangeHandle}
                                placeholder="Внесете Презиме"></input>
                     </div>
                 </div>
@@ -116,7 +204,10 @@ class StaffAdd extends Component {
                 <div className="form-group row">
                     <label htmlFor="Title" className="col-sm-2 col-form-label"><b>Назив</b></label>
                     <div className="col-sm-10">
-                        <input type="text" name="Title" className="form-control" id="Title"
+                        <input type="text" name="Title"
+                               className="form-control" id="Title"
+                               onChange={this.onChangeHandle}
+                               onBlur={this.onChangeHandle}
                                placeholder="Внесете Назив"></input>
                     </div>
                 </div>
@@ -124,7 +215,10 @@ class StaffAdd extends Component {
                 <div className="form-group row">
                     <label htmlFor="DetailsUrl" className="col-sm-2 col-form-label"><b>Детали</b></label>
                     <div className="col-sm-10">
-                        <input type="text" name="DetailsUrl" className="form-control" id="DetailsUrl"
+                        <input type="text" name="DetailsUrl"
+                               className="form-control" id="DetailsUrl"
+                               onChange={this.onChangeHandle}
+                               onBlur={this.onChangeHandle}
                                placeholder="Внесете Детали"></input>
                     </div>
                 </div>

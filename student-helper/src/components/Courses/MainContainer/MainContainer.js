@@ -6,6 +6,7 @@ import ReactPaginate from "react-paginate";
 import CardItem from "./CardItem/CardItem";
 import ListItem from "./ListItem/ListItem";
 import FormSearch from "./FormSearch/FormSearch";
+import $ from "jquery";
 
 class MainContainer extends Component {
 
@@ -23,7 +24,9 @@ class MainContainer extends Component {
     }
 
     componentDidMount() {
+
         this.loadCourses();
+
     }
 
     loadCourses = () => {
@@ -57,7 +60,7 @@ class MainContainer extends Component {
         }
         return (
             <div className="text-center mx-auto mt-5" style={{minHeight: 400}}>
-                <h1 className="text-muted" style={{fontSize : "80px"}}><i className="fa fa-frown-o"/></h1>
+                <h1 className="text-muted" style={{fontSize: "80px"}}><i className="fa fa-frown-o"/></h1>
                 <h5 className="text-muted"><i className="fa fa-sm"/>Се извинуваме, но не можевме да
                     најдеме резултати за вашето пребарување</h5>
             </div>
@@ -157,11 +160,13 @@ class MainContainer extends Component {
     render() {
         return (
             <div className="MainContainer">
+
                 <div className="my-4 container">
                     <div className="row">
-                        <div className="col-3">
+                        <div className="col-3 mediaCss">
                             <Filters changeFilters={this.changeFilterHandler}/>
                         </div>
+
                         <div className="col-9">
                             {/*FormSearch is in a div wit row as well*/}
                             <FormSearch

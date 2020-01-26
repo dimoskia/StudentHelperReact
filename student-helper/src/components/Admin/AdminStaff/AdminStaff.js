@@ -99,8 +99,6 @@ class AdminStaff extends Component {
 
     updateStaff = (staffId) => {
 
-        console.log(this.state.updateStaff);
-
         const staff = StaffService.getStaff(staffId).then(resp => {
 
             this.setState({
