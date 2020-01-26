@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
+import {BrowserRouter, Redirect, Route, Switch, withRouter} from "react-router-dom";
 import './App.css';
 import Header from '../Header/Header';
 import MainContainer from "../Courses/MainContainer/MainContainer";
@@ -15,6 +15,8 @@ import AdminStaff from "../Admin/AdminStaff/AdminStaff";
 import UserDetails from "../User/UserDetails";
 import {isUserAuth} from "../../util/CheckAuthFunctions";
 import {getUserRole} from "../../util/CheckAuthFunctions";
+import UsersService from "../../repository/userRepository";
+import axios from '../../custom-axios/axios';
 
 class App extends Component {
 
@@ -23,7 +25,7 @@ class App extends Component {
         this.state = {
             isUserAuth: false,
             userRole: null
-        }
+        };
     }
 
     componentDidMount() {
@@ -31,6 +33,15 @@ class App extends Component {
             isUserAuth: isUserAuth(),
             userRole: getUserRole()
         });
+        axios.interceptors.response.use(response => {
+            return response;
+        }, error => {
+            if (error.response.status === 401) {
+                this.logoutUserHandler();
+            }
+            return error;
+        });
+
     }
 
     loginUserHandler = () => {
@@ -42,10 +53,12 @@ class App extends Component {
 
 
     logoutUserHandler = () => {
+        UsersService.logoutUser();
         this.setState({
             isUserAuth: false,
             userRole: null
         });
+        this.props.history.push("/login");
     };
 
 
@@ -58,7 +71,6 @@ class App extends Component {
                     <Route path="/signup" exact component={SignUp}/>
                     <Route path="/login" exact>
                         <Login login={this.loginUserHandler}
-                               setTimer={this.setExpirationTimer}
                                logout={this.loginUserHandler}/>
                     </Route>
                     <Redirect to="/login"/>
@@ -109,4 +121,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default withRouter(App);
