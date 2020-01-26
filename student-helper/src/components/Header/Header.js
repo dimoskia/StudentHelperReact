@@ -24,8 +24,6 @@ class Header extends Component {
     };
 
     onLogoutHandler = () => {
-        UsersService.logoutUser();
-        // this.props.history.push("/login");
         this.props.logout();
     };
 

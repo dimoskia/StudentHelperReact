@@ -15,7 +15,6 @@ class Login extends Component {
         }
     }
 
-
     componentDidMount() {
         if (this.props.location.state !== undefined && this.props.location.state.prevPath === "/signup") {
             this.setState({showAlertSignup: true})
@@ -55,10 +54,9 @@ class Login extends Component {
             wrongCredentialsMessage: error.response.data}));
     };
 
-
-    redirectByRole(userRole) {
-        this.props.login(userRole);
-    }
+    redirectByRole = () => {
+        this.props.login();
+    };
 
     render() {
         return (

@@ -21,48 +21,50 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isUserAuth : false,
-            userRole : null
+            isUserAuth: false,
+            userRole: null
         }
     }
 
     componentDidMount() {
         this.setState({
-           isUserAuth : isUserAuth(),
-           userRole : getUserRole()
+            isUserAuth: isUserAuth(),
+            userRole: getUserRole()
         });
     }
 
-    loginUserHandler = (userRole) => {
+    loginUserHandler = () => {
         this.setState({
-            isUserAuth : isUserAuth(),
-            userRole : getUserRole()
+            isUserAuth: isUserAuth(),
+            userRole: getUserRole()
         });
     };
 
+
     logoutUserHandler = () => {
         this.setState({
-            isUserAuth : false,
-            userRole : null
+            isUserAuth: false,
+            userRole: null
         });
     };
+
 
     render() {
         let routes = null;
 
-        if(!this.state.isUserAuth) {
-            routes =  (
+        if (!this.state.isUserAuth) {
+            routes = (
                 <Switch>
                     <Route path="/signup" exact component={SignUp}/>
                     <Route path="/login" exact>
-                        <Login login={this.loginUserHandler}/>
+                        <Login login={this.loginUserHandler}
+                               setTimer={this.setExpirationTimer}
+                               logout={this.loginUserHandler}/>
                     </Route>
                     <Redirect to="/login"/>
                 </Switch>
             );
-        }
-
-        else if (this.state.isUserAuth) {
+        } else if (this.state.isUserAuth) {
             if (this.state.userRole !== null && this.state.userRole === "user") {
                 routes = (
                     <Route path="/">
@@ -76,7 +78,7 @@ class App extends Component {
                         <Footer/>
                     </Route>
                 );
-            } else if(this.state.userRole !== null && this.state.userRole === "admin") {
+            } else if (this.state.userRole !== null && this.state.userRole === "admin") {
                 routes = (
                     <Route path="/">
                         <Header logout={this.logoutUserHandler}/>
