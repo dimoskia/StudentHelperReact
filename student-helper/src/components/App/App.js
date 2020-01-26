@@ -31,7 +31,7 @@ class App extends Component {
                     <Switch>
                         <Route path="/signup" exact component={SignUp}/>
 
-                        <Route path="/login" exact component={Login}/>
+                       <Route path="/login" exact component={Login}/>
                         {redirectToLogin}
                         <Route path="/">
                             <Header/>
