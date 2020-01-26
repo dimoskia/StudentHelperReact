@@ -8,7 +8,7 @@ const CourseStaff = (props) => {
            return props.activeUsers.map(user => {
                return (
                    <div key={user.UserDetails.UserDetailsId} className="mb-2">
-                       <img className="rounded-pill img-fluid shadow-sm" width="45px"
+                       <img className="rounded-pill shadow-sm" width="45px"
                             height="45px"
                             src={user.UserDetails.ImageUrl === null ? user_image : user.UserDetails.ImageUrl} alt=""/>
                        <span className="ml-2">{user.UserDetails.FirstName} {user.UserDetails.LastName}</span>
@@ -23,7 +23,7 @@ const CourseStaff = (props) => {
            return props.professors.map(prof => {
                return (
                    <div key={prof.Id} className="mb-2">
-                       <img src={prof.ImageUrl===null ? user_image : prof.ImageUrl} className="rounded-pill img-fluid shadow-sm" width="45px"
+                       <img src={prof.ImageUrl===null ? user_image : prof.ImageUrl} className="rounded-pill shadow-sm" width="45px"
                             height="45px" alt=""/>
                        <span className="ml-2">{prof.FirstName} {prof.LastName}</span>
                    </div>
@@ -37,7 +37,7 @@ const CourseStaff = (props) => {
            return props.assistants.map(assistant => {
                return (
                    <div key={assistant.Id} className="mb-2">
-                       <img src={assistant.ImageUrl===null ? user_image : assistant.ImageUrl} className="rounded-pill img-fluid shadow-sm" width="45px"
+                       <img src={assistant.ImageUrl===null ? user_image : assistant.ImageUrl} className="rounded-pill shadow-sm" width="45px"
                             height="45px" alt=""/>
                        <span className="ml-2">{assistant.FirstName} {assistant.LastName}</span>
                    </div>
