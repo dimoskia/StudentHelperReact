@@ -15,6 +15,7 @@ class Login extends Component {
         }
     }
 
+
     componentDidMount() {
         if (this.props.location.state !== undefined && this.props.location.state.prevPath === "/signup") {
             this.setState({showAlertSignup: true})
