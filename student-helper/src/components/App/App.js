@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import './App.css';
 import Header from '../Header/Header';
 import MainContainer from "../Courses/MainContainer/MainContainer";
@@ -16,7 +16,14 @@ import UserDetails from "../User/UserDetails";
 
 class App extends Component {
 
+    isUserAuth = () => {
+        return localStorage.getItem("userData") !== null;
+    };
+
     render() {
+        let redirectToLogin = null;
+        if (!this.isUserAuth())
+            redirectToLogin = <Redirect to={"/login"}/>;
         return (
             <BrowserRouter>
 
@@ -25,11 +32,11 @@ class App extends Component {
                         <Route path="/signup" exact component={SignUp}/>
 
                         <Route path="/login" exact component={Login}/>
-
+                        {redirectToLogin}
                         <Route path="/">
                             <Header/>
                             <Switch>
-                                <Route path="/" exact component={MainContainer}/>
+                                <Route path="/courses" exact component={MainContainer}/>
                                 <Route path="/admin/courses" exact component={AdminCourses}/>
                                 <Route path="/admin/courses/add" exact component={CourseAdd}/>
                                 <Route path="/admin/courses/:courseId/edit" exact component={CourseEdit}/>

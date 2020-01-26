@@ -55,7 +55,7 @@ class Login extends Component {
 
     redirectByRole(isUser) {
         if(isUser)
-            this.props.history.push("/");
+            this.props.history.push("/courses");
         else
             this.props.history.push("/admin/courses");
     }
