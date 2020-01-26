@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 import "../SignUp/SignUp.css"
 import logo from '../../images/logo2.png';
-import {Link} from "react-router-dom";
+import {withRouter, Link} from "react-router-dom";
 import UsersService from "../../repository/userRepository";
 
 class Login extends Component {
@@ -47,7 +47,7 @@ class Login extends Component {
         UsersService.loginUser(user).then(response => {
             UsersService.handleAuthentication(response.data);
             const userData = JSON.parse(localStorage.getItem("userData"));
-            this.redirectByRole(userData.User.Role === "user");
+            this.redirectByRole(userData.User.Role);
 
         }).catch(error => this.setState({
             showAlertWrongCredentials : true,
@@ -55,11 +55,8 @@ class Login extends Component {
     };
 
 
-    redirectByRole(isUser) {
-        if(isUser)
-            this.props.history.push("/courses");
-        else
-            this.props.history.push("/admin/courses");
+    redirectByRole(userRole) {
+        this.props.login(userRole);
     }
 
     render() {
@@ -111,4 +108,4 @@ class Login extends Component {
 
 }
 
-export default Login;
+export default withRouter(Login);

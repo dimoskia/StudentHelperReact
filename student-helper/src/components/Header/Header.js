@@ -25,7 +25,8 @@ class Header extends Component {
 
     onLogoutHandler = () => {
         UsersService.logoutUser();
-        this.props.history.push("/login");
+        // this.props.history.push("/login");
+        this.props.logout();
     };
 
     renderAdminLinks = () => {
@@ -48,6 +49,12 @@ class Header extends Component {
                         <NavLink to="/admin/users" className="nav-link text-primary">
                             <i className="fa fa-users"/>&nbsp;
                             Менаџирај корисници
+                        </NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <NavLink to="/admin/users" className="nav-link text-primary">
+                            <i className="fa fa-users"/>&nbsp;
+                            Прегледај курсеви
                         </NavLink>
                     </li>
                 </ul>

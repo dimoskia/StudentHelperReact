@@ -13,40 +13,93 @@ import AdminCourses from "../Admin/AdminCourses/AdminCourses";
 import ScrollToTop from "../../util/ScrollToTop";
 import AdminStaff from "../Admin/AdminStaff/AdminStaff";
 import UserDetails from "../User/UserDetails";
+import {isUserAuth} from "../../util/CheckAuthFunctions";
+import {getUserRole} from "../../util/CheckAuthFunctions";
 
 class App extends Component {
 
-    isUserAuth = () => {
-        return localStorage.getItem("userData") !== null;
+    constructor(props) {
+        super(props);
+        this.state = {
+            isUserAuth : false,
+            userRole : null
+        }
+    }
+
+    componentDidMount() {
+        this.setState({
+           isUserAuth : isUserAuth(),
+           userRole : getUserRole()
+        });
+    }
+
+    loginUserHandler = (userRole) => {
+        this.setState({
+            isUserAuth : isUserAuth(),
+            userRole : getUserRole()
+        });
+    };
+
+    logoutUserHandler = () => {
+        this.setState({
+            isUserAuth : false,
+            userRole : null
+        });
     };
 
     render() {
-        let redirectToLogin = null;
-        if (!this.isUserAuth())
-            redirectToLogin = <Redirect to={"/login"}/>;
+        let routes = null;
+
+        if(!this.state.isUserAuth) {
+            routes =  (
+                <Switch>
+                    <Route path="/signup" exact component={SignUp}/>
+                    <Route path="/login" exact>
+                        <Login login={this.loginUserHandler}/>
+                    </Route>
+                    <Redirect to="/login"/>
+                </Switch>
+            );
+        }
+
+        else if (this.state.isUserAuth) {
+            if (this.state.userRole !== null && this.state.userRole === "user") {
+                routes = (
+                    <Route path="/">
+                        <Header logout={this.logoutUserHandler}/>
+                        <Switch>
+                            <Route path="/courses" exact component={MainContainer}/>
+                            <Route path="/courses/:name" exact component={CourseDetails}/>
+                            <Route path="/users/:name" exact component={UserDetails}/>
+                            <Redirect to="/courses"/>
+                        </Switch>
+                        <Footer/>
+                    </Route>
+                );
+            } else if(this.state.userRole !== null && this.state.userRole === "admin") {
+                routes = (
+                    <Route path="/">
+                        <Header logout={this.logoutUserHandler}/>
+                        <Switch>
+                            <Route path="/courses" exact component={MainContainer}/>
+                            <Route path="/admin/courses" exact component={AdminCourses}/>
+                            <Route path="/admin/courses/add" exact component={CourseAdd}/>
+                            <Route path="/admin/courses/:courseId/edit" exact component={CourseEdit}/>
+                            <Route path="/admin/staff" exact component={AdminStaff}/>
+                            <Route path="/courses/:name" exact component={CourseDetails}/>
+                            <Redirect to="/admin/courses"/>
+                        </Switch>
+                        <Footer/>
+                    </Route>
+                )
+            }
+        }
+
         return (
             <BrowserRouter>
 
                 <ScrollToTop>
-                    <Switch>
-                        <Route path="/signup" exact component={SignUp}/>
-
-                       <Route path="/login" exact component={Login}/>
-                        {redirectToLogin}
-                        <Route path="/">
-                            <Header/>
-                            <Switch>
-                                <Route path="/courses" exact component={MainContainer}/>
-                                <Route path="/admin/courses" exact component={AdminCourses}/>
-                                <Route path="/admin/courses/add" exact component={CourseAdd}/>
-                                <Route path="/admin/courses/:courseId/edit" exact component={CourseEdit}/>
-                                <Route path="/admin/staff" exact component={AdminStaff}/>
-                                <Route path="/courses/:name" exact component={CourseDetails}/>
-                                <Route path="/users/:name" exact component={UserDetails}/>
-                            </Switch>
-                            <Footer/>
-                        </Route>
-                    </Switch>
+                    {routes}
                 </ScrollToTop>
 
             </BrowserRouter>
