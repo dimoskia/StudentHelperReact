@@ -88,7 +88,7 @@ const CourseInfo = (props) =>{
 
                     <div className="pr-3 mb-3">
                         <a className="btn btn-primary btn-block ml-0 text-white"
-                           href={props.detailsLink}>Детали</a>
+                           href={props.detailsLink} target="_blank">Детали</a>
                     </div>
                     <div className="mb-2 pr-2">
                         <h5><b>Опис</b></h5>

@@ -139,7 +139,7 @@ class CourseDetails extends Component {
                                 description={this.state.course.Description}
                                 year={this.state.course.Year}
                                 program={this.state.course["Program"]}
-                                detailsLink={this.state.DetailsUrl}
+                                detailsLink={this.state.course.DetailsUrl}
                                 imageUrl={this.state.course.ImageUrl}
                     />
 

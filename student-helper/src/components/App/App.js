@@ -17,6 +17,7 @@ import {isUserAuth} from "../../util/CheckAuthFunctions";
 import {getUserRole} from "../../util/CheckAuthFunctions";
 import UsersService from "../../repository/userRepository";
 import axios from '../../custom-axios/axios';
+import AdminUsers from "../Admin/AdminUsers/AdminUsers";
 
 class App extends Component {
 
@@ -33,14 +34,14 @@ class App extends Component {
             isUserAuth: isUserAuth(),
             userRole: getUserRole()
         });
-        axios.interceptors.response.use(response => {
-            return response;
-        }, error => {
-            if (error.response.status === 401) {
-                this.logoutUserHandler();
-            }
-            return error;
-        });
+        // axios.interceptors.response.use(response => {
+        //     return response;
+        // }, error => {
+        //     if (error.response.status === 401) {
+        //         this.logoutUserHandler();
+        //     }
+        //     return error;
+        // });
 
     }
 
@@ -97,7 +98,9 @@ class App extends Component {
                         <Header logout={this.logoutUserHandler}/>
                         <Switch>
                             <Route path="/courses" exact component={MainContainer}/>
+                            <Route path="/users/:name" exact component={UserDetails}/>
                             <Route path="/admin/courses" exact component={AdminCourses}/>
+                            <Route path="/admin/users" exact component={AdminUsers}/>
                             <Route path="/admin/courses/add" exact component={CourseAdd}/>
                             <Route path="/admin/courses/:courseId/edit" exact component={CourseEdit}/>
                             <Route path="/admin/staff" exact component={AdminStaff}/>

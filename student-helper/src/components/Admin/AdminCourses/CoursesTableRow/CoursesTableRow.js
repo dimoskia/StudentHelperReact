@@ -2,8 +2,6 @@ import React, {useState} from "react";
 import defaultImage from '../../../../images/default_course_image.png';
 import {Link} from "react-router-dom";
 import {courseYearToRoman} from "../../../../util/UtilityFunctions";
-import Backdrop from "../../../UI/Backdrop/Backdrop";
-import DeleteCourse from "../../../DeleteElementModal/DeleteElement";
 
 const CoursesTableRow = (props) => {
 
@@ -32,7 +30,9 @@ const CoursesTableRow = (props) => {
                        style={{display: 'none'}} onChange={(e) => props.imageHandler(e, props.data.Id)}/>
             </td>
             <td className="align-middle text-center">
-                {props.data.Title}
+                <Link to={`/courses/${props.data.Id}`}>
+                    {props.data.Title}
+                </Link>
             </td>
             <td className="align-middle text-center">
                 {courseYearToRoman(props.data.Year)}

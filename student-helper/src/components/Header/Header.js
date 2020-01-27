@@ -50,7 +50,7 @@ class Header extends Component {
                     </li>
                     <li className="nav-item">
                         <NavLink to="/courses" className="nav-link text-primary">
-                            <i className="fa fa-users"/>&nbsp;
+                            <i className="fa fa-book"/>&nbsp;
                             Прегледај курсеви
                         </NavLink>
                     </li>

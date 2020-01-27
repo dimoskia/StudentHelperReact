@@ -41,6 +41,7 @@ class MainContainer extends Component {
 
     toggleFavouriteCourse = (courseId) => {
         CoursesService.toggleFavourites(courseId).then(resp => {
+
             this.setState(prevState => {
                 let favouriteIds;
                 if (prevState.favouriteIds.includes(courseId)) {
@@ -48,6 +49,11 @@ class MainContainer extends Component {
                 } else {
                     favouriteIds = [...prevState.favouriteIds, courseId];
                 }
+
+                const userData = JSON.parse(localStorage.getItem("userData"));
+                userData.User.FavouritesIds = favouriteIds;
+                localStorage.setItem("userData", JSON.stringify(userData));
+
                 return {favouriteIds};
             });
         });

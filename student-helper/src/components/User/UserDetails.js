@@ -103,6 +103,11 @@ class UserDetails extends Component {
     deleteCourseFromFavourites = (courseId) => {
         CoursesService.toggleFavourites(courseId).then(response => {
             const favouriteCourses = this.state.favouriteCourses.filter(course => course.Id !== courseId);
+
+            const userData = JSON.parse(localStorage.getItem("userData"));
+            userData.User.FavouritesIds = favouriteCourses;
+            localStorage.setItem("userData", JSON.stringify(userData));
+
             this.setState({favouriteCourses});
         });
     };
