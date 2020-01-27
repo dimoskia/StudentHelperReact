@@ -189,7 +189,7 @@ class AdminStaff extends Component {
             <form className="mb-4 p-0" onSubmit={this.handleSearchCourses}>
                 <div className="p-1 bg-light shadow-sm my-0" style={{padding: "0"}}>
                     <div className="input-group">
-                        <input type="search" placeholder="Пребарувај по име име или презиме ..."
+                        <input type="search" placeholder="Пребарувај по име или презиме ..."
                                aria-describedby="button-addon1"
                                className="form-control border-0 bg-light"
                                name="term"
@@ -286,7 +286,7 @@ class AdminStaff extends Component {
 
                     <DeleteElement modalClosed={this.deleteStaffCancelHandler}
                                    title={this.state.Results.map((item) => {
-                                       if (item.Id == this.state.deleteStaffId) {
+                                       if (item.Id === this.state.deleteStaffId) {
                                            return item.FirstName + " " + item.LastName;
                                        }
                                    })}

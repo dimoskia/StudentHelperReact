@@ -16,7 +16,6 @@ import UserDetails from "../User/UserDetails";
 import {isUserAuth} from "../../util/CheckAuthFunctions";
 import {getUserRole} from "../../util/CheckAuthFunctions";
 import UsersService from "../../repository/userRepository";
-import axios from '../../custom-axios/axios';
 import AdminUsers from "../Admin/AdminUsers/AdminUsers";
 
 class App extends Component {
@@ -33,6 +32,9 @@ class App extends Component {
         this.setState({
             isUserAuth: isUserAuth(),
             userRole: getUserRole()
+        }, () => {
+            if(!this.state.isUserAuth)
+                this.logoutUserHandler();
         });
         // axios.interceptors.response.use(response => {
         //     return response;

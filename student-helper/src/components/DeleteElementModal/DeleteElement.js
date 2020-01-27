@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import './DeleteElement.css';
-import CoursesService from "../../repository/coursesRepository";
 
 class DeleteElement extends Component {
 

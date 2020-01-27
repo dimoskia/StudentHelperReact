@@ -1,7 +1,6 @@
 import React from 'react';
 import './ModalDelete.css'
 import Backdrop from "../Backdrop/Backdrop";
-import DeleteCourse from "../../DeleteElementModal/DeleteElement";
 
 
 const ModalDelete = (props) => {

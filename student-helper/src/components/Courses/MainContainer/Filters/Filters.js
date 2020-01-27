@@ -101,7 +101,7 @@ const Filters = (props) => {
             <article className="card-group-item mb-3">
                 <div className="filter-content">
                     <div className="card-body py-1">
-                        <h6 className="title">Тип</h6>
+                        <h6 className="title">Статус</h6>
                         <div className="row">
 
                             <div className="col">

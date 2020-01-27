@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './Modal.css'
 import Backdrop from '../Backdrop/Backdrop'
-import StaffAdd from "../../Staffs/StaffAdd/StaffAdd";
 
 class Modal extends Component {
 
