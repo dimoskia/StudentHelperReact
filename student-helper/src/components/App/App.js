@@ -86,6 +86,7 @@ class App extends Component {
                             <Route path="/courses/:name" exact component={CourseDetails}/>
                             <Route path="/users/:name" exact component={UserDetails}/>
                             <Redirect to="/courses"/>
+
                         </Switch>
                         <Footer/>
                     </Route>
