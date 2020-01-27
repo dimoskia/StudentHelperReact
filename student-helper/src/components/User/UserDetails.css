@@ -9,6 +9,9 @@
 .UserInfo .emailInput{
     cursor:no-drop;
 }
+.UserInfo .tableFavourites{
+    height: 330px;
+}
 
 .containerForm {
     position: relative;

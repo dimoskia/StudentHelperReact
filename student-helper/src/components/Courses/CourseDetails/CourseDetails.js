@@ -42,14 +42,14 @@ class CourseDetails extends Component {
             "Title": this.state.post.title,
             "Content": this.state.post.content,
         };
-        CoursesService.postPost(this.state.param.name,post).then(this.loadPosts(this.state.param.name));
+
+        CoursesService.postPost(this.state.param.name,post).then(()=>this.loadPosts(this.state.param.name));
         this.setState({
             post:{
                 title:"",
                 content:""
             }
         });
-        this.loadCourse();
         document.querySelectorAll("#newPostForm textarea, #newPostForm input").forEach(p=>p.value="");
     };
 

@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import UserPrivacy from "./UserPrivacy/UserPrivacy";
 import "./UserDetails.css"
-import course from "../../images/default_course_image.png";
+import course_image from "../../images/default_course_image.png";
 import UsersService from "../../repository/userRepository";
-import qs from "qs";
 import ReactPaginate from "react-paginate";
 import CoursesService from "../../repository/coursesRepository";
 
@@ -23,7 +22,8 @@ class UserDetails extends Component {
             favouriteCourses: [],
             PageNumber: 1,
             PageSize: 4,
-            TotalPages: 0
+            TotalPages: 0,
+            QueryParams: new URLSearchParams()
         }
 
     }
@@ -41,9 +41,10 @@ class UserDetails extends Component {
     };
 
     loadFavourites = () => {
-        CoursesService.getAllFavourites(this.state.PageNumber, this.state.PageSize).then(data => {
+        CoursesService.getAllFavourites(this.state.PageNumber, this.state.PageSize,this.state.QueryParams).then(data => {
             this.setState({
-                favouriteCourses: data.data.Results
+                favouriteCourses: data.data.Results,
+                TotalPages: data.data.TotalPages
             });
         });
     };
@@ -110,7 +111,7 @@ class UserDetails extends Component {
         return this.state.favouriteCourses.map(course => {
             return (
                 <tr key={course.Id}>
-                    <td className="text-center"><img alt="" src={course.ImageUrl === null ? course : course.ImageUrl}
+                    <td className="text-center"><img alt="" src={course.ImageUrl === null ? course_image : course.ImageUrl}
                                                      width="70px" height="45px" className="shadow-sm"/></td>
                     <td className="my-auto align-middle">{course.Title}</td>
                     <td className="text-center">
@@ -222,6 +223,7 @@ class UserDetails extends Component {
                                     </form>
                                 </div>
                                 <div className="tab-pane fade p-30" id="two" role="tabpanel" aria-labelledby="two-tab">
+                                    <div className="tableFavourites">
                                     <table className="table border-top-0">
                                         <thead className="border-top-0">
                                         <tr className="border-top-0">
@@ -234,6 +236,7 @@ class UserDetails extends Component {
                                         {this.loadFavouriteCoursesShow()}
                                         </tbody>
                                     </table>
+                                    </div>
                                     {this.paginationShow()}
                                 </div>
 
