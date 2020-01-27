@@ -30,6 +30,8 @@ class StaffAdd extends Component {
     onSubmitHandle = (e) => {
         e.preventDefault();
 
+        console.log("SUBMUTE");
+
         if(!this.props.updateStaff) {
             this.validateModal();
         }
@@ -133,6 +135,8 @@ class StaffAdd extends Component {
     };
 
     onCancelHandle = () => {
+
+         console.log("CANCEL");
 
         this.removeValidation();
         this.props.modalClosed();

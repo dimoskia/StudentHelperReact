@@ -21,6 +21,7 @@ const StaffTable = (props) => {
             <StaffTableRow data={item} key={item.Id}
                            deleteStaffHandler={props.deleteStaffHandle}
                            updateStaff={props.updateStaff}
+                           removeValidation={props.removeValidation}
                            imageHandler={props.imageHandler}/>
         ));
     };

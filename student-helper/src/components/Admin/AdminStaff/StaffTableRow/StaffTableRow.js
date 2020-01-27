@@ -43,7 +43,7 @@ const StaffTableRow = (props) => {
             </td>
             <td className="align-middle text-center">
                 <button className="btn btn-sm btn-outline-primary mx-1"
-                        onClick={() => props.updateStaff(props.data.Id)}>
+                        onClick={() => {props.updateStaff(props.data.Id); props.removeValidation();}}>
                     <span className="fa fa-edit"/>&nbsp;Ажурирај
                 </button>
                 <button className="btn btn-sm btn-outline-danger mx-1"

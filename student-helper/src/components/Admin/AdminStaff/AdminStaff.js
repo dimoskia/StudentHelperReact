@@ -97,6 +97,13 @@ class AdminStaff extends Component {
 
     };
 
+    removeValidation = () => {
+        document.getElementById("FirstName").classList.remove("is-invalid");
+        document.getElementById("LastName").classList.remove("is-invalid");
+        document.getElementById("Title").classList.remove("is-invalid");
+        document.getElementById("DetailsUrl").classList.remove("is-invalid");
+    }
+
     updateStaff = (staffId) => {
 
         const staff = StaffService.getStaff(staffId).then(resp => {
@@ -221,6 +228,7 @@ class AdminStaff extends Component {
                         <StaffTable data={this.state.Results}
                                     deleteStaffHandle={this.deleteStaff}
                                     updateStaff={this.updateStaff}
+                                    removeValidation={this.removeValidation}
                                     imageHandler={this.handleImageChange}/>
                     </div>
 
