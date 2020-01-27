@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import CoursesService from "../../../repository/coursesRepository";
 import StaffService from '../../../repository/staffRepository'
+import $ from 'jquery';
 
 class StaffAdd extends Component {
 
@@ -17,41 +18,66 @@ class StaffAdd extends Component {
         };
     }
 
+    componentDidMount() {
+        this.disableEnterKey();
+    }
+
     fileChangedHandler = (e) => {
-        console.log(e.target.files.length);
         if (e.target.files.length) {
-            console.log(e.target.files.length);
             this.setState({image: e.target.files[0]}, () => {
-                console.log(this.state.image);
             });
         }
     };
 
+    disableEnterKey = () => {
+
+        $(document).ready(function() {
+            $(window).keydown(function(event){
+                if(event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
+
+    };
+
     onSubmitHandle = (e) => {
         e.preventDefault();
-
-        console.log("SUBMUTE");
-
-        if(!this.props.updateStaff) {
-            this.validateModal();
-        }
-
-
 
         const isValid = this.state.validation.Title &&
             this.state.validation.FirstName &&
             this.state.validation.LastName &&
             this.state.validation.DetailsUrl;
 
-            if (this.props.updateStaff) {
+        const isValid2 = document.getElementById("FirstName").value != "" &&
+            document.getElementById("LastName").value != "" &&
+            document.getElementById("Title").value != "" &&
+            document.getElementById("DetailsUrl").value != "";
 
-                const staffData = {
-                    Id: this.props.updateStaffId,
-                    FirstName: e.target.FirstName.value,
-                    LastName: e.target.LastName.value,
-                    Title: e.target.Title.value,
-                    DetailsUrl: e.target.DetailsUrl.value
-                };
+        if (this.props.updateStaff && isValid2) {
+
+            const staffData = {
+                Id: this.props.updateStaffId,
+                FirstName: e.target.FirstName.value,
+                LastName: e.target.LastName.value,
+                Title: e.target.Title.value,
+                DetailsUrl: e.target.DetailsUrl.value
+            };
+
+            let flag = false;
+            const newValidation = {...this.state.validation}
+
+            Object.entries(staffData).forEach(([key, value]) => {
+
+                if (value == "") {
+                    flag = true;
+                    newValidation[key] = false;
+                    document.getElementById(key).classList.add("is-invalid");
+                }
+            });
+
+            if (!flag) {
 
                 StaffService.updateStaff(this.props.updateStaffId, staffData).then(resp => {
                     const newData = resp.data;
@@ -59,23 +85,35 @@ class StaffAdd extends Component {
                     this.props.updateNewData(newData);
                 });
 
-                const newValidRef = {
-                    FirstName:false,
-                    LastName:false,
-                    Title:false,
-                    DetailsUrl:false
-                };
-
-                this.setState({
-                    image: null,
-                    validation: newValidRef
-                });
-
                 this.props.modalClosed();
                 document.getElementById("myForm").reset();
 
+            }
 
-            } else if(isValid) {
+            const newValidRef = {
+                FirstName: false,
+                LastName: false,
+                Title: false,
+                DetailsUrl: false
+            };
+
+            this.setState({
+                image: null,
+                validation: newValidRef
+            });
+
+
+        } else {
+
+            this.validateModal();
+
+            const isValid3 = this.state.validation.Title &&
+                this.state.validation.FirstName &&
+                this.state.validation.LastName &&
+                this.state.validation.DetailsUrl;
+
+            if (isValid3) {
+
                 const staffData = {
                     FirstName: e.target.FirstName.value,
                     LastName: e.target.LastName.value,
@@ -97,30 +135,53 @@ class StaffAdd extends Component {
                 document.getElementById("myForm").reset();
 
                 const newValidRef = {
-                    FirstName:false,
-                    LastName:false,
-                    Title:false,
-                    DetailsUrl:false
+                    FirstName: true,
+                    LastName: true,
+                    Title: true,
+                    DetailsUrl: true
                 };
 
                 this.setState({
                     image: null,
                     validation: newValidRef
                 });
-            }   else {
-            this.validateModal();
+
+                this.removeValidation();
+            }
         }
 
     };
 
+
     validateModal = () => {
 
-        const newValidation = {...this.state.validation};
-        Object.entries(newValidation).forEach(([key, value]) => {
-            if (!value) {
-                document.getElementById(key).classList.add("is-invalid");
-            }
-        });
+        // const newValidation = {...this.state.validation};
+        // Object.entries(newValidation).forEach(([key, value]) => {
+        //     if (!value) {
+        //         newValidation[key] = false;
+        //         document.getElementById(key).classList.add("is-invalid");
+        //     } else {
+        //         newValidation[key] = true;
+        //         document.getElementById(key).classList.remove("is-invalid");
+        //     }
+        // });
+        //
+        // this.setState({
+        //     validation: newValidation
+        // })
+
+        if(document.getElementById("FirstName").value == "")
+            document.getElementById("FirstName").classList.add("is-invalid");
+
+        if(document.getElementById("LastName").value == "")
+            document.getElementById("LastName").classList.add("is-invalid");
+
+        if(document.getElementById("Title").value == "")
+            document.getElementById("Title").classList.add("is-invalid");
+
+        if(document.getElementById("DetailsUrl").value == "")
+            document.getElementById("DetailsUrl").classList.add("is-invalid");
+
 
     };
 
@@ -135,8 +196,6 @@ class StaffAdd extends Component {
     };
 
     onCancelHandle = () => {
-
-         console.log("CANCEL");
 
         this.removeValidation();
         this.props.modalClosed();
@@ -169,10 +228,10 @@ class StaffAdd extends Component {
     removeValidation = () => {
 
         const newValidRef = {
-            FirstName:false,
-            LastName:false,
-            Title:false,
-            DetailsUrl:false
+            FirstName: false,
+            LastName: false,
+            Title: false,
+            DetailsUrl: false
         };
 
         this.setState({
@@ -189,7 +248,8 @@ class StaffAdd extends Component {
     render() {
         return (
 
-            <form onSubmit={this.onSubmitHandle} id="myForm" className="p-2">
+            <form onSubmit={this.onSubmitHandle}
+                  id="myForm" className="p-2" >
 
                 <h3 className="text-primary">Внесете вработен</h3>
 

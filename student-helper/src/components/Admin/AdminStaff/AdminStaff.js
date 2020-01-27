@@ -47,6 +47,7 @@ class AdminStaff extends Component {
             updateStaff: false,
             addingStaff: false
         })
+
     };
 
     addStaff = (newStaff) => {
@@ -102,7 +103,7 @@ class AdminStaff extends Component {
         document.getElementById("LastName").classList.remove("is-invalid");
         document.getElementById("Title").classList.remove("is-invalid");
         document.getElementById("DetailsUrl").classList.remove("is-invalid");
-    }
+    };
 
     updateStaff = (staffId) => {
 
@@ -134,7 +135,6 @@ class AdminStaff extends Component {
         this.setState((prevState) => {
             const newStaffsRef = prevState.Results.map((item) => {
                 if (item.Id === newData.Id) {
-                    console.log(item.Id);
                     return newData;
                 }
 
