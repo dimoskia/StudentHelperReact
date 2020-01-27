@@ -41,6 +41,7 @@ const StaffTableRow = (props) => {
                     {`${props.data.FirstName.toLowerCase()}_${props.data.LastName.toLowerCase()}`}
                 </a>
             </td>
+
             <td className="align-middle text-center">
                 <button className="btn btn-sm btn-outline-primary mx-1"
                         onClick={() => {props.updateStaff(props.data.Id); props.removeValidation();}}>
