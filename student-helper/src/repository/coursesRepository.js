@@ -96,6 +96,16 @@ const CoursesService = {
 
     toggleFavourites: (courseId) => {
         return axios.post(`api/courses/favourites/${courseId}`);
+    },
+
+    getAllFavourites : (pageNumber, pageSize) =>{
+        console.log(pageSize);
+        const data = {
+            'page': pageNumber,
+            'pageSize': pageSize
+        };
+        const formParams = qs.stringify(data);
+        return axios.get("api/courses/favourites", formParams);
     }
 
 };

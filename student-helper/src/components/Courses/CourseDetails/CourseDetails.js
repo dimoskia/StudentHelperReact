@@ -22,7 +22,6 @@ class CourseDetails extends Component {
             }
         }
     }
-
     componentDidMount() {
         this.loadCourse();
     }
@@ -43,26 +42,25 @@ class CourseDetails extends Component {
             "Title": this.state.post.title,
             "Content": this.state.post.content,
         };
-        CoursesService.postPost(this.state.param.name,post).then(this.loadCourse);
+        CoursesService.postPost(this.state.param.name,post).then(this.loadPosts(this.state.param.name));
         this.setState({
             post:{
                 title:"",
                 content:""
             }
         });
-
+        this.loadCourse();
         document.querySelectorAll("#newPostForm textarea, #newPostForm input").forEach(p=>p.value="");
     };
 
     loadPosts = (params) => {
-        CoursesService.fetchPosts(params).then(data => {
-
-            this.setState(prevState=>({
-                ...prevState,
-                posts: data.data.Results,
-                NextPageUrl: data.data.NextPageUrl
-            }))
-        });
+            CoursesService.fetchPosts(params).then(data => {
+                this.setState(prevState => ({
+                    ...prevState,
+                    posts: data.data.Results,
+                    NextPageUrl: data.data.NextPageUrl
+                }))
+            });
     };
 
     likeDislikePost = (newState) =>{
@@ -77,6 +75,7 @@ class CourseDetails extends Component {
         })
     };
 
+
     getCoursePosts = () =>{
         return this.state.posts.map(post=>{
             return(
@@ -84,7 +83,6 @@ class CourseDetails extends Component {
                             posts={this.state.posts}
                             onNewLikeDislikePost={this.likeDislikePost}
                             onNewLikeDislikeComment={this.likeDislikeComment}
-                            newCommentAdded={this.loadPosts(this.state.param.name)}
                 />
             )
         })
@@ -92,11 +90,13 @@ class CourseDetails extends Component {
 
     loadNewPage = () =>{
         CoursesService.fetchPostsNextPage(this.state.NextPageUrl).then(data=>{
+            const newState = [...this.state.posts, ...data.data.Results];
             this.setState({
-                posts: this.state.posts.concat(data.data.Results),
+                posts: newState,
                 NextPageUrl: data.data.NextPageUrl
-            })
+            });
         });
+
     };
 
     changePost = (e) => {
@@ -165,8 +165,8 @@ class CourseDetails extends Component {
                             <div className="card-body">
                                 {this.getCoursePosts()}
                                 </div>
-                                <Link className="text-primary text-center d-block linkShowMore" onClick={this.loadNewPage}>
-                                    <span className={this.state.NextPageUrl===null ? "d-none" : "d-inline"}>Прикажи повеќе</span></Link>
+                                <a className="text-primary text-center d-block linkShowMore" onClick={this.loadNewPage}>
+                                    <span className={this.state.NextPageUrl===null ? "d-none" : "d-inline"}>Прикажи повеќе</span></a>
                             </div>
                         </div>
                     <CourseStaff activeUsers={this.state.course.PopularityStats}

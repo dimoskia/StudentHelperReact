@@ -75,8 +75,7 @@ const CoursePost = (props) =>{
 
     const postComment = (e,postId) =>{
         e.preventDefault();
-        console.log(comment);
-        CoursesService.postComment(postId,comment).then(props);
+        CoursesService.postComment(postId,comment).then(props.newCommentAdded);
 
     };
 
