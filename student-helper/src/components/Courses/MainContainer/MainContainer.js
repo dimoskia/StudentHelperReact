@@ -57,7 +57,7 @@ class MainContainer extends Component {
         if (this.state.TotalRecords > 0) {
             if (this.state.CardView) {
                 return (
-                    <div className="card-deck" style={{minHeight: "500px"}}>
+                    <div className="card-deck w-100" style={{minHeight: "500px"}}>
                         {this.state.Results.map(course => <CardItem toggleStar={this.toggleFavouriteCourse} favourites={this.state.favouriteIds} key={course.Id} course={course}/>)}
                     </div>
                 );
