@@ -7,12 +7,11 @@ import {courseYearToRoman} from "../../../../util/UtilityFunctions";
 
 const ListItem = props => {
 
-
     const addToFavouritesHandler = event => {
         event.preventDefault();
         event.stopPropagation();
+        props.toggleStar(props.course.Id);
     };
-
 
     return (
         <Link to={`/courses/${props.course.Id}`} style={{textDecoration: 'none', color: 'black'}}>
@@ -25,7 +24,7 @@ const ListItem = props => {
                             <div className="row">
                                 <div className="col-4 offset-8 text-right">
                                     <button className="heart-link" title="Постави во омилени" onClick={addToFavouritesHandler}>
-                                        <span className="fa fa-2x fa-star-o text-warning"/>
+                                        <span className={`fa fa-2x ${props.favourites.includes(props.course.Id) ? 'fa-star': 'fa-star-o'} text-warning`}/>
                                     </button>
                                 </div>
                             </div>

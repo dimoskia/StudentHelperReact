@@ -92,6 +92,10 @@ const CoursesService = {
         };
         const formParams = qs.stringify(data);
         return axios.post(`api/courses/${courseId}/Posts/Add`, formParams);
+    },
+
+    toggleFavourites: (courseId) => {
+        return axios.post(`api/courses/favourites/${courseId}`);
     }
 
 };

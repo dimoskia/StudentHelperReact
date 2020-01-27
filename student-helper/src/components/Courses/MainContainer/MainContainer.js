@@ -6,7 +6,6 @@ import ReactPaginate from "react-paginate";
 import CardItem from "./CardItem/CardItem";
 import ListItem from "./ListItem/ListItem";
 import FormSearch from "./FormSearch/FormSearch";
-import $ from "jquery";
 
 class MainContainer extends Component {
 
@@ -19,14 +18,17 @@ class MainContainer extends Component {
             TotalRecords: 0,
             Results: [],
             CardView: true,
-            QueryParams: new URLSearchParams()
+            QueryParams: new URLSearchParams(),
+            favouriteIds: []
         }
     }
 
     componentDidMount() {
-
-        this.loadCourses();
-
+        this.state.QueryParams.append("favourites", "false");
+        const favouriteCoursesIds = JSON.parse(localStorage.getItem("userData")).User.FavouritesIds;
+        this.setState({
+            favouriteIds: favouriteCoursesIds
+        }, () => this.loadCourses());
     }
 
     loadCourses = () => {
@@ -35,12 +37,20 @@ class MainContainer extends Component {
         });
     };
 
-    scrollToTop = () => {
-        const c = document.documentElement.scrollTop || document.body.scrollTop;
-        if (c > 0) {
-            window.requestAnimationFrame(this.scrollToTop);
-            window.scrollTo(0, c - c / 8);
-        }
+    scrollToTop = () => window.scrollTo(0, 0);
+
+    toggleFavouriteCourse = (courseId) => {
+        CoursesService.toggleFavourites(courseId).then(resp => {
+            this.setState(prevState => {
+                let favouriteIds;
+                if (prevState.favouriteIds.includes(courseId)) {
+                    favouriteIds = prevState.favouriteIds.filter(id => id !== courseId);
+                } else {
+                    favouriteIds = [...prevState.favouriteIds, courseId];
+                }
+                return {favouriteIds};
+            });
+        });
     };
 
     showCourses = () => {
@@ -48,13 +58,13 @@ class MainContainer extends Component {
             if (this.state.CardView) {
                 return (
                     <div className="card-deck" style={{minHeight: "500px"}}>
-                        {this.state.Results.map(course => <CardItem key={course.Id} course={course}/>)}
+                        {this.state.Results.map(course => <CardItem toggleStar={this.toggleFavouriteCourse} favourites={this.state.favouriteIds} key={course.Id} course={course}/>)}
                     </div>
                 );
             }
             return (
                 <div className="col-12" style={{minHeight: "500px"}}>
-                    {this.state.Results.map(course => <ListItem key={course.Id} course={course}/>)}
+                    {this.state.Results.map(course => <ListItem toggleStar={this.toggleFavouriteCourse} favourites={this.state.favouriteIds} key={course.Id} course={course}/>)}
                 </div>
             );
         }
@@ -96,6 +106,18 @@ class MainContainer extends Component {
         const searchTerm = event.target["term"].value;
         this.state.QueryParams.set("searchTerm", searchTerm);
         this.loadCourses();
+    };
+
+    toggleFavouritesHandler = () => {
+        const oldState = this.state.QueryParams.get("favourites");
+        if (oldState === "true") {
+            this.state.QueryParams.set("favourites", "false");
+        } else {
+            this.state.QueryParams.set("favourites", "true");
+        }
+        this.setState({
+            PageNumber: 1
+        }, () => this.loadCourses());
     };
 
     changeFilterHandler = (propName, inputElementsList) => {
@@ -173,6 +195,7 @@ class MainContainer extends Component {
                                 setCardView={this.setCardView}
                                 preselectedPageSize={this.state.PageSize}
                                 onSearch={this.searchCoursesHandler}
+                                toggleFavourites={this.toggleFavouritesHandler}
                                 changePageSize={this.changePageSizeHandler}/>
 
                             {this.searchResultsInfo()}

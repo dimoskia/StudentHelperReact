@@ -14,6 +14,12 @@ const FormSearch = (props) => {
         props.setCardView(false);
     };
 
+    const toggleFavButton = ev => {
+        const btn = document.getElementById("fav-button");
+        btn.classList.toggle("active");
+        props.toggleFavourites();
+    };
+
     return (
         <div className="row mb-4">
 
@@ -36,7 +42,7 @@ const FormSearch = (props) => {
             </div>
 
             <div className="col-2">
-                <button className="btn btn-outline-primary shadow-sm w-100 py-2">
+                <button id="fav-button" onClick={toggleFavButton} className="btn btn-outline-primary shadow-sm w-100 py-2">
                     <span className="fa fa-star text-warning"/> Омилени
                 </button>
             </div>
