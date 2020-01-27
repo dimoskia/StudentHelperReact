@@ -30,14 +30,16 @@ class StaffAdd extends Component {
     onSubmitHandle = (e) => {
         e.preventDefault();
 
-        this.validateModal();
+        if(!this.props.updateStaff) {
+            this.validateModal();
+        }
+
+
 
         const isValid = this.state.validation.Title &&
             this.state.validation.FirstName &&
             this.state.validation.LastName &&
             this.state.validation.DetailsUrl;
-
-        if (isValid) {
 
             if (this.props.updateStaff) {
 
@@ -55,11 +57,23 @@ class StaffAdd extends Component {
                     this.props.updateNewData(newData);
                 });
 
+                const newValidRef = {
+                    FirstName:false,
+                    LastName:false,
+                    Title:false,
+                    DetailsUrl:false
+                };
+
+                this.setState({
+                    image: null,
+                    validation: newValidRef
+                });
+
                 this.props.modalClosed();
                 document.getElementById("myForm").reset();
 
 
-            } else {
+            } else if(isValid) {
                 const staffData = {
                     FirstName: e.target.FirstName.value,
                     LastName: e.target.LastName.value,
@@ -91,9 +105,7 @@ class StaffAdd extends Component {
                     image: null,
                     validation: newValidRef
                 });
-            }
-
-        } else {
+            }   else {
             this.validateModal();
         }
 
