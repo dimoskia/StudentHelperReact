@@ -9,6 +9,7 @@ const CardItem = props => {
     const addToFavouritesHandler = event => {
         event.preventDefault();
         event.stopPropagation();
+        props.toggleStar(props.course.Id);
     };
 
     return (
@@ -18,7 +19,7 @@ const CardItem = props => {
                     <div className="row">
                         <div className="col-2 offset-9">
                             <button className="heart-link" title="Постави во омилени" onClick={addToFavouritesHandler}>
-                                <span className="fa fa-2x fa-star-o text-warning"/>
+                                <span className={`fa fa-2x ${props.favourites.includes(props.course.Id) ? 'fa-star': 'fa-star-o'} text-warning`}/>
                             </button>
                         </div>
                     </div>
