@@ -135,7 +135,7 @@ class UserDetails extends Component {
                 <tr key={course.Id}>
                     <td className="text-center"><img alt="" src={course.ImageUrl === null ? course_image : course.ImageUrl}
                                                      width="70px" height="45px" className="shadow-sm"/></td>
-                    <td className="my-auto align-middle"><Link to="/courses/">{course.Title}</Link></td>
+                    <td className="my-auto align-middle"><Link to={`/courses/${course.Id}`}>{course.Title}</Link></td>
                     <td className="text-center">
                         <button className="btn" onClick={() => this.deleteCourseFromFavourites(course.Id)}><i
                             className="fa fa-times text-danger"/></button>
@@ -200,6 +200,7 @@ class UserDetails extends Component {
                 <div className="row h-100">
                     <UserPrivacy imgUrl={this.state.user.UserDetails.ImageUrl}
                                  imageHandler={this.handleImageChange}
+                                 deactivateUserFrom={this.props.deactivateUserFromPrivacy}
                     />
                     <div className="col-9 mt-3">
                         <div className="card shadow-sm h-100">
@@ -254,7 +255,7 @@ class UserDetails extends Component {
                                         </div>
                                         <div className="row mx-5 mt-4">
                                             <div className="col-4 offset-4 text-center">
-                                                <button className="btn btn-primary btn-block" type="submit">Промени</button>
+                                                <button className="btn btn-primary btn-block" type="submit" data-toggle="modal" data-target="#modalSuccess">Промени</button>
                                             </div>
                                         </div>
                                     </form>
@@ -280,6 +281,20 @@ class UserDetails extends Component {
                             </div>
                         </div>
                     </div>
+                </div>
+                <div className="modal fade" id="modalSuccess" role="dialog">
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                            <div className="modal-header bg-light">
+                                <h4 className="modal-title text-danger">Промена на лични податоци</h4>
+                                <button type="button" className="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div className="modal-body">
+                                Успешно ги променивте вашите лични податоци.
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         );

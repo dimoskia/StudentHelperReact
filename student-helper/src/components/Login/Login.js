@@ -77,14 +77,14 @@ class Login extends Component {
                                     <form className="form-signin mt-4" onSubmit={this.onFormSubmitHandler}>
                                         <div className="form-label-group">
                                             <input type="email" id="inputEmail" className="form-control"
-                                                   placeholder="Email address" name="email" autoFocus/>
-                                            <label htmlFor="inputEmail">Email address</label>
+                                                   placeholder="Email адреса" name="email" autoFocus/>
+                                            <label htmlFor="inputEmail">Email адреса</label>
                                         </div>
 
                                         <div className="form-label-group">
                                             <input type="password" id="inputPassword" className="form-control"
-                                                   placeholder="Password" name="password"/>
-                                            <label htmlFor="inputPassword">Password</label>
+                                                   placeholder="Лозинка" name="password"/>
+                                            <label htmlFor="inputPassword">Лозинка</label>
                                         </div>
                                         <br>
                                         </br>

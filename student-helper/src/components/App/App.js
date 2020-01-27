@@ -87,7 +87,7 @@ class App extends Component {
                         <Switch>
                             <Route path="/courses" exact component={MainContainer}/>
                             <Route path="/courses/:name" exact component={CourseDetails}/>
-                            <Route path="/users/:name" exact component={UserDetails}/>
+                            <Route path="/users/:name" render={(props) => <UserDetails {...props} deactivateUserFromPrivacy={this.logoutUserHandler}/>}/>
                             <Redirect to="/courses"/>
 
                         </Switch>
@@ -100,7 +100,7 @@ class App extends Component {
                         <Header logout={this.logoutUserHandler}/>
                         <Switch>
                             <Route path="/courses" exact component={MainContainer}/>
-                            <Route path="/users/:name" exact component={UserDetails}/>
+                            <Route path="/users/:name" render={(props) => <UserDetails {...props} deactivateUserFromPrivacy={this.logoutUserHandler}/>}/>
                             <Route path="/admin/courses" exact component={AdminCourses}/>
                             <Route path="/admin/users" exact component={AdminUsers}/>
                             <Route path="/admin/courses/add" exact component={CourseAdd}/>

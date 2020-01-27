@@ -12,7 +12,10 @@ const UserPrivacy = (props) => {
     const [wrongCredentialsText,setWrongCredentialsText]=useState("");
     const [approvedChange,setApprovedChange]=useState(false);
     const [confirmPassword,setConfirmPassword]=useState("");
+    const [confirmPasswordText,setConfirmPasswordText]=useState("");
     const [confirmPasswordBool,setConfirmPasswordBool]=useState(false);
+    const [showModal,setShowModal]=useState(false);
+
     const approvedChangeText=useState("Успешно ја променивте вашата лозинка");
 
 
@@ -106,28 +109,33 @@ const UserPrivacy = (props) => {
 
     const submitFormDeactivate = (e) =>{
         e.preventDefault();
-        UsersService.deactivateUser(confirmPassword).then().catch(error=>changeConfirmPassword(error.response.data)
+        UsersService.deactivateUser(confirmPassword).then(resp => {
+            props.deactivateUserFrom();
+            document.getElementsByClassName("modal-backdrop")[0].style.display = "none";
+        }).catch(error=>changeConfirmPassword(error.response.data)
+
         )};
 
     const changeConfirmPassword = (textConfirmPassword) =>{
         setConfirmPasswordBool(true);
-        setConfirmPassword(textConfirmPassword);
+        setConfirmPasswordText(textConfirmPassword);
     };
 
     const renderFormDeactivate = () =>{
         if (confirmPasswordBool) {
-
             return (
                 <div className="alert alert-danger m-1" role="alert">
-                    <small>{confirmPassword}</small>
+                    <small>{confirmPasswordText}</small>
                 </div>
             );
         }
+
     };
 
     const resetFormDeactivate = () =>{
         setConfirmPasswordBool(false);
         document.getElementById("inputPasswordDeactivate").value="";
+
     };
 
 
