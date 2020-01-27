@@ -58,10 +58,10 @@ class CourseDetails extends Component {
                 this.setState(prevState => ({
                     ...prevState,
                     posts: data.data.Results,
-                    NextPageUrl: data.data.NextPageUrl
+                    NextPageUrl:data.data.NextPageUrl
                 }))
             });
-    };
+        };
 
     likeDislikePost = (newState) =>{
         this.setState({
@@ -75,6 +75,18 @@ class CourseDetails extends Component {
         })
     };
 
+    loadCommentsForPost = (postId) =>{
+        CoursesService.getCommentsForPost(postId).then(response=>{
+            const newStatePosts=this.state.posts;
+            newStatePosts.filter(p=>p.Id===postId)[0].Comments=response.data;
+
+            this.setState({
+                posts:newStatePosts
+            });
+
+        })
+    };
+
 
     getCoursePosts = () =>{
         return this.state.posts.map(post=>{
@@ -83,6 +95,7 @@ class CourseDetails extends Component {
                             posts={this.state.posts}
                             onNewLikeDislikePost={this.likeDislikePost}
                             onNewLikeDislikeComment={this.likeDislikeComment}
+                            newCommentAdded={()=>this.loadCommentsForPost(post.Id)}
                 />
             )
         })
@@ -91,9 +104,11 @@ class CourseDetails extends Component {
     loadNewPage = () =>{
         CoursesService.fetchPostsNextPage(this.state.NextPageUrl).then(data=>{
             const newState = [...this.state.posts, ...data.data.Results];
+            const oldPageSize=this.state.pageSize;
             this.setState({
                 posts: newState,
-                NextPageUrl: data.data.NextPageUrl
+                NextPageUrl: data.data.NextPageUrl,
+                pageSize: data.data.Results.length+oldPageSize
             });
         });
 

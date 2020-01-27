@@ -53,8 +53,8 @@ const CoursesService = {
         return axios.get(`/api/courses/${name}`);
     },
 
-    fetchPosts : (params) =>{
-        return axios.get(`api/courses/${params}/posts`);
+    fetchPosts : (id) =>{
+        return axios.get(`api/courses/${id}/posts`);
     },
     fetchPostsNextPage : (newUrl) =>{
         return axios.get(newUrl);
@@ -98,10 +98,14 @@ const CoursesService = {
         return axios.post(`api/courses/favourites/${courseId}`);
     },
 
-    getAllFavourites : (pageNumber, pageSize,params) => {
+    getAllFavourites : (pageNumber, pageSize, params) => {
         params.set("page", pageNumber);
         params.set("pageSize", pageSize);
         return axios.get("api/courses/favourites", {params: params});
+    },
+
+    getCommentsForPost : (postId) =>{
+        return axios.get(`api/comments/${postId}`);
     }
 
 };

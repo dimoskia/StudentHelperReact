@@ -75,6 +75,7 @@ const CoursePost = (props) =>{
 
     const postComment = (e,postId) =>{
         e.preventDefault();
+        document.getElementById("textareaComment").value="";
         CoursesService.postComment(postId,comment).then(props.newCommentAdded);
 
     };
@@ -126,7 +127,7 @@ const CoursePost = (props) =>{
             <form onSubmit={(e)=>postComment(e,props.post.Id)}>
                 <div className="card mt-3 shadow-sm bg-light">
                     <div className="card-body p-2">
-                        <textarea className="form-control textValue" placeholder="Напишете коментар" onChange={(e)=>changeComment(e)}/>
+                        <textarea className="form-control textValue" placeholder="Напишете коментар" id="textareaComment" onChange={(e)=>changeComment(e)}/>
                         <button type="submit" className="btn btn-primary float-right mt-2 mb-1">Коментирај</button>
                     </div>
                 </div>

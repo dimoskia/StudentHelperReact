@@ -127,7 +127,7 @@ const UserPrivacy = (props) => {
 
     const resetFormDeactivate = () =>{
         setConfirmPasswordBool(false);
-        setConfirmPassword("");
+        document.getElementById("inputPasswordDeactivate").value="";
     };
 
 

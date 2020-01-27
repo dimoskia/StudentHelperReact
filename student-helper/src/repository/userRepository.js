@@ -43,6 +43,14 @@ const UsersService = {
                 'content-type': 'multipart/form-data'
             }
         });
+    },
+    changeUserInfo : (firstName, lastName) =>{
+        const data = {
+            "FirstName": firstName,
+            "LastName" : lastName
+        };
+        const formParams = qs.stringify(data);
+        return axios.put(`api/users`, formParams);
     }
 
 };

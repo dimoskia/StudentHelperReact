@@ -5,6 +5,7 @@ import course_image from "../../images/default_course_image.png";
 import UsersService from "../../repository/userRepository";
 import ReactPaginate from "react-paginate";
 import CoursesService from "../../repository/coursesRepository";
+import {Link} from "react-router-dom";
 
 
 class UserDetails extends Component {
@@ -102,6 +103,22 @@ class UserDetails extends Component {
 
     deleteCourseFromFavourites = (courseId) => {
         CoursesService.toggleFavourites(courseId).then(response => {
+            if (this.state.PageNumber === this.state.TotalPages) {
+                if (this.state.favouriteCourses.length === 1) {
+                    this.setState(prevState => {
+                        const newPageNumber = prevState.PageNumber - 1;
+                        return {
+                            PageNumber: Math.max(newPageNumber, 0)
+                        };
+                    }, () => this.loadFavourites());
+                } else {
+                    const favouriteCourses = this.state.favouriteCourses.filter(course => course.Id !== courseId);
+                    this.setState({favouriteCourses});
+                }
+            } else {
+                this.loadFavourites();
+            }
+
             const favouriteCourses = this.state.favouriteCourses.filter(course => course.Id !== courseId);
 
             const userData = JSON.parse(localStorage.getItem("userData"));
@@ -118,7 +135,7 @@ class UserDetails extends Component {
                 <tr key={course.Id}>
                     <td className="text-center"><img alt="" src={course.ImageUrl === null ? course_image : course.ImageUrl}
                                                      width="70px" height="45px" className="shadow-sm"/></td>
-                    <td className="my-auto align-middle">{course.Title}</td>
+                    <td className="my-auto align-middle"><Link to="/courses/">{course.Title}</Link></td>
                     <td className="text-center">
                         <button className="btn" onClick={() => this.deleteCourseFromFavourites(course.Id)}><i
                             className="fa fa-times text-danger"/></button>
@@ -128,7 +145,7 @@ class UserDetails extends Component {
         });
     };
 
-    paginationShow = (e) => {
+    paginationShow = () => {
         if (this.state.favouriteCourses.length > 0) {
             return (
                 <ReactPaginate previousLabel={<span className="fa fa-angle-double-left"/>}
@@ -151,6 +168,21 @@ class UserDetails extends Component {
                 />
             );
         }
+    };
+
+    submitChangeForm = (e,firstName,LastName) =>{
+        e.preventDefault();
+        UsersService.changeUserInfo(firstName,LastName).then(response => {
+            this.setState(user => ({
+                ...user,
+                user: {
+                    UserDetails: response.data
+                }
+            }));
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            userData.User.UserDetails = response.data;
+            localStorage.setItem('userData', JSON.stringify(userData));
+        });
     };
 
     render() {
@@ -190,7 +222,7 @@ class UserDetails extends Component {
                             <div className="tab-content" id="myTabContent">
                                 <div className="tab-pane fade show active p-3" id="one" role="tabpanel"
                                      aria-labelledby="one-tab">
-                                    <form className="my-auto">
+                                    <form className="my-auto" onSubmit={(e)=>this.submitChangeForm(e,this.state.user.UserDetails.FirstName,this.state.user.UserDetails.LastName)}>
                                         <div className="row mx-5 my-3">
                                             <div className="col-3 text-right my-auto"><b>Име</b></div>
                                             <div className="col-7">
@@ -222,7 +254,7 @@ class UserDetails extends Component {
                                         </div>
                                         <div className="row mx-5 mt-4">
                                             <div className="col-4 offset-4 text-center">
-                                                <button className="btn btn-primary btn-block">Промени</button>
+                                                <button className="btn btn-primary btn-block" type="submit">Промени</button>
                                             </div>
                                         </div>
                                     </form>
