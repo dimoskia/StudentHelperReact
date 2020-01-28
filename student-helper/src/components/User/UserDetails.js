@@ -286,7 +286,7 @@ class UserDetails extends Component {
                     <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content">
                             <div className="modal-header bg-light">
-                                <h4 className="modal-title text-danger">Промена на лични податоци</h4>
+                                <h4 className="modal-title text-success">Промена на лични податоци</h4>
                                 <button type="button" className="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div className="modal-body">
