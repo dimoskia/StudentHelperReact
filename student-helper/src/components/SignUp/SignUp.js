@@ -2,6 +2,8 @@ import React, {Component} from "react"
 import "./SignUp.css"
 import logo from '../../images/logo2.png';
 import UsersService from "../../repository/userRepository";
+import Loader from "react-loader-spinner";
+import {Link} from "react-router-dom";
 
 class SignUp extends Component {
 
@@ -28,9 +30,33 @@ class SignUp extends Component {
                 isValid: false,
                 value: ""
             },
-            showAlert : false
+            showAlert : false,
+            showSpinner: false
         };
     }
+
+    spinner = () => {
+        if (this.state.showSpinner) {
+            return (
+                <div className="text-center">
+                    <Loader
+                        type="ThreeDots"
+                        color="#007bff"
+                        height={100}
+                        width={100}
+                    />
+                </div>
+            );
+        }
+        return (
+            <div>
+                <button className="btn btn-lg btn-block btn-primary text-uppercase"
+                        type="submit"
+                        id="loginButton">Регистрирај се
+                </button>
+            </div>
+        );
+    };
 
     onChangeHandler = e => {
         this.validateInput(e, false);
@@ -40,11 +66,14 @@ class SignUp extends Component {
         e.preventDefault();
         const stateValues = Object.values(this.state);
         stateValues.pop();
+        stateValues.pop();
         if (stateValues.map(v => v.isValid).every(v => v === true)) {
             const userInputs = [...Object.entries(this.state)];
             userInputs.pop();
+            userInputs.pop();
             const user = {};
             userInputs.forEach(u => user[u[0]] = u[1].value);
+            this.setState({showSpinner: true});
             this.registerUser(user);
         } else {
             const values = Object.values(e.target);
@@ -96,11 +125,15 @@ class SignUp extends Component {
 
     registerUser = (user) => {
         UsersService.registerUser(user).then(response => {
+            this.setState({showSpinner: false});
             this.props.history.push({
                 pathname: "/login",
                 state: {prevPath: this.props.location.pathname}
             });
-        }).catch(() => this.setState({showAlert : true}));
+        }).catch(() => this.setState({
+            showAlert : true,
+            showSpinner: false
+        }));
     };
 
     renderAlert = () => {
@@ -198,12 +231,7 @@ class SignUp extends Component {
                                             <label htmlFor="Password2">Потврди лозинка</label>
                                             <div className="invalid-feedback mx-2">Лозинките се различни</div>
                                         </div>
-                                        <br>
-                                        </br>
-                                        <button className="btn btn-lg btn-block btn-primary text-uppercase"
-                                                type="submit"
-                                                id="loginButton">Регистрирај се
-                                        </button>
+                                        {this.spinner()}
                                     </form>
                                 </div>
                             </div>
