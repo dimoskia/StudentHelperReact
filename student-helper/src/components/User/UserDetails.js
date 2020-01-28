@@ -122,7 +122,7 @@ class UserDetails extends Component {
             const favouriteCourses = this.state.favouriteCourses.filter(course => course.Id !== courseId);
 
             const userData = JSON.parse(localStorage.getItem("userData"));
-            userData.User.FavouritesIds = favouriteCourses;
+            userData.User.FavouritesIds = favouriteCourses.map(c => c.Id);
             localStorage.setItem("userData", JSON.stringify(userData));
 
             this.setState({favouriteCourses});

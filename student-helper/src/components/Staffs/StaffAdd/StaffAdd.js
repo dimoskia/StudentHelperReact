@@ -19,7 +19,7 @@ class StaffAdd extends Component {
     }
 
     componentDidMount() {
-        this.disableEnterKey();
+        //this.disableEnterKey();
     }
 
     fileChangedHandler = (e) => {
