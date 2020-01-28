@@ -3,6 +3,7 @@ import "../SignUp/SignUp.css"
 import logo from '../../images/logo2.png';
 import {withRouter, Link} from "react-router-dom";
 import UsersService from "../../repository/userRepository";
+import Loader from "react-loader-spinner";
 
 class Login extends Component {
 
@@ -11,7 +12,8 @@ class Login extends Component {
         this.state = {
             showAlertSignup: false,
             showAlertWrongCredentials: false,
-            wrongCredentialsMessage: ""
+            wrongCredentialsMessage: "",
+            showSpinner: false
         }
     }
 
@@ -44,18 +46,46 @@ class Login extends Component {
             Email: e.target.email.value,
             Password: e.target.password.value
         };
+        this.setState({showSpinner: true});
         UsersService.loginUser(user).then(response => {
             UsersService.handleAuthentication(response.data);
             const userData = JSON.parse(localStorage.getItem("userData"));
+            this.setState({showSpinner: false});
             this.redirectByRole(userData.User.Role);
-
         }).catch(error => this.setState({
+            showSpinner: false,
             showAlertWrongCredentials : true,
             wrongCredentialsMessage: error.response.data}));
     };
 
     redirectByRole = () => {
         this.props.login();
+    };
+
+    spinner = () => {
+        if (this.state.showSpinner) {
+            return (
+                <div className="text-center">
+                    <Loader
+                        type="ThreeDots"
+                        color="#007bff"
+                        height={100}
+                        width={100}
+                    />
+                </div>
+            );
+        }
+        return (
+            <div>
+                <button className="btn btn-lg btn-block text-uppercase bg-primary" type="submit"
+                        id="loginButton">најави се
+                </button>
+                <Link to={"/signup"}
+                      className="btn btn-lg btn-light btn-block text-uppercase signUpButton">регистрирај
+                    се
+                </Link>
+            </div>
+        );
     };
 
     render() {
@@ -75,6 +105,7 @@ class Login extends Component {
                                     <hr>
                                     </hr>
                                     <form className="form-signin mt-4" onSubmit={this.onFormSubmitHandler}>
+
                                         <div className="form-label-group">
                                             <input type="email" id="inputEmail" className="form-control"
                                                    placeholder="Email адреса" name="email" autoFocus/>
@@ -86,15 +117,7 @@ class Login extends Component {
                                                    placeholder="Лозинка" name="password"/>
                                             <label htmlFor="inputPassword">Лозинка</label>
                                         </div>
-                                        <br>
-                                        </br>
-                                        <button className="btn btn-lg btn-block text-uppercase bg-primary" type="submit"
-                                                id="loginButton">најави се
-                                        </button>
-                                        <Link to={"/signup"}
-                                              className="btn btn-lg btn-light btn-block text-uppercase signUpButton">регистрирај
-                                            се
-                                        </Link>
+                                        {this.spinner()}
                                     </form>
                                 </div>
                             </div>
